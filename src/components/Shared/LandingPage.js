@@ -14,7 +14,7 @@ const LandingPage = () => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const response = await fetch('http://localhost:5000/api/auth/protected', {
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/protected`, {
             method: 'GET', // or GET depending on your backend implementation
             headers: {
               'Content-Type': 'application/json',

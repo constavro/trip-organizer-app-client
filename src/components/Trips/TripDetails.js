@@ -30,7 +30,7 @@ const TripDetails = () => {
     console.log(id)
 
     try {
-      const res = await fetch(`http://localhost:5000/api/trips/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trips/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ const TripDetails = () => {
       }
 
       try {
-        const res = await fetch(`http://localhost:5000/api/trips/${id}`, {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trips/${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

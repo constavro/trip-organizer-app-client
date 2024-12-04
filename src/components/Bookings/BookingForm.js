@@ -31,7 +31,7 @@ const BookingForm = () => {
 
       try {
 
-        const res = await fetch(`http://localhost:5000/api/trips/${id}`, {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trips/${id}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const BookingForm = () => {
     //   const userId = localStorage.getItem('userId'); // Assume user ID is stored in localStorage
       const totalPrice = trip.price * numberOfPeople;
 
-      const res = await fetch('http://localhost:5000/api/bookings', {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/bookings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -99,7 +99,7 @@ const TripCreationForm = () => {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/trips', {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trips`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

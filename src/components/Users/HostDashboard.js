@@ -10,7 +10,7 @@ const HostDashboard = () => {
     const fetchBookings = async () => {
       try {
         console.log(token)
-        const res = await fetch(`http://localhost:5000/api/bookings/host/${token}`,{
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/bookings/host/${token}`,{
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ const HostDashboard = () => {
 
   const handleAction = async (bookingId, action) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/bookings/${bookingId}`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/bookings/${bookingId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -64,10 +64,9 @@ const HostDashboard = () => {
         <ul>
           {bookings.map(booking => (
             <li key={booking._id}>
-              <p><strong>User:</strong> {booking.user.username}</p>
+              <p><strong>User:</strong>{booking.user.firstName} {booking.user.firstName}</p>
               <p><strong>Trip:</strong> {booking.trip.title}</p>
-              <p><strong>People:</strong> {booking.numberOfPeople}</p>
-              <p><strong>Total Price:</strong> ${booking.totalPrice}</p>
+              <p><strong>Total Price:</strong> ${booking.pricePaid}</p>
               <button onClick={() => handleAction(booking._id, 'accepted')}>Accept</button>
               <button onClick={() => handleAction(booking._id, 'declined')}>Decline</button>
             </li>

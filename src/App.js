@@ -1,29 +1,3 @@
-// // src/App.js
-// import ProtectedRoute from './components/ProtectedRoute';
-
-// function App() {
-//   return (
-//     <AuthProvider>
-//       <Router>
-//         <Header />
-//         <Switch>
-//           <ProtectedRoute path="/users" component={Users} />
-//           <ProtectedRoute path="/trips" component={Trips} />
-//           <ProtectedRoute path="/itineraries" component={Itineraries} />
-//           <ProtectedRoute path="/coworking-spaces" component={CoworkingSpaces} />
-//           <ProtectedRoute path="/activities" component={Activities} />
-//           <ProtectedRoute path="/messages" component={Messages} />
-//           <ProtectedRoute path="/reviews" component={Reviews} />
-//           <Route path="/login" component={Login} />
-//           <Route path="/signup" component={Signup} />
-//           <Route path="/" exact component={Trips} />
-//         </Switch>
-//         <Footer />
-//       </Router>
-//     </AuthProvider>
-//   );
-// }
-
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import Header from './components/Shared/Header';

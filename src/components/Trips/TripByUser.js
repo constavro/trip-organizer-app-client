@@ -21,7 +21,7 @@ const TripByUser = () => {
         }
 
         try {
-            const res = await fetch(`http://localhost:5000/api/trips/${id}`, {
+            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trips/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ const TripByUser = () => {
 
     
           try {
-            const res = await fetch(`http://localhost:5000/api/trips/tripsbyuser`, {
+            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trips/tripsbyuser`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ const TripByUser = () => {
                   },
             });
 
-            console.log('http://localhost:5000/api/trips/tripsbyuser')
+            console.log(`${process.env.REACT_APP_BACKEND_URL}/api/trips/tripsbyuser`)
 
             if (res.ok) {
                 const data = await res.json(); // Parse the response body as JSON

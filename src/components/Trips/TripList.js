@@ -17,7 +17,7 @@ const TripList = () => {
   useEffect(() => {
     const fetchTrips = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/trips?page=${currentPage}&limit=5`, {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trips?page=${currentPage}&limit=5`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

@@ -22,7 +22,7 @@ const PersonalInformation = () => {
         }
   
         try {
-          const res = await fetch(`http://localhost:5000/api/users/personal-info/${userId}`, {
+          const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/personal-info/${userId}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ const PersonalInformation = () => {
       }
   
       try {
-        const res = await fetch(`http://localhost:5000/api/users/personal-info/${userId}`, {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/personal-info/${userId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
