@@ -37,6 +37,7 @@ const HostDashboard = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': token,
         },
         body: JSON.stringify({ status: action }),
       });

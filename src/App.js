@@ -12,16 +12,9 @@ import TripDetails from './components/Trips/TripDetails';
 import TripList from './components/Trips/TripList';
 import Itineraries from './components/Itineraries/Itineraries';
 import BookingForm from './components/Bookings/BookingForm';
-// import ProtectedRoute from './components/ProtectedRoute';
-// import { AuthProvider } from './contexts/AuthContext';
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
 import LandingPage from './components/Shared/LandingPage';
-
-// // import CoworkingSpaces from './components/CoworkingSpaces/CoworkingSpaces';
-// // import Activities from './components/Activities/Activities';
-// // import Messages from './components/Messages/Messages';
-// // import Reviews from './components/Reviews/Reviews';
 
 function App() {
 

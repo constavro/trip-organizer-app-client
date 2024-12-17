@@ -1,63 +1,163 @@
-/* LandingPage.css */
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  background-color: #f8f9fa; /* Light gray background */
+  color: #333;
+}
+
+/* Landing Page Container */
 .landing-page {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .landing-header {
-    background-color: #f5f5f5;
-    padding: 30px;
-    border-radius: 8px;
-    margin-bottom: 40px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6dd5ed, #2193b0); /* Subtle gradient */
+  color: #fff;
+  padding: 1rem;
+}
+
+/* Header */
+.landing-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.landing-header h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.auth-options {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.auth-options button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-options button:hover {
+  background-color: #d4edf7; /* Light blue hover effect */
+  transform: translateY(-2px);
+}
+
+.auth-options button.active {
+  background-color: #2193b0;
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Auth Form Container */
+.auth-form {
+  width: 100%;
+  max-width: 400px;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.auth-form button {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  background-color: #2193b0;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-form button:hover {
+  background-color: #6dd5ed;
+}
+
+/* Trip List Section */
+.trips-section {
+  width: 100%;
+  max-width: 1100px;
+  padding: 1.5rem;
+  background-color: #fff;
+  color: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.trips-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #2193b0;
+}
+
+.trips-section ul {
+  list-style: none;
+}
+
+.trips-section li {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.3s ease;
+}
+
+.trips-section li:hover {
+  background-color: #f8f9fa;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
   .landing-header h1 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
+    font-size: 2rem;
   }
-  
+
   .auth-options {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+    flex-direction: column;
   }
-  
+
   .auth-options button {
-    background-color: #007bff;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    margin: 0 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    width: 100%;
   }
-  
-  .auth-options button.active {
-    background-color: #0056b3;
-  }
-  
-  .auth-options button:hover {
-    background-color: #0056b3;
-  }
-  
+
   .auth-form {
-    margin-bottom: 40px;
+    padding: 1.5rem;
   }
-  
-  .auth-form h2 {
-    font-size: 1.5em;
+}
+
+@media (max-width: 480px) {
+  .landing-header h1 {
+    font-size: 1.8rem;
   }
-  
-  .trip-list-section {
-    margin-top: 40px;
+
+  .auth-form {
+    padding: 1rem;
   }
-  
-  .trip-list-section h2 {
-    margin-bottom: 20px;
-    font-size: 1.8em;
-  }
-  
+}

@@ -1,27 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './TripCreationForm.css';
 
-const TripCreationForm = () => {
-  const [formData, setFormData] = useState({
-    title: '',
-    departureDate: '',
-    description: {
-      overview: '',
-      aboutYou: '',
-      accommodation: '',
-      inclusions: [],
-      exclusions: [],
-    },
-    itinerary: [{ order: 1, location: '', nights: '', itineraryDescription: '' }],
-    minParticipants: '',
-    maxParticipants: '',
-    price: '',
-  });
+const TripCreationForm = ({ tripToEdit = null }) => {
+  const [formData, setFormData] = useState(
+    tripToEdit || {
+      title: '',
+      departureDate: '',
+      description: {
+        overview: '',
+        aboutYou: '',
+        accommodation: '',
+        inclusions: [''],
+        exclusions: [''],
+      },
+      itinerary: [{ order: 1, location: '', nights: '', itineraryDescription: '' }],
+      minParticipants: '',
+      maxParticipants: '',
+      price: '',
+    }
+  );
 
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -29,54 +32,43 @@ const TripCreationForm = () => {
       const key = name.split('.')[1];
       setFormData((prev) => ({
         ...prev,
-        description: {
-          ...prev.description,
-          [key]: value,
-        },
+        description: { ...prev.description, [key]: value },
       }));
     } else if (name.startsWith('itinerary')) {
-      const index = parseInt(name.split('.')[1]);
-      const key = name.split('.')[2];
-      setFormData((prev) => {
-        const updatedItinerary = [...prev.itinerary];
-        updatedItinerary[index][key] = value;
-        return { ...prev, itinerary: updatedItinerary };
-      });
+      const [_, index, key] = name.split('.');
+      const updatedItinerary = [...formData.itinerary];
+      updatedItinerary[index][key] = value;
+      setFormData((prev) => ({ ...prev, itinerary: updatedItinerary }));
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  // Add a new item to inclusions or exclusions
-  const addListItem = (type) => {
+  const handleListChange = (type, index, value) => {
+    const updatedList = [...formData.description[type]];
+    updatedList[index] = value;
     setFormData((prev) => ({
       ...prev,
-      description: {
-        ...prev.description,
-        [type]: [...prev.description[type], ''],
-      },
+      description: { ...prev.description, [type]: updatedList },
     }));
   };
 
-  // Handle inclusions or exclusions change
-  const handleListChange = (type, index, value) => {
-    setFormData((prev) => {
-      const updatedList = [...prev.description[type]];
-      updatedList[index] = value;
-      return {
-        ...prev,
-        description: {
-          ...prev.description,
-          [type]: updatedList,
-        },
-      };
-    });
+  const addListItem = (type) => {
+    setFormData((prev) => ({
+      ...prev,
+      description: { ...prev.description, [type]: [...prev.description[type], ''] },
+    }));
   };
 
-  // Add a new itinerary entry
+  const removeListItem = (type, index) => {
+    const updatedList = [...formData.description[type]];
+    updatedList.splice(index, 1);
+    setFormData((prev) => ({
+      ...prev,
+      description: { ...prev.description, [type]: updatedList },
+    }));
+  };
+
   const addItineraryItem = () => {
     setFormData((prev) => ({
       ...prev,
@@ -87,174 +79,148 @@ const TripCreationForm = () => {
     }));
   };
 
-  // Handle form submission
+  const removeItineraryItem = (index) => {
+    const updatedItinerary = [...formData.itinerary];
+    updatedItinerary.splice(index, 1);
+    setFormData((prev) => ({
+      ...prev,
+      itinerary: updatedItinerary.map((item, idx) => ({ ...item, order: idx + 1 })),
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
 
-    console.log('Form Data:', formData);
-
-    const token = localStorage.getItem('token'); // Get JWT token from localStorage
+    const token = localStorage.getItem('token');
     if (!token) {
-      return setError('You must be logged in to create a trip');
+      setError('You must be logged in to create a trip');
+      setLoading(false);
+      return;
+    }
+
+    // Payload validation
+    const payload = {
+      ...formData,
+      minParticipants: Number(formData.minParticipants),
+      maxParticipants: Number(formData.maxParticipants),
+      price: Number(formData.price),
+      itinerary: formData.itinerary.map((item) => ({
+        ...item,
+        nights: Number(item.nights),
+      })),
+    };
+
+    if (payload.minParticipants > payload.maxParticipants) {
+      setError('Minimum participants cannot exceed maximum participants.');
+      setLoading(false);
+      return;
     }
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trips`, {
-        method: 'POST',
+      const url = `${process.env.REACT_APP_BACKEND_URL}/api/trips`;
+      const method = tripToEdit ? 'PUT' : 'POST';
+      const res = await fetch(tripToEdit ? `${url}/${tripToEdit._id}` : url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
           Authorization: token,
         },
-        body: JSON.stringify({
-          ...formData,
-          itinerary: formData.itinerary.map((item) => ({
-            ...item,
-            nights: Number(item.nights),
-          })),
-          price: Number(formData.price),
-          minParticipants: Number(formData.minParticipants),
-          maxParticipants: Number(formData.maxParticipants),
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) {
         const { message } = await res.json();
-        throw new Error(message || 'Error creating trip');
+        throw new Error(message || 'Error saving trip');
       }
 
-      navigate('/trips'); // Redirect to the trips page after successful creation
+      navigate('/trips');
     } catch (err) {
-      setError(err.message || 'Error creating trip');
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h2>Create a New Trip</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="title" placeholder="Title" onChange={handleChange} value={formData.title} required />
-        <input type="date" name="departureDate" onChange={handleChange} value={formData.departureDate} required />
+    <div className="trip-form-container">
+      <h2>{tripToEdit ? 'Edit Trip' : 'Create a New Trip'}</h2>
+      {error && <p className="error">{error}</p>}
+      <form onSubmit={handleSubmit} className="trip-form">
+        <input name="title" placeholder="Trip Title" value={formData.title} onChange={handleChange} required />
+        <input type="date" name="departureDate" value={formData.departureDate} onChange={handleChange} required />
 
         <h3>Description</h3>
-        <input
-          type="text"
-          name="description.overview"
-          placeholder="Overview"
-          onChange={handleChange}
-          value={formData.description.overview}
-          required
-        />
-        <input
-          type="text"
-          name="description.aboutYou"
-          placeholder="About You"
-          onChange={handleChange}
-          value={formData.description.aboutYou}
-          required
-        />
-        <input
-          type="text"
-          name="description.accommodation"
-          placeholder="Accommodation"
-          onChange={handleChange}
-          value={formData.description.accommodation}
-          required
-        />
+        {['overview', 'aboutYou', 'accommodation'].map((field) => (
+          <input
+            key={field}
+            name={`description.${field}`}
+            placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+            value={formData.description[field]}
+            onChange={handleChange}
+            required
+          />
+        ))}
 
-        <h4>Inclusions</h4>
-        {formData.description.inclusions.map((item, index) => (
-          <div key={index}>
-            <input
-              type="text"
-              value={item}
-              onChange={(e) => handleListChange('inclusions', index, e.target.value)}
-              placeholder={`Inclusion ${index + 1}`}
-              required
-            />
+        {['inclusions', 'exclusions'].map((type) => (
+          <div key={type} className="form-list">
+            <h4>{type.charAt(0).toUpperCase() + type.slice(1)}</h4>
+            {formData.description[type].map((item, idx) => (
+              <div key={idx} className="list-item">
+                <input
+                  placeholder={`${type.slice(0, -1)} ${idx + 1}`}
+                  value={item}
+                  onChange={(e) => handleListChange(type, idx, e.target.value)}
+                />
+                <button type="button" onClick={() => removeListItem(type, idx)}>
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button type="button" onClick={() => addListItem(type)}>
+              Add {type.slice(0, -1)}
+            </button>
           </div>
         ))}
-        <button type="button" onClick={() => addListItem('inclusions')}>
-          Add Inclusion
-        </button>
-
-        <h4>Exclusions</h4>
-        {formData.description.exclusions.map((item, index) => (
-          <div key={index}>
-            <input
-              type="text"
-              value={item}
-              onChange={(e) => handleListChange('exclusions', index, e.target.value)}
-              placeholder={`Exclusion ${index + 1}`}
-              required
-            />
-          </div>
-        ))}
-        <button type="button" onClick={() => addListItem('exclusions')}>
-          Add Exclusion
-        </button>
 
         <h3>Itinerary</h3>
         {formData.itinerary.map((item, index) => (
-          <div key={index}>
-            <input
-              type="number"
-              name={`itinerary.${index}.order`}
-              placeholder="Order"
-              onChange={handleChange}
-              value={item.order}
-              required
-            />
-            <input
-              type="text"
-              name={`itinerary.${index}.location`}
-              placeholder="Location"
-              onChange={handleChange}
-              value={item.location}
-              required
-            />
-            <input
-              type="number"
-              name={`itinerary.${index}.nights`}
-              placeholder="Nights"
-              onChange={handleChange}
-              value={item.nights}
-              required
-            />
-            <input
-              type="text"
-              name={`itinerary.${index}.itineraryDescription`}
-              placeholder="Itinerary Description"
-              onChange={handleChange}
-              value={item.itineraryDescription}
-              required
-            />
+          <div key={index} className="itinerary-item">
+            {['order', 'location', 'nights', 'itineraryDescription'].map((key) => (
+              <input
+                key={key}
+                name={`itinerary.${index}.${key}`}
+                placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                value={item[key]}
+                onChange={handleChange}
+                required
+              />
+            ))}
+            <button type="button" onClick={() => removeItineraryItem(index)}>
+              Remove
+            </button>
           </div>
         ))}
         <button type="button" onClick={addItineraryItem}>
           Add Itinerary Item
         </button>
 
-        <h3>Other Details</h3>
-        <input
-          type="number"
-          name="minParticipants"
-          placeholder="Min Participants"
-          onChange={handleChange}
-          value={formData.minParticipants}
-          required
-        />
-        <input
-          type="number"
-          name="maxParticipants"
-          placeholder="Max Participants"
-          onChange={handleChange}
-          value={formData.maxParticipants}
-          required
-        />
-        <input type="number" name="price" placeholder="Price" onChange={handleChange} value={formData.price} required />
+        {['minParticipants', 'maxParticipants', 'price'].map((field) => (
+          <input
+            key={field}
+            type="number"
+            name={field}
+            placeholder={field.replace(/([A-Z])/g, ' $1').trim()}
+            value={formData[field]}
+            onChange={handleChange}
+            required
+          />
+        ))}
 
-        <button type="submit">Create Trip</button>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Saving...' : tripToEdit ? 'Update Trip' : 'Create Trip'}
+        </button>
       </form>
     </div>
   );

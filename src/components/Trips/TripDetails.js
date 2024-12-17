@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import Reviews from '../Reviews/FetchReview'; // Import the Reviews component
 import './Trip.css';
 
 const TripDetails = () => {
@@ -8,14 +9,11 @@ const TripDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [reviews, setReviews] = useState([]); // Store reviews for the trip
 
   const handleBookingClick = () => {
     navigate(`/trips/${id}/book`); // Navigate to the booking page for the trip
   };
-
-  // const handleHostClick = () => {
-  //   navigate(`/users/${hostid}`); // Navigate to the booking page for the trip
-  // };
 
   const handleEditClick = () => {
     navigate(`/trips/edit/${id}`); // Navigate to the edit page for the trip
@@ -26,8 +24,6 @@ const TripDetails = () => {
     if (!token) {
       return setError('You must be logged in to delete a trip');
     }
-
-    console.log(id)
 
     try {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trips/${id}`, {
@@ -83,7 +79,22 @@ const TripDetails = () => {
       }
     };
 
+    const fetchReviews = async () => {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reviews/${id}`);
+        if (res.ok) {
+          const data = await res.json();
+          setReviews(data); // Set reviews for the trip
+        } else {
+          setError('Error fetching reviews');
+        }
+      } catch (err) {
+        setError('Error fetching reviews');
+      }
+    };
+
     fetchTripDetails();
+    fetchReviews();
   }, [id]);
 
   if (loading) {
@@ -117,31 +128,28 @@ const TripDetails = () => {
         <strong>Exclusions:</strong> {trip.description.exclusions.join(', ')}
       </p>
       <p>
-        <strong>Location:</strong> {trip.location}
-      </p>
-      <p>
         <strong>Price:</strong> ${trip.price}
       </p>
       <p>
         <strong>Departure Date:</strong> {new Date(trip.departureDate).toLocaleDateString()}
       </p>
       {trip.host && (
-  <p>
-    <strong>Host:</strong>{' '}
-    <span
-      className="host-link"
-      onClick={() => navigate(`/profile/${trip.host._id}`)} // Pass host ID to the function
-      style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }} // Add pointer and styling for clickable text
-    >
-      {`${trip.host.firstName} ${trip.host.lastName}`}
-    </span>
-  </p>
-)}
+        <p>
+          <strong>Host:</strong>{' '}
+          <span
+            className="host-link"
+            onClick={() => navigate(`/profile/${trip.host._id}`)}
+            style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+          >
+            {`${trip.host.firstName} ${trip.host.lastName}`}
+          </span>
+        </p>
+      )}
+
       <button onClick={handleBookingClick} className="booking-button">
         Book Now
       </button>
 
-      {/* Show edit and delete buttons if the user is the host */}
       {trip.isHost && (
         <div className="host-actions">
           <button onClick={handleEditClick} className="edit-button">
@@ -152,6 +160,12 @@ const TripDetails = () => {
           </button>
         </div>
       )}
+
+      {/* Reviews Section */}
+      <div className="reviews-section">
+        <h2>Reviews</h2>
+        <Reviews tripId={id} reviews={reviews} />
+      </div>
     </div>
   );
 };
