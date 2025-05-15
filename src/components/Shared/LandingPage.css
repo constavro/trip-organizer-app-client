@@ -1,163 +1,111 @@
-/* General Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Arial', sans-serif;
-  line-height: 1.6;
-  background-color: #f8f9fa; /* Light gray background */
-  color: #333;
-}
-
-/* Landing Page Container */
-.landing-page {
+.landing-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #ebf8ff, #ffffff);
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #6dd5ed, #2193b0); /* Subtle gradient */
-  color: #fff;
-  padding: 1rem;
-}
-
-/* Header */
-.landing-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.landing-header h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.auth-options {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.auth-options button {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #333;
-  background-color: #fff;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.auth-options button:hover {
-  background-color: #d4edf7; /* Light blue hover effect */
-  transform: translateY(-2px);
-}
-
-.auth-options button.active {
-  background-color: #2193b0;
-  color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Auth Form Container */
-.auth-form {
-  width: 100%;
-  max-width: 400px;
-  background-color: #ffffff;
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin-bottom: 2rem;
-  color: #333;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.auth-form input {
+.landing-header {
   width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 1rem;
+  max-width: 1200px;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.auth-form button {
-  width: 100%;
-  padding: 0.75rem;
-  border: none;
-  background-color: #2193b0;
-  color: #fff;
+.brand-title {
+  font-size: 2rem;
   font-weight: bold;
-  border-radius: 5px;
+  color: #2563eb;
+}
+
+.btn {
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 25px;
   cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.auth-form button:hover {
-  background-color: #6dd5ed;
-}
-
-/* Trip List Section */
-.trips-section {
-  width: 100%;
-  max-width: 1100px;
-  padding: 1.5rem;
-  background-color: #fff;
-  color: #333;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.trips-section h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  text-align: center;
-  color: #2193b0;
-}
-
-.trips-section ul {
-  list-style: none;
-}
-
-.trips-section li {
-  padding: 1rem;
-  border-bottom: 1px solid #eee;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
 }
 
-.trips-section li:hover {
-  background-color: #f8f9fa;
+.btn:hover {
+  background-color: #1d4ed8;
 }
 
-/* Media Queries for Responsive Design */
-@media (max-width: 768px) {
-  .landing-header h1 {
-    font-size: 2rem;
-  }
+.landing-main {
+  text-align: center;
+  margin-top: 4rem;
+  max-width: 768px;
+}
 
-  .auth-options {
-    flex-direction: column;
-  }
+.main-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
 
-  .auth-options button {
-    width: 100%;
-  }
+.main-description {
+  font-size: 1.1rem;
+  color: #4b5563;
+  margin-bottom: 2rem;
+}
 
-  .auth-form {
-    padding: 1.5rem;
+.main-btn {
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+}
+
+.features-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 5rem;
+  max-width: 1100px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .features-section {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (max-width: 480px) {
-  .landing-header h1 {
-    font-size: 1.8rem;
-  }
+.feature-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: box-shadow 0.3s ease;
+}
 
-  .auth-form {
-    padding: 1rem;
-  }
+.feature-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.feature-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 0.5rem;
+}
+
+.feature-description {
+  font-size: 1rem;
+  color: #4b5563;
+}
+
+.landing-footer {
+  margin-top: 5rem;
+  font-size: 0.9rem;
+  color: #9ca3af;
+  text-align: center;
 }

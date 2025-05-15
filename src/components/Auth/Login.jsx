@@ -20,6 +20,7 @@ function Login() {
     setLoading(true); // Set loading state
 
     try {
+      console.log(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`)
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`, {
         method: 'POST',
         headers: {

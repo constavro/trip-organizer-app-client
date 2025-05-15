@@ -36,11 +36,7 @@ function Signup() {
         const errorData = await res.json();
         throw new Error(errorData.message || 'Signup failed');
       }
-
-      const data = await res.json();
-      localStorage.setItem('token', data.token); // Store JWT token
-      localStorage.setItem('userId', data.user.id);
-      navigate('/trips'); // Redirect to trips page after successful signup
+      navigate('/'); // Redirect to trips page after successful signup
     } catch (error) {
       setError(error.message); // Display error message to user
       console.error('Signup failed:', error);

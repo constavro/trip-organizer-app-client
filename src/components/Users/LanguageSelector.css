@@ -1,0 +1,71 @@
+.language-selector {
+    margin: 1rem 0;
+  }
+  
+  .language-selector h3, .language-selector h4 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .language-lists {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+  
+  .language-column {
+    flex: 1;
+  }
+  
+  .language-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px; /* Restrict the height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ddd; /* Add a border for clarity */
+    border-radius: 5px;
+  }
+  
+  .language-item {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .language-item:hover {
+    background-color: #e0f7fa;
+    transform: translateY(-2px);
+  }
+  
+  .save-button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .save-button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Add a scrollbar style for better UX (optional) */
+  .language-column ul::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .language-column ul::-webkit-scrollbar-thumb {
+    background-color: #bbb;
+    border-radius: 5px;
+  }
+  
+  .language-column ul::-webkit-scrollbar-thumb:hover {
+    background-color: #999;
+  }

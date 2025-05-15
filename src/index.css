@@ -34,7 +34,7 @@ body {
 .mb-2 { margin-bottom: 2rem; }
 
 /* ======= Header Styles ======= */
-header {
+/* header {
   background: linear-gradient(to right, #2193b0, #6dd5ed);
   color: #fff;
   padding: 1rem 0;
@@ -42,7 +42,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
-}
+} */
 
 header h1 {
   font-size: 2rem;

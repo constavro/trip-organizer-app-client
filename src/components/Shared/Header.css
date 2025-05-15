@@ -59,3 +59,68 @@
     gap: 1rem;
   }
 }
+
+/* Positioning and styling the notification button */
+.notifications-container {
+  position: relative;
+  display: inline-block;
+}
+
+.notification-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  position: relative;
+  padding: 8px;
+}
+
+.notification-btn:hover {
+  color: #007bff;
+}
+
+/* Red badge for notification count */
+.badge {
+  background: red;
+  color: white;
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  right: -8px;
+}
+
+/* Pop-up notifications box */
+.notifications-box {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: rgb(0, 0, 0);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  width: 250px;
+  padding: 10px;
+  z-index: 100;
+}
+
+.notifications-box p {
+  padding: 8px;
+  border-bottom: 1px solid #ffffff;
+  margin: 0;
+}
+
+.notifications-box p:last-child {
+  border-bottom: none;
+}
+
+/* Close pop-up when clicking outside */
+.notifications-box::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: 15px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent white transparent;
+}

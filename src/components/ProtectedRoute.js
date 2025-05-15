@@ -13,7 +13,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
         auth.token ? (
           <Component {...props} />
         ) : (
-          <Navigate to="/login" />
+          <Navigate to="/" />
         )
       }
     />
