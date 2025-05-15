@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import TripHeader from './TripHeader';
 import TripInfo from './TripInfo';
 import TripHost from './TripHost';
@@ -11,9 +11,7 @@ import TripParticipants from './TripParticipants';
 
 const TripDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [trip, setTrip] = useState(null);
-  const [reviews, setReviews] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 

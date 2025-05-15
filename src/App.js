@@ -1,12 +1,9 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Shared/Header';
-import Footer from './components/Shared/Footer';
 import UserProfile from './components/Users/UserProfile/UserProfile';
-import PersonalInformation from './components/Users/PersonalInformation';
 import HostDashboard from './components/Users/HostDashboard';
 import TripCreationForm from './components/Trips/TripCreationForm/TripCreationForm';
-import TripEditForm from './components/Trips/TripEditForm';
 import TripByUser from './components/Trips/TripByUser';
 import TripDetails from './components/Trips/TripDetails/TripDetails';
 import TripList from './components/Trips/TripList';

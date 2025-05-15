@@ -5,7 +5,6 @@ import './Booking.css';
 const BookingForm = () => {
   const { id } = useParams();  // Trip ID from URL params
   const [trip, setTrip] = useState(null);
-  const [numberOfPeople, setNumberOfPeople] = useState(1);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [formData, setFormData] = useState({
@@ -61,9 +60,8 @@ const BookingForm = () => {
           return setError('You must be logged in to create a trip');
         }
     //   const userId = localStorage.getItem('userId'); // Assume user ID is stored in localStorage
-      const totalPrice = trip.price * numberOfPeople;
 
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/bookings`, {
+      await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/bookings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

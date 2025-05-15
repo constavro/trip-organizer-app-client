@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';  // Import useParams
 import ChatRoom from './ChatRoom';
 import MessageInput from './MessageInput';
