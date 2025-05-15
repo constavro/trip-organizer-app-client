@@ -30,7 +30,6 @@ function App() {
           <Route path="/host/dashboard" element={<ProtectedRoute><Header /><HostDashboard /></ProtectedRoute>} />
           <Route path="/trips/:id/book" element={<ProtectedRoute><Header /><BookingForm /></ProtectedRoute>} />
           <Route path="/profile/:userId" element={<ProtectedRoute><Header /><UserProfile /></ProtectedRoute>} />
-          <Route path="/personal-info/:userId" element={<ProtectedRoute><Header /><PersonalInformation /></ProtectedRoute>} />
           <Route path="/mytrips" element={<ProtectedRoute><Header /><TripByUser /></ProtectedRoute>} />
          {/* <Route path="/coworking-spaces" element={<CoworkingSpaces />} /> */}
          {/* <Route path="/activities" element={<Activities />} /> */}
@@ -43,7 +42,6 @@ function App() {
          <Route path="/chat/:id" element={<ProtectedRoute><Header /><ChatPage /></ProtectedRoute>} />
           <Route path="/createtrip" element={<ProtectedRoute><Header /><TripCreationForm /></ProtectedRoute>} />
           <Route path="/trips/:id" element={<ProtectedRoute><Header /><TripDetails /></ProtectedRoute>} />
-          <Route path="/trips/edit/:id" element={<ProtectedRoute><Header /><TripEditForm /></ProtectedRoute>} />
             <Route path="/login" element={<Login/>} />
             <Route path="/signup" element={<Signup/>} />
             <Route path="*" element={<LandingPage />} />
