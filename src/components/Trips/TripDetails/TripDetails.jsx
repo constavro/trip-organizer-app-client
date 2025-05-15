@@ -33,18 +33,18 @@ const TripDetails = () => {
       }
     };
 
-    const fetchReviews = async () => {
-      try {
-        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reviews/${id}`);
-        const data = await res.json();
-        setReviews(data);
-      } catch {
-        setError('Error fetching reviews');
-      }
-    };
+    // const fetchReviews = async () => {
+    //   try {
+    //     const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reviews/${id}`);
+    //     const data = await res.json();
+    //     setReviews(data);
+    //   } catch {
+    //     setError('Error fetching reviews');
+    //   }
+    // };
 
     fetchTrip();
-    fetchReviews();
+    // fetchReviews();
   }, [id]);
 
   if (loading) return <p>Loading...</p>;
