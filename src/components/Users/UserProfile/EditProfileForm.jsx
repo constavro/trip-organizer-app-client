@@ -24,10 +24,6 @@ const EditProfileForm = ({ user, onSave }) => {
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleLanguageChange = (updatedLanguages) => {
-    setFormState((prev) => ({ ...prev, spokenLanguages: updatedLanguages }));
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave(formState);
