@@ -96,7 +96,8 @@ const ChangePasswordForm = ({ userId, onSuccess }) => {
         />
       </div>
 
-      <button type="submit">Update Password</button>
+      <button type="submit" className="btn">Update Password</button>
+
     </form>
   );
 };

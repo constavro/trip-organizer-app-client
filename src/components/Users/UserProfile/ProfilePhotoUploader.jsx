@@ -37,7 +37,7 @@ const ProfilePhotoUploader = ({ onUpload }) => {
 
   return (
     <div className="form-group">
-      <label>Upload Photo</label>
+      <label>Change Profile Photo</label>
       <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" />
     </div>
   );

@@ -18,7 +18,7 @@ body {
 }
 
 /* ======= General Utility Classes ======= */
-.container {
+/* .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
@@ -31,7 +31,7 @@ body {
 .mt-1 { margin-top: 1rem; }
 .mt-2 { margin-top: 2rem; }
 .mb-1 { margin-bottom: 1rem; }
-.mb-2 { margin-bottom: 2rem; }
+.mb-2 { margin-bottom: 2rem; } */
 
 /* ======= Header Styles ======= */
 /* header {
@@ -44,7 +44,7 @@ body {
   z-index: 1000;
 } */
 
-header h1 {
+/* header h1 {
   font-size: 2rem;
   font-weight: bold;
   text-align: center;
@@ -66,10 +66,10 @@ header nav a {
 
 header nav a:hover {
   color: #d4edf7;
-}
+} */
 
 /* ======= Buttons ======= */
-button {
+/* button {
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 5px;
@@ -89,7 +89,7 @@ button:hover {
 button:focus {
   outline: 3px solid #6dd5ed;
   box-shadow: 0 0 5px rgba(33, 147, 176, 0.6);
-}
+} */
 
 /* ======= Footer ======= */
 footer {
@@ -110,13 +110,13 @@ footer a:hover {
 }
 
 /* ======= Content Layout ======= */
-.main-content {
+/* .main-content {
   margin: 2rem auto;
   padding: 1.5rem;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+} */
 
 /* ======= Trip List or Cards ======= */
 .trip-list {

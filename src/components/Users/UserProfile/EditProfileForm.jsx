@@ -6,6 +6,7 @@ import SocialLinksEditor from './SocialLinksEditor';
 import CountriesVisitedSelector from './CountriesVisitedSelector';
 import ProfilePhotosDelete from './ProfilePhotosDelete';
 import ProfilePhotoUploader from './ProfilePhotoUploader';
+import './EditProfileForm.css'
 
 const EditProfileForm = ({ user, onSave }) => {
   const [formState, setFormState] = useState({
@@ -64,10 +65,13 @@ const EditProfileForm = ({ user, onSave }) => {
         />
       </div>
 
-      <LanguageSelector
-        initialLanguages={formState.spokenLanguages}
-        onSave={handleLanguageChange}
-      />
+
+<LanguageSelector
+  selectedLanguages={formState.spokenLanguages}
+  onChange={(updatedLanguages) =>
+    setFormState((prev) => ({ ...prev, spokenLanguages: updatedLanguages }))
+  }
+/>
 
 <ProfilePhotosDelete
   photos={formState.photos}

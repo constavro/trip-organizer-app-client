@@ -36,18 +36,19 @@ const DeleteUser = ({ userId, onDeleteSuccess }) => {
   return (
     <div className="delete-account">
       {!confirming ? (
-        <button className="danger" onClick={() => setConfirming(true)}>
+        <button className="btn danger" onClick={() => setConfirming(true)}>
           Delete Account
         </button>
       ) : (
         <div>
           <p>Are you sure you want to delete your account? This action cannot be undone.</p>
-          <button className="danger" onClick={handleDelete} disabled={loading}>
-            {loading ? 'Deleting...' : 'Yes, Delete'}
-          </button>
-          <button onClick={() => setConfirming(false)} disabled={loading}>
-            Cancel
-          </button>
+          <button className="btn danger" onClick={handleDelete} disabled={loading}>
+  {loading ? 'Deleting...' : 'Yes, Delete'}
+</button>
+<button className="btn secondary" onClick={() => setConfirming(false)} disabled={loading}>
+  Cancel
+</button>
+
         </div>
       )}
       {error && <p className="error-message">{error}</p>}

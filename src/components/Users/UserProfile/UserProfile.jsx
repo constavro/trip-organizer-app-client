@@ -1,4 +1,4 @@
-// Only handles state management and rendering child components
+// UserProfile.jsx
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ProfileDetails from './ProfileDetails';
@@ -14,7 +14,6 @@ const UserProfile = () => {
   const [error, setError] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
-
 
   const loggedInUserId = localStorage.getItem('userId');
 
@@ -77,41 +76,41 @@ const UserProfile = () => {
     }
   };
 
-  if (loading) return <p>Loading profile...</p>;
+  if (loading) return <p className="status-message">Loading profile...</p>;
   if (error) return <p className="error-message">{error}</p>;
-  if (!profileData) return <p>No profile found.</p>;
+  if (!profileData) return <p className="status-message">No profile found.</p>;
 
   const user = profileData.user.user;
 
   return (
-    <div className="user-profile">
-      {loggedInUserId === userId && (
-        <>
-          <button onClick={() => setIsEditing(!isEditing)}>
-            {isEditing ? 'Cancel' : 'Edit Profile'}
-          </button>
-          <button onClick={() => setShowPasswordForm(!showPasswordForm)}>
-      {showPasswordForm ? 'Cancel Password Change' : 'Change Password'}
-    </button>
-  
-          {/* Delete account button */}
-          <DeleteUser
-            userId={userId}
-            onDeleteSuccess={() => {
-              alert('Your account has been deleted.');
-              window.location.href = '/'; // Redirect to home or login
-            }}
-          />
-        </>
-      )}
-      {showPasswordForm && <ChangePasswordForm userId={userId} />}
-  
-      {isEditing ? (
-        <EditProfileForm user={user} onSave={handleEditProfile} />
-      ) : (
-        <ProfileDetails user={user} createdTrips={profileData.createdTrips} />
-      )}
+    <div className="user-profile-container">
+        {loggedInUserId === userId && (
+          <div className="profile-actions">
+            <button className="btn" onClick={() => setIsEditing(!isEditing)}>
+              {isEditing ? 'Cancel' : 'Edit Profile'}
+            </button>
+            <button className="btn secondary" onClick={() => setShowPasswordForm(!showPasswordForm)}>
+              {showPasswordForm ? 'Cancel Password Change' : 'Change Password'}
+            </button>
+            <DeleteUser
+              userId={userId}
+              onDeleteSuccess={() => {
+                alert('Your account has been deleted.');
+                window.location.href = '/';
+              }}
+            />
+          </div>
+        )}
 
+      {showPasswordForm && <ChangePasswordForm userId={userId} />}
+
+      <div className="profile-content">
+        {isEditing ? (
+          <EditProfileForm user={user} onSave={handleEditProfile} />
+        ) : (
+          <ProfileDetails user={user} createdTrips={profileData.createdTrips} />
+        )}
+      </div>
     </div>
   );
 };

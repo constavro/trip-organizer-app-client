@@ -8,8 +8,6 @@ import TripByUser from './components/Trips/TripByUser';
 import TripDetails from './components/Trips/TripDetails/TripDetails';
 import TripList from './components/Trips/TripList';
 import BookingForm from './components/Bookings/BookingForm';
-import Login from './components/Auth/Login';
-import Signup from './components/Auth/Signup';
 import LandingPage from './components/Shared/LandingPage';
 import ChatPage from './components/Chat/ChatPage';
 import AllChatsPage from './components/Chat/AllChatsPage';
@@ -22,14 +20,15 @@ function App() {
   return (
       <Router>
         <Routes>
+          <Route path="*" element={<LandingPage />} />
           <Route path="/" element={<LandingPage />} />
           <Route path="/auth" element={<AuthPage />} />
-
+          <Route path="/profile/:userId" element={<ProtectedRoute><Header /><UserProfile /></ProtectedRoute>} />
 
           <Route path="/trips" element={<ProtectedRoute><Header /><TripList /></ProtectedRoute>} />
           <Route path="/host/dashboard" element={<ProtectedRoute><Header /><HostDashboard /></ProtectedRoute>} />
           <Route path="/trips/:id/book" element={<ProtectedRoute><Header /><BookingForm /></ProtectedRoute>} />
-          <Route path="/profile/:userId" element={<ProtectedRoute><Header /><UserProfile /></ProtectedRoute>} />
+          
           <Route path="/mytrips" element={<ProtectedRoute><Header /><TripByUser /></ProtectedRoute>} />
          {/* <Route path="/coworking-spaces" element={<CoworkingSpaces />} /> */}
          {/* <Route path="/activities" element={<Activities />} /> */}
@@ -42,9 +41,7 @@ function App() {
          <Route path="/chat/:id" element={<ProtectedRoute><Header /><ChatPage /></ProtectedRoute>} />
           <Route path="/createtrip" element={<ProtectedRoute><Header /><TripCreationForm /></ProtectedRoute>} />
           <Route path="/trips/:id" element={<ProtectedRoute><Header /><TripDetails /></ProtectedRoute>} />
-            <Route path="/login" element={<Login/>} />
-            <Route path="/signup" element={<Signup/>} />
-            <Route path="*" element={<LandingPage />} />
+            
         </Routes>
       </Router>
   );

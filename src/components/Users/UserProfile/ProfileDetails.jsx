@@ -4,9 +4,13 @@ import SocialLinks from './SocialLinks';
 import ProfilePhotos from './ProfilePhotos';
 import TripsList from './TripsList';
 import CountriesVisited from './CountriesVisited';
+import SpokenLanguages from './SpokenLanguages';
+import './ProfileDetails.css'
 
 const ProfileDetails = ({ user, createdTrips }) => {
   if (!user) return null;
+
+  console.log(`${process.env.REACT_APP_BACKEND_URL}${user.profilePhoto}`)
 
   return (
     <>
@@ -14,11 +18,13 @@ const ProfileDetails = ({ user, createdTrips }) => {
     <div className="profile-header">
       <img
         className="profile-photo"
-        src={`${process.env.REACT_APP_BACKEND_URL}${user.profilePhoto}` || '/default-avatar.png'}
+        src={`${process.env.REACT_APP_BACKEND_URL}${user.profilePhoto}` || '/default_avatar.png'}
         alt={`${user.firstName}'s profile`}
       />
-            <h2>{user.firstName} {user.lastName}</h2>
-            <p>{user.bio || 'No bio provided'}</p>
+              <div className="profile-info">
+    <h2>{user.firstName} {user.lastName}</h2>
+    <p>{user.bio || 'No bio provided'}</p>
+  </div>
         </div>
       <div className="profile-section">
         <h3>About</h3>
@@ -27,15 +33,7 @@ const ProfileDetails = ({ user, createdTrips }) => {
 
       <div className="profile-section">
         <h3>Spoken Languages</h3>
-        {user.spokenLanguages && user.spokenLanguages.length > 0 ? (
-          <ul>
-            {user.spokenLanguages.map((lang, index) => (
-              <li key={index}>{lang}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>No spoken languages provided.</p>
-        )}
+        <SpokenLanguages languages={user.spokenLanguages} />
       </div>
 
       <div className="profile-section">

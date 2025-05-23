@@ -1,71 +1,67 @@
 .language-selector {
-    margin: 1rem 0;
-  }
-  
-  .language-selector h3, .language-selector h4 {
-    margin-bottom: 0.5rem;
-  }
-  
-  .language-lists {
-    display: flex;
-    gap: 2rem;
-    margin-top: 1rem;
-  }
-  
-  .language-column {
-    flex: 1;
-  }
-  
-  .language-column ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    max-height: 200px; /* Restrict the height */
-    overflow-y: auto; /* Enable vertical scrolling */
-    border: 1px solid #ddd; /* Add a border for clarity */
-    border-radius: 5px;
-  }
-  
-  .language-item {
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .language-item:hover {
-    background-color: #e0f7fa;
-    transform: translateY(-2px);
-  }
-  
-  .save-button {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .save-button:hover {
-    background-color: #45a049;
-  }
-  
-  /* Add a scrollbar style for better UX (optional) */
-  .language-column ul::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .language-column ul::-webkit-scrollbar-thumb {
-    background-color: #bbb;
-    border-radius: 5px;
-  }
-  
-  .language-column ul::-webkit-scrollbar-thumb:hover {
-    background-color: #999;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.language-search {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.language-lists {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.language-column {
+  flex: 1;
+  min-width: 200px;
+}
+
+.language-column h4 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.language-item {
+  padding: 0.4rem 0.6rem;
+  margin: 0.25rem 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.language-item:hover {
+  background-color: #f0f0f0;
+}
+
+.language-item.selected {
+  background-color: #d1e7ff;
+  font-weight: 500;
+}
+
+.no-match {
+  color: #999;
+  font-style: italic;
+}
+
+.save-button {
+  margin-top: 1rem;
+  align-self: flex-start;
+  padding: 0.6rem 1.2rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
