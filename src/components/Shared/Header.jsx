@@ -57,6 +57,9 @@ const Header = () => {
                 <Link to={`/profile/${userId}`} onClick={() => setShowProfileMenu(false)}>
                   Open Profile
                 </Link>
+                <Link to={'/host/dashboard'} onClick={() => setShowProfileMenu(false)}>
+                  Host Dashboard
+                </Link>
                 <button onClick={handleLogout}>Log Out</button>
               </div>
             )}

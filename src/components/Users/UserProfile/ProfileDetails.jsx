@@ -40,10 +40,11 @@ const ProfileDetails = ({ user, createdTrips }) => {
          <h3>Countries Visited</h3>
         <CountriesVisited visitedCountries={user.countriesVisited || []} />
         </div>
+        <TripsList trips={createdTrips} />
+        <ProfilePhotos photos={user.photos} />
 
       <SocialLinks links={user.socialLinks} />
-      <ProfilePhotos photos={user.photos} />
-      <TripsList trips={createdTrips} />
+
     </>
   );
 };

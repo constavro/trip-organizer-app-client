@@ -42,6 +42,8 @@ const AuthPage = () => {
     <div className="auth-container">
       <header className="auth-header">
         <h1>waylo</h1>
+
+        </header>
         <div className="auth-options">
           <button
             className={showLogin ? 'active' : ''}
@@ -56,7 +58,7 @@ const AuthPage = () => {
             Sign Up
           </button>
         </div>
-      </header>
+
 
       {/* Conditional rendering for Login and Signup */}
       <div className="auth-form">

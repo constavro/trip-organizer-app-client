@@ -1,0 +1,62 @@
+.select-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-top: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .select-wrapper label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.25rem;
+  }
+  
+  .custom-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    color: #333;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1.25rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+  }
+  
+  .countries-button {
+    padding: 0.1rem 0.25rem;
+    font-size: 1rem;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    align-self: center;
+    transition: background-color 0.2s ease;
+  }
+  
+  .custom-select:focus {
+    border-color: #2563eb;
+    outline: none;
+  }
+  
+  .custom-select option {
+    font-size: 1rem;
+  }
+  
+  .select-wrapper li {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 0.4rem 0.75rem;
+    border-radius: 1px;
+    transition: all 0.2s ease;
+  }
+  

@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
+import './LanguageSelector.css'
 
 const LANGUAGE_LIST = [
-  'English', 'Mandarin Chinese', 'Hindi', 'Spanish', 'French', 'Arabic', 'Bengali', 'Russian',
-  'Portuguese', 'Urdu', 'Indonesian', 'German', 'Japanese', 'Swahili', 'Marathi', 'Telugu',
-  'Turkish', 'Tamil', 'Vietnamese', 'Korean', 'Italian', 'Polish', 'Ukrainian', 'Dutch',
-  'Persian', 'Malayalam', 'Thai', 'Gujarati', 'Kannada', 'Punjabi', 'Hebrew', 'Czech',
-  'Romanian', 'Greek', 'Hungarian', 'Swedish', 'Finnish', 'Danish', 'Norwegian', 'Slovak',
-  'Bulgarian', 'Serbian', 'Croatian', 'Lithuanian', 'Latvian', 'Estonian', 'Slovenian',
-  'Armenian', 'Georgian', 'Albanian', 'Azerbaijani', 'Basque', 'Pashto', 'Nepali', 'Sinhala',
-  'Amharic', 'Somali', 'Zulu', 'Xhosa', 'Yoruba', 'Igbo', 'Hausa', 'Burmese', 'Khmer', 'Lao',
-  'Mongolian', 'Kazakh', 'Uzbek', 'Tajik', 'Kurdish', 'Tigrinya', 'Maori', 'Samoan', 'Haitian Creole',
-  'Esperanto', 'Latin'
+  'Albanian', 'Amharic', 'Arabic', 'Armenian', 'Azerbaijani', 'Basque', 'Bengali', 'Bulgarian',
+  'Burmese', 'Croatian', 'Czech', 'Danish', 'Dutch', 'English', 'Esperanto', 'Estonian',
+  'Finnish', 'French', 'Georgian', 'German', 'Greek', 'Gujarati', 'Haitian Creole', 'Hebrew',
+  'Hindi', 'Hungarian', 'Igbo', 'Indonesian', 'Italian', 'Japanese', 'Kannada', 'Kazakh',
+  'Khmer', 'Korean', 'Kurdish', 'Lao', 'Latin', 'Latvian', 'Lithuanian', 'Maori', 'Malayalam',
+  'Mandarin Chinese', 'Marathi', 'Mongolian', 'Nepali', 'Norwegian', 'Pashto', 'Persian',
+  'Polish', 'Portuguese', 'Punjabi', 'Romanian', 'Russian', 'Samoan', 'Serbian', 'Sinhala',
+  'Slovak', 'Slovenian', 'Somali', 'Spanish', 'Swahili', 'Swedish', 'Tajik', 'Tamil', 'Telugu',
+  'Thai', 'Tigrinya', 'Turkish', 'Ukrainian', 'Urdu', 'Uzbek', 'Vietnamese', 'Xhosa', 'Yoruba',
+  'Zulu'
 ];
+
 
 const LanguageSelector = ({ selectedLanguages, onChange }) => {
   const [input, setInput] = useState('');
@@ -33,10 +35,10 @@ const LanguageSelector = ({ selectedLanguages, onChange }) => {
   };
 
   return (
-    <div className="form-group">
+    <div className="select-wrapper">
       <label>Languages Spoken</label>
-      <div style={{ display: 'flex', gap: '8px' }}>
-        <select value={input} onChange={(e) => setInput(e.target.value)}>
+      <div>
+        <select className="custom-select" value={input} onChange={(e) => setInput(e.target.value)}>
           <option value="">Select a language</option>
           {LANGUAGE_LIST.map((language) => (
             <option key={language} value={language}>
@@ -44,14 +46,14 @@ const LanguageSelector = ({ selectedLanguages, onChange }) => {
             </option>
           ))}
         </select>
-        <button type="button" onClick={handleAdd}>Add</button>
+        <button className='language-button' type="button" onClick={handleAdd}>Add</button>
       </div>
 
       <ul className="selected-list">
         {selectedLanguages.map((lang) => (
           <li key={lang}>
-            {lang}{' '}
-            <button type="button" onClick={() => handleRemove(lang)}>×</button>
+            {lang}{'  '}
+            <button className='language-button' type="button" onClick={() => handleRemove(lang)}>×</button>
           </li>
         ))}
       </ul>

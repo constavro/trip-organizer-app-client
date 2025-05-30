@@ -1,0 +1,28 @@
+.trips-page {
+    max-width: 1000px;
+    margin: auto;
+    padding: 2rem 1rem;
+  }
+  
+  .trips-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .trip-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .trip-filters input,
+  .trip-filters select {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  

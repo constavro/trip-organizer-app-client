@@ -1,0 +1,57 @@
+.trip-list-section {
+    margin-top: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    flex-direction: column;
+  }
+  
+  .trip-list-section h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .trip-list-section ul {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 1rem;
+  }
+  
+  .trip-item {
+    background-color: #f9f9f9;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  
+    /* Add this */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* optional for aligning text inside elements */
+  }
+  
+  
+  .trip-item:hover {
+    background-color: #eef5ff;
+    border-color: #b3d4fc;
+    transform: translateY(-2px);
+  }
+  
+  .trip-item h4 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+    color: #2563eb;
+  }
+  
+  .trip-item p {
+    margin: 0.25rem 0;
+    font-size: 0.95rem;
+    color: #444;
+  }
+  

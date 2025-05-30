@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import TripBasicInfoStep from './TripBasicInfoStep';
 import TripDescriptionStep from './TripDescriptionStep';
 import TripItineraryStep from './TripItineraryStep';
@@ -36,6 +36,37 @@ const TripCreationForm = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const StepComponent = steps[step];
+
+  const validateStep = () => {
+    const { title, startDate, endDate, description, itinerary, minParticipants, maxParticipants, price, tags } = formData;
+
+    switch (step) {
+      case 0: // Basic Info
+        return title.trim() && startDate && endDate;
+      case 1: // Description
+        return description.overview.trim();
+      case 2: // Itinerary
+        return itinerary.length > 0 && itinerary.every(item =>
+          item.location.trim() && item.startDate && item.endDate
+        );
+      case 3: // Pricing
+        return minParticipants && maxParticipants && price;
+      case 4: // Tags
+        return tags.length > 0;
+      default:
+        return true;
+    }
+  };
+
+  const handleNext = () => {
+    if (!validateStep()) {
+      setError('Please fill in all required fields before continuing.');
+      return;
+    }
+    setError('');
+    setStep(step + 1);
+  };
+
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -86,15 +117,26 @@ const TripCreationForm = () => {
       <div className="form-navigation">
         {step > 0 && <button onClick={() => setStep(step - 1)}>Previous</button>}
         {step < steps.length - 1 ? (
-          <button onClick={() => setStep(step + 1)}>Next</button>
+          <button onClick={handleNext}>Next</button>
         ) : (
           <button onClick={handleSubmit} disabled={loading}>
             {loading ? 'Saving...' : 'Submit'}
           </button>
         )}
       </div>
+      <div className='progress-container'>
       <div className="progress-bar" style={{ width: `${(step / (steps.length - 1)) * 100}%` }} />
-    </div>
+      </div>
+
+      <div className="ai-suggestion-link">
+  <p>Need help planning?</p>
+  <Link to="/trip-ai-suggestion">
+    <button className="ai-suggestion-button">Get AI Trip Suggestion</button>
+  </Link>
+</div>
+
+      </div>
+
   );
 };
 

@@ -1,20 +1,21 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './TripsList.css';
+import './HostTripsList.css'
 
-const TripsList = ({ trips }) => {
+const HostTripsList = ({ trips }) => {
   const navigate = useNavigate();
-
-  if (!trips || trips.length === 0) return null;
 
   const handleTripClick = (id) => {
     navigate(`/trips/${id}`);
   };
 
   return (
-    <div className="profile-section trips-list">
-      <h3>Trips Created</h3>
-      <ul>
+    <div className="trip-list-section">
+      <h2>Your Trips</h2>
+      {trips.length === 0 ? (
+        <p>You haven't created any trips.</p>
+      ) : (
+        <ul>
         {trips.map((trip) => (
           <li
             key={trip._id}
@@ -30,8 +31,9 @@ const TripsList = ({ trips }) => {
           </li>
         ))}
       </ul>
+      )}
     </div>
   );
 };
 
-export default TripsList;
+export default HostTripsList;

@@ -1,0 +1,41 @@
+.social-links {
+    margin-top: 1.5rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .social-links h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: #333;
+  }
+  
+  .social-links ul {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  
+  .social-links li a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #0077cc;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+  }
+  
+  .social-links li a:hover {
+    color: #005999;
+  }
+  
+  .social-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+  

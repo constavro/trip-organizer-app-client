@@ -1,67 +1,67 @@
-.language-selector {
+.select-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-
-.language-search {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  width: 100%;
-  max-width: 400px;
-}
-
-.language-lists {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.language-column {
-  flex: 1;
-  min-width: 200px;
-}
-
-.language-column h4 {
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-.language-item {
-  padding: 0.4rem 0.6rem;
-  margin: 0.25rem 0;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.language-item:hover {
-  background-color: #f0f0f0;
-}
-
-.language-item.selected {
-  background-color: #d1e7ff;
-  font-weight: 500;
-}
-
-.no-match {
-  color: #999;
-  font-style: italic;
-}
-
-.save-button {
+  gap: 0.25rem;
   margin-top: 1rem;
-  align-self: flex-start;
-  padding: 0.6rem 1.2rem;
-  background-color: #007bff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.select-wrapper label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.custom-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  color: #333;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.25rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.language-button {
+  padding: 0.1rem 0.25rem;
+  font-size: 1rem;
+  background-color: #2563eb;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 25px;
   cursor: pointer;
+  align-self: center;
+  transition: background-color 0.2s ease;
 }
 
-.save-button:hover {
-  background-color: #0056b3;
+.custom-select:focus {
+  border-color: #2563eb;
+  outline: none;
+}
+
+.custom-select option {
+  font-size: 1rem;
+}
+
+.select-wrapper li {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 0.4rem 0.75rem;
+  border-radius: 1px;
+  transition: all 0.2s ease;
+}
+
+.spoken-languages li:hover {
+  background-color: #e8f0fe;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }

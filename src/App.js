@@ -2,11 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Shared/Header';
 import UserProfile from './components/Users/UserProfile/UserProfile';
-import HostDashboard from './components/Users/HostDashboard';
+import HostDashboard from './components/Users/HostDashboard/HostDashboard';
 import TripCreationForm from './components/Trips/TripCreationForm/TripCreationForm';
 import TripByUser from './components/Trips/TripByUser';
 import TripDetails from './components/Trips/TripDetails/TripDetails';
-import TripList from './components/Trips/TripList';
+import TripPage from './components/Trips/TripPage/TripPage';
 import BookingForm from './components/Bookings/BookingForm';
 import LandingPage from './components/Shared/LandingPage';
 import ChatPage from './components/Chat/ChatPage';
@@ -14,6 +14,7 @@ import AllChatsPage from './components/Chat/AllChatsPage';
 import AllExpensesPage from './components/Expenses/AllExpensesPage';
 import TripExpensesPage from './components/Expenses/TripExpensePage';
 import AuthPage from './components/Auth/AuthPage';
+import TripAISuggestion from './components/Trips/TripCreationForm/TripAISuggestion';
 
 function App() {
 
@@ -25,7 +26,7 @@ function App() {
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/profile/:userId" element={<ProtectedRoute><Header /><UserProfile /></ProtectedRoute>} />
 
-          <Route path="/trips" element={<ProtectedRoute><Header /><TripList /></ProtectedRoute>} />
+          <Route path="/trips" element={<ProtectedRoute><Header /><TripPage /></ProtectedRoute>} />
           <Route path="/host/dashboard" element={<ProtectedRoute><Header /><HostDashboard /></ProtectedRoute>} />
           <Route path="/trips/:id/book" element={<ProtectedRoute><Header /><BookingForm /></ProtectedRoute>} />
           
@@ -40,6 +41,7 @@ function App() {
          <Route path="/chats" element={<ProtectedRoute><Header /><AllChatsPage /></ProtectedRoute>} />   
          <Route path="/chat/:id" element={<ProtectedRoute><Header /><ChatPage /></ProtectedRoute>} />
           <Route path="/createtrip" element={<ProtectedRoute><Header /><TripCreationForm /></ProtectedRoute>} />
+          <Route path="/trip-ai-suggestion" element={<ProtectedRoute><Header /><TripAISuggestion/></ProtectedRoute>} />
           <Route path="/trips/:id" element={<ProtectedRoute><Header /><TripDetails /></ProtectedRoute>} />
             
         </Routes>

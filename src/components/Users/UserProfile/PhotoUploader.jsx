@@ -1,5 +1,6 @@
 // components/UserProfile/PhotoUploader.jsx
 import React, { useRef } from 'react';
+import './ProfilePhotoUploader.css';
 
 const PhotoUploader = ({ onUpload }) => {
   const fileInputRef = useRef();
@@ -35,9 +36,12 @@ const PhotoUploader = ({ onUpload }) => {
   };
 
   return (
-    <div className="form-group">
+    <div className="photo-uploader">
       <label>Upload Photo</label>
-      <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" />
+      <div className="file-input-wrapper">
+        Choose File
+        <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" />
+      </div>
     </div>
   );
 };
