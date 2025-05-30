@@ -47,10 +47,6 @@ const LandingPage = () => {
           </div>
         ))}
       </section>
-
-      <footer className="landing-footer">
-        © 2025 waylo. All rights reserved.
-      </footer>
     </div>
   );
 };
