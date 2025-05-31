@@ -20,13 +20,15 @@ const TripTagsStep = ({ formData, setFormData }) => {
   return (
     <div>
       <h3>Tags</h3>
+      <div className="list-item-group">
       {formData.tags.map((tag, index) => (
-        <div key={index}>
+        <div className="list-item" key={index}>
           <input value={tag} onChange={(e) => handleTagChange(index, e.target.value)} placeholder="Tag" />
-          <button type="button" onClick={() => removeTag(index)}>Remove</button>
+          <button className="btn btn-remove-item" type="button" onClick={() => removeTag(index)}>Remove</button>
         </div>
       ))}
-      <button type="button" onClick={addTag}>+ Add Tag</button>
+      </div>
+      <button className="btn btn-add-item" type="button" onClick={addTag}>+ Add Tag</button>
     </div>
   );
 };

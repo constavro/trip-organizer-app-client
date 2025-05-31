@@ -15,28 +15,28 @@ const ProfileDetails = ({ user, createdTrips }) => {
   return (
     <>
 
-    <div className="profile-header">
+    <div className="profile-details-header-display">
       <img
-        className="profile-photo"
+        className="profile-photo-display"
         src={`${process.env.REACT_APP_BACKEND_URL}${user.profilePhoto}` || '/default_avatar.png'}
         alt={`${user.firstName}'s profile`}
       />
-              <div className="profile-info">
+              <div className="profile-info-display">
     <h2>{user.firstName} {user.lastName}</h2>
     <p>{user.bio || 'No bio provided'}</p>
   </div>
         </div>
-      <div className="profile-section">
+      <div className="profile-section-display">
         <h3>About</h3>
         <p>{user.about || 'No details provided.'}</p>
       </div>
 
-      <div className="profile-section">
+      <div className="profile-section-display">
         <h3>Spoken Languages</h3>
         <SpokenLanguages languages={user.spokenLanguages} />
       </div>
 
-      <div className="profile-section">
+      <div className="countries-map-display">
          <h3>Countries Visited</h3>
         <CountriesVisited visitedCountries={user.countriesVisited || []} />
         </div>

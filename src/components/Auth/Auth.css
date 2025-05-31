@@ -1,0 +1,84 @@
+/* === src/components/Auth/Auth.css === */
+.auth-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #ebf8ff, var(--surface-color));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-5);
+}
+
+.auth-brand-header { /* Changed from .auth-header to avoid conflict with Header.css */
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-5);
+  text-align: center;
+}
+
+.auth-options {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-6);
+}
+
+.auth-options .btn { /* Buttons now use .btn and .btn-outline-primary */
+  padding: 0.75rem 2rem;
+  font-weight: 500;
+  border-radius: var(--border-radius-pill);
+}
+
+.auth-options .btn.active {
+  background-color: var(--primary-color);
+  color: var(--text-color-light);
+}
+
+.auth-form-wrapper {
+  width: 100%;
+  max-width: 450px;
+}
+
+.login-container,
+.signup-container {
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  padding: var(--spacing-6);
+  border-radius: var(--border-radius-lg); /* Larger radius for auth forms */
+  box-shadow: var(--box-shadow-lg);
+}
+
+.login-container h1,
+.signup-container h1 {
+  text-align: center;
+  margin-bottom: var(--spacing-5);
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+
+/* .form-group and inputs use global styles from index.css */
+
+.auth-container .error-message { /* Specificity for auth page error */
+  /* Uses global .error-message style but can be overridden */
+  margin-bottom: var(--spacing-4);
+}
+
+.auth-container button[type="submit"].btn { /* Specificity for auth page submit */
+  width: 100%;
+  padding: 0.8rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: var(--border-radius-pill);
+}
+
+@media (max-width: 480px) {
+  .auth-container {
+    padding: var(--spacing-3);
+  }
+  .login-container,
+  .signup-container {
+    padding: var(--spacing-4);
+  }
+  .auth-brand-header {
+    font-size: 2rem;
+  }
+}

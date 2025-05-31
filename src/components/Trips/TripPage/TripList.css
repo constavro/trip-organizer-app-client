@@ -1,90 +1,73 @@
-.trip-list-container {
-    margin-top: 2rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    flex-direction: column;
-  }
-  
-  .trip-list-container h2 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-    color: #333;
-    text-align: center;
-  }
-  
-  .trip-list-container ul {
-    list-style: none;
-    padding-left: 0;
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-  }
-  
-  .trip-card {
-    background-color: #f9f9f9;
-    padding: 1rem 1.25rem;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
-    cursor: pointer;
-    transition: all 0.2s ease;
-  
-    /* Add this */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center; /* optional for aligning text inside elements */
-  }
-  
-  
-  .trip-card:hover {
-    background-color: #eef5ff;
-    border-color: #b3d4fc;
-    transform: translateY(-2px);
-  }
-  
-  .trip-card h4 {
-    margin: 0 0 0.5rem;
-    font-size: 1.1rem;
-    color: #2563eb;
-  }
-  
-  .trip-card p {
-    margin: 0.25rem 0;
-    font-size: 0.95rem;
-    color: #444;
-  }
-  
-  .loading,
-.error {
+/* === components/Trips/TripPage/TripList.css === */
+.trip-list-section { /* Renamed from .trip-list-container for clarity */
+  margin-top: 1rem; /* Reduced from 2rem as filters are above */
+}
+
+.trip-list-section h2 { /* This h2 might be redundant if TripPage has one */
+  /* font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+  text-align: center; */
+}
+
+.trip-list-grid { /* Renamed from .trip-list for clarity */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+  gap: 1.5rem;
+  list-style: none; /* If it was a ul */
+  padding: 0; /* If it was a ul */
+}
+
+.trip-list-section .loading,
+.trip-list-section .error {
   text-align: center;
   margin-top: 2rem;
   font-size: 1.1rem;
-  color: #666;
+  color: var(--text-color-muted);
+}
+.trip-list-section .error {
+  color: var(--error-color);
 }
 
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 2rem;
-  gap: 1rem;
+  margin-top: 2.5rem;
+  gap: 0.75rem;
 }
 
-.pagination button {
+.pagination button { /* Use .btn .btn-outline-primary or similar */
   padding: 0.5rem 1rem;
-  background-color: #f2f2f2;
-  border: none;
-  border-radius: 6px;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  color: var(--primary-color);
+  border-radius: var(--border-radius);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .pagination button:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
-  opacity: 0.6;
+  background-color: #e9ecef;
+  border-color: var(--border-color);
+  color: var(--text-color-muted);
 }
 
 .pagination button:hover:not(:disabled) {
-  background-color: #ddd;
+  background-color: var(--primary-color);
+  color: var(--surface-color);
+  border-color: var(--primary-color);
+}
+
+.pagination span {
+  font-size: 0.95rem;
+  color: var(--text-color-muted);
+}
+
+@media (max-width: 600px) {
+  .trip-list-grid {
+    grid-template-columns: 1fr; /* Single column on small screens */
+  }
 }

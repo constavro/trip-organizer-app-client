@@ -1,38 +1,19 @@
-.App {
-  text-align: center;
-}
+/* === src/App.css === */
+/* Keep this minimal, most styles should be component-specific or global */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+/* Example: If you have a global page wrapper that's not the body */
+/* .page-wrapper {
+  padding-top: 70px; /* If header is fixed and has this height */
+/* } */
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+/* Styles for full-page specific layouts if .App-header is used as such */
+.App-header-fullpage {
+  background-color: #282c34; /* Dark background example */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #2563eb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  color: var(--text-color-light);
 }

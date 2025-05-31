@@ -1,0 +1,163 @@
+/* === src/components/Chat/Chat.css === */
+/* --- AllChatsPage --- */
+.all-chats-page {
+    max-width: 800px;
+    margin: var(--spacing-5) auto;
+    padding: var(--spacing-3);
+  }
+  
+  .all-chats-page h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-5);
+    color: var(--text-color);
+  }
+  
+  .chat-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .chat-list-item {
+    margin-bottom: var(--spacing-3);
+  }
+  
+  .chat-list-item a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  
+  .chat-list-card { /* Inherits from .card */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  .chat-list-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow-lg);
+  }
+  
+  .chat-list-card .chat-title { /* Specific class for title */
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    display: block;
+    margin-bottom: var(--spacing-2);
+  }
+  
+  .chat-list-card .last-message { /* Specific class for last message */
+    margin: var(--spacing-1) 0;
+    font-size: 0.95rem;
+    color: var(--text-color-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .chat-list-card .message-time { /* Specific class for time */
+    font-size: 0.85rem;
+    color: #999;
+    display: block;
+    margin-top: var(--spacing-2);
+  }
+  
+  /* --- ChatPage (ChatRoom & MessageInput) --- */
+  .chat-page-container {
+    max-width: 700px;
+    margin: var(--spacing-5) auto;
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 160px); /* Adjust based on header height + margins */
+    min-height: 500px;
+  }
+  
+  .chat-page-header { /* New element for chat title */
+    padding: var(--spacing-3) var(--spacing-4);
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  
+  .chat-room {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: var(--spacing-4);
+    background-color: #fdfdff;
+  }
+  
+  .message {
+    margin-bottom: var(--spacing-3);
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .message-sender {
+    font-weight: 600;
+    font-size: 0.85rem; /* Smaller sender name */
+    margin-bottom: var(--spacing-1);
+    color: var(--text-color-muted);
+  }
+  
+  .message-content {
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    word-wrap: break-word;
+    box-shadow: var(--box-shadow-sm);
+    line-height: 1.5;
+  }
+  
+  .message.current-user-message { /* Message from the current user */
+    align-self: flex-end;
+    align-items: flex-end;
+  }
+  
+  .message.current-user-message .message-content {
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    border-bottom-right-radius: var(--border-radius-sm); /* Speech bubble */
+  }
+  
+  .message.other-user-message .message-content {
+    background-color: #e9ecef;
+    color: var(--text-color);
+    border-bottom-left-radius: var(--border-radius-sm); /* Speech bubble */
+  }
+  
+  .message-input-container {
+    display: flex;
+    align-items: center; /* Vertically align input and button */
+    padding: var(--spacing-3);
+    border-top: 1px solid var(--border-color);
+    background-color: var(--surface-color);
+  }
+  
+  .message-input-container input[type="text"] {
+    flex-grow: 1;
+    margin-right: var(--spacing-3);
+    border-radius: var(--border-radius-pill);
+  }
+  
+  /* .message-input-container button uses .btn style */
+  
+  @media (max-width: 768px) {
+    .chat-page-container {
+      margin: var(--spacing-3) var(--spacing-2);
+      height: calc(100vh - 120px); /* Adjust for smaller screens */
+      border-radius: var(--border-radius);
+    }
+    .message-input-container input[type="text"] {
+      padding: 0.6rem 0.8rem;
+    }
+    .message-input-container .btn {
+      padding: 0.6rem 1rem;
+    }
+    .message {
+      max-width: 90%;
+    }
+  }

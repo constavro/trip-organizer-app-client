@@ -46,7 +46,7 @@ const TripItineraryStep = ({ formData, setFormData }) => {
     <div className="form-step">
       <h3>Itinerary</h3>
       {formData.itinerary.map((item, index) => (
-        <div key={index}>
+        <div className="itinerary-item" key={index}>
           <input
             name="order"
             placeholder="Order"
@@ -95,12 +95,12 @@ const TripItineraryStep = ({ formData, setFormData }) => {
             value={item.costEstimate || ''}
             onChange={(e) => handleChange(e, index)}
           />
-          <button type="button" onClick={() => removeItineraryItem(index)}>
+          <button className="btn btn-remove-item" type="button" onClick={() => removeItineraryItem(index)}>
             Remove
           </button>
         </div>
       ))}
-      <button type="button" onClick={addItineraryItem}>
+      <button className="btn btn-add-item" type="button" onClick={addItineraryItem}>
         Add Itinerary Item
       </button>
     </div>

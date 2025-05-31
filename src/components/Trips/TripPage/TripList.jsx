@@ -85,11 +85,11 @@ const TripList = ({ searchQuery, selectedCategory, sortOption }) => {
   if (error) return <p className="error">{error}</p>;
 
   return (
-    <div className="trip-list-container">
+    <div className="trip-list-section">
       <h2>Available Trips</h2>
 
       {/* Trip Cards */}
-      <div className="trip-list">
+      <div className="trip-list-grid">
         {trips.length > 0 ? (
           trips.map((trip) => (
             <TripCard
@@ -115,6 +115,7 @@ const TripList = ({ searchQuery, selectedCategory, sortOption }) => {
 const Pagination = ({ currentPage, totalPages, onPageChange }) => (
   <div className="pagination">
     <button
+      className="btn btn-outline-primary"
       onClick={() => onPageChange(currentPage - 1)}
       disabled={currentPage === 1}
       aria-label="Previous Page"
@@ -125,6 +126,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => (
       Page {currentPage} of {totalPages}
     </span>
     <button
+      className="btn btn-outline-primary"
       onClick={() => onPageChange(currentPage + 1)}
       disabled={currentPage === totalPages}
       aria-label="Next Page"

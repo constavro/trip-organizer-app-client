@@ -6,6 +6,7 @@ import TripHost from './TripHost';
 import TripActions from './TripActions';
 import TripItinerary from './TripItinerary';
 import TripParticipants from './TripParticipants';
+import './TripDetails.css'
 // import TripReviews from './TripReviews';
 // import './TripDetails.css';
 
@@ -25,7 +26,11 @@ const TripDetails = () => {
         });
         if (!res.ok) throw new Error('Failed to fetch trip');
         const data = await res.json();
-        setTrip({ ...data, isHost: data.organizer?._id === userId });
+        setTrip({
+          ...data,
+          isHost: data.organizer?._id === userId,
+          isParticipant: data.participants?.some(p => p._id === userId)
+        });
       } catch (err) {
         setError(err.message);
       } finally {
@@ -54,14 +59,16 @@ const TripDetails = () => {
   console.log(trip)
 
   return (
-    <div className="trip-details">
+    <div className="trip-details-container">
       <TripHeader title={trip.title} />
+      <div className="trip-details-content">
       <TripInfo description={trip.description} price={trip.price} departureDate={trip.startDate} />
       <TripItinerary itinerary={trip.itinerary} />
       <TripHost organizer={trip.organizer} />
       <TripParticipants participants={trip.participants} />
-      <TripActions isHost={trip.isHost} tripId={id} />
+      <TripActions isParticipant={trip.isParticipant} isHost={trip.isHost} tripId={id} />
       {/* <TripReviews reviews={reviews} tripId={id} /> */}
+      </div>
     </div>
   );
 };

@@ -10,17 +10,17 @@ const HostTripsList = ({ trips }) => {
   };
 
   return (
-    <div className="trip-list-section">
+    <div className="dashboard-section trip-list-section">
       <h2>Your Trips</h2>
       {trips.length === 0 ? (
         <p>You haven't created any trips.</p>
       ) : (
-        <ul>
+        <ul className="host-trips-grid">
         {trips.map((trip) => (
           <li
             key={trip._id}
             onClick={() => handleTripClick(trip._id)}
-            className="trip-item"
+            className="host-trip-item-card"
             role="button"
             tabIndex="0"
             aria-label={`Go to trip ${trip.title}`}

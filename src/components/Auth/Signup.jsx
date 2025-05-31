@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// No direct CSS import needed
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -8,20 +9,18 @@ function Signup() {
     email: '',
     password: '',
   });
-  const [error, setError] = useState(''); // To show error messages
-  const [loading, setLoading] = useState(false); // To manage loading state
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Handle form input changes dynamically
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear any previous error messages
-    setLoading(true); // Set loading state
+    setError('');
+    setLoading(true);
 
     try {
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/signup`, {
@@ -31,23 +30,26 @@ function Signup() {
         },
         body: JSON.stringify(formData),
       });
-
+      
+      const data = await res.json(); // Parse JSON regardless of res.ok
       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || 'Signup failed');
+        throw new Error(data.message || 'Signup failed');
       }
-      navigate('/'); // Redirect to trips page after successful signup
+      // UX: Navigate to login or show success message before redirecting to landing
+      alert("Signup successful! Please log in."); // Simple alert, could be a styled message
+      navigate('/auth'); // Navigate to auth page so user can login
     } catch (error) {
-      setError(error.message); // Display error message to user
+      setError(error.message);
       console.error('Signup failed:', error);
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
   return (
-    <div className="signup-container">
+    <div className="signup-container card"> {/* Added card class */}
       <h1>Signup</h1>
+      {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="firstName">First Name</label>
@@ -94,11 +96,10 @@ function Signup() {
             value={formData.password}
             onChange={handleChange}
             required
-            placeholder="Enter your password"
+            placeholder="Create a password"
           />
         </div>
-        {error && <p className="error-message">{error}</p>}
-        <button type="submit" disabled={loading}>
+        <button type="submit" className="btn" disabled={loading}> {/* Applied btn class */}
           {loading ? 'Signing up...' : 'Signup'}
         </button>
       </form>

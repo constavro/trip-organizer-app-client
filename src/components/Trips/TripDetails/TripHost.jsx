@@ -5,11 +5,11 @@ const TripHost = ({ organizer }) => {
   if (!organizer) return null;
 
   return (
-    <p>
+    <p className="trip-host-section">
       <strong>Host:</strong>{' '}
       <span
+      className="host-link"
         onClick={() => navigate(`/profile/${organizer._id}`)}
-        style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
       >
         {organizer.firstName} {organizer.lastName}
       </span>

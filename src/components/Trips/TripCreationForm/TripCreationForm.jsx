@@ -115,11 +115,11 @@ const TripCreationForm = () => {
       <StepComponent formData={formData} setFormData={setFormData} />
 
       <div className="form-navigation">
-        {step > 0 && <button onClick={() => setStep(step - 1)}>Previous</button>}
+        {step > 0 && <button className="btn" onClick={() => setStep(step - 1)}>Previous</button>}
         {step < steps.length - 1 ? (
-          <button onClick={handleNext}>Next</button>
+          <button className="btn" onClick={handleNext}>Next</button>
         ) : (
-          <button onClick={handleSubmit} disabled={loading}>
+          <button className="btn" onClick={handleSubmit} disabled={loading}>
             {loading ? 'Saving...' : 'Submit'}
           </button>
         )}
@@ -131,7 +131,7 @@ const TripCreationForm = () => {
       <div className="ai-suggestion-link">
   <p>Need help planning?</p>
   <Link to="/trip-ai-suggestion">
-    <button className="ai-suggestion-button">Get AI Trip Suggestion</button>
+    <button className="btn ai-suggestion-button">Get AI Trip Suggestion</button>
   </Link>
 </div>
 

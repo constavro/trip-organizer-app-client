@@ -1,84 +1,74 @@
-.dashboard-section {
-    margin-top: 2rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    flex-direction: column;
-  }
-  
-  .dashboard-section h2 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-    color: #333;
-  }
-  
-  
-  .dashboard-section ul {
-    list-style: none;
-    padding-left: 0;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    gap: 1rem;
-  }
-  
-  .dashboard-section li {
-    background-color: #f9f9f9;
-    padding: 1rem 1.25rem;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
-    cursor: pointer;
-    transition: all 0.2s ease;
-  
-    /* Add this */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center; /* optional for aligning text inside elements */
-  }
-  
-  .dashboard-section li p {
-    margin: 0.25rem 0;
-    color: #444;
-  }
+/* === components/Users/HostDashboard/BookingList.css === */
+.dashboard-section { /* Common style for sections in dashboard */
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.dashboard-section h2 {
+  font-size: 1.5rem; /* Consistent heading */
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+  text-align: left; /* Or center if preferred */
+}
+
+.bookings-list { /* Changed from ul to a class */
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.booking-item-card { /* Changed from li */
+  padding: 1.25rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: #fdfdfd; /* Slightly off-white for card items */
+}
+.booking-item-card:hover {
+   box-shadow: var(--box-shadow); /* Subtle hover */
+}
 
 
-  .dashboard-section p:hover {
-    background-color: #eef5ff;
-    border-color: #b3d4fc;
-    transform: translateY(-2px);
-  }
-  
-  .booking-buttons {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 0.75rem;
-  }
-  
-  .bookings-button {
-    padding: 0.5rem 1rem;
-    font-size: 0.95rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-  
-  .bookings-button.accept {
-    background-color: #4caf50;
-    color: white;
-  }
-  
-  .bookings-button.accept:hover {
-    background-color: #43a047;
-  }
-  
-  .bookings-button.decline {
-    background-color: #f44336;
-    color: white;
-  }
-  
-  .bookings-button.decline:hover {
-    background-color: #d32f2f;
-  }
-  
+.booking-item-card p {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text-color-muted);
+}
+.booking-item-card p strong {
+  color: var(--text-color);
+}
+.booking-item-card .clickable:hover { /* For user/trip names */
+  text-decoration: underline;
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.booking-buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  justify-content: flex-end; /* Align buttons to right */
+}
+
+/* .bookings-button will use .btn styles */
+.bookings-button.accept { /* Inherits .btn, then .btn-success (new class) */
+  background-color: var(--success-color);
+  border-color: var(--success-color);
+}
+.bookings-button.accept:hover {
+  background-color: #13653f;
+  border-color: #13653f;
+}
+
+.bookings-button.decline { /* Inherits .btn, then .btn-danger */
+  background-color: var(--error-color);
+  border-color: var(--error-color);
+}
+.bookings-button.decline:hover {
+  background-color: #c82333;
+  border-color: #c82333;
+}

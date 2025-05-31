@@ -66,8 +66,8 @@ const TripItinerary = ({ itinerary }) => {
   if (!geographies.length) return <p>Loading map...</p>;
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 p-4">
-      <div className="w-full md:w-2/3 h-[500px]">
+    <div className="trip-itinerary-layout">
+      <div className="itinerary-map-container">
         <ComposableMap
           projection="geoEqualEarth"
           projectionConfig={{ center: mapView.center,scale: 1000}}
@@ -116,19 +116,19 @@ const TripItinerary = ({ itinerary }) => {
       </div>
 
       {/* Timeline */}
-      <div className="w-full md:w-1/3">
-  <div className="relative border-l-2 border-gray-300 pl-4 space-y-6">
+      <div className="itinerary-timeline-container">
+  <div className="itinerary-timeline">
     {itinerary.map((item, index) => (
-      <div key={index} className="relative">
-        <div className="absolute left-[-10px] top-1 w-4 h-4 bg-blue-500 rounded-full border-2 border-white" />
-        <div>
-          <h4 className="font-semibold">{item.location}</h4>
-          <p className="text-sm text-gray-600">
+      <div key={index} className="itinerary-timeline-item">
+        <div className="timeline-marker" />
+        <div className="timeline-item-content">
+          <h4>{item.location}</h4>
+          <p className="dates">
             {new Date(item.startDate).toLocaleDateString()} —{" "}
             {new Date(item.endDate).toLocaleDateString()}
           </p>
           {item.notes && (
-            <p className="text-sm text-gray-500 mt-1">{item.notes}</p>
+            <p className="notes">{item.notes}</p>
           )}
         </div>
       </div>

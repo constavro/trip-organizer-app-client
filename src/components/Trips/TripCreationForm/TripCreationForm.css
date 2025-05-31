@@ -1,235 +1,155 @@
-/* .trip-form-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .trip-form h2 {
-    text-align: center;
-    color: #333;
-  }
-  
-  .trip-form input {
-    width: 100%;
-    margin: 10px 0;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .form-list {
-    margin-bottom: 15px;
-  }
-  
-  .itinerary-item {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 15px;
-  }
-  
-  button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  button[type='button'] {
-    margin-top: 10px;
-    background-color: #008cba;
-  }
-  
-  button[type='button']:hover {
-    background-color: #007bb5;
-  }
-  
-  .error {
-    color: red;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-
-  .progress-container {
-    width: 100%;
-    background: #e0e0e0;
-    border-radius: 5px;
-    height: 10px;
-    margin-top: 20px;
-    position: relative;
-  }
-  
-  .progress-bar {
-    height: 10px;
-    background: #4caf50;
-    border-radius: 5px;
-    transition: width 0.3s ease-in-out;
-  }
-  
-  .progress-text {
-    margin-top: 5px;
-    font-size: 14px;
-    text-align: center;
-    color: #333;
-  }
-
-   */
-
-/* General form container */
+/* === components/Trips/TripCreationForm/TripCreationForm.css === */
 .trip-form-container {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  font-family: 'Arial', sans-serif;
+  max-width: 700px; /* Increased max-width for better layout */
+  margin: 2rem auto; /* Centered with margin */
+  padding: 2.5rem; /* Increased padding */
+  background: var(--surface-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-lg);
 }
 
-/* Title */
 .trip-form-container h2 {
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
+  margin-bottom: 2rem;
+  font-size: 1.75rem;
+  color: var(--text-color);
 }
 
-/* Error message */
-.error {
-  color: red;
-  font-size: 14px;
-  text-align: center;
+.trip-form-container .error { /* Uses global error-message style */
+  margin-bottom: 1.5rem;
 }
 
-/* Form fields */
-.trip-form input {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 16px;
-  transition: all 0.3s ease-in-out;
+.form-step {
+  margin-bottom: 2rem; /* Space between step content and navigation */
 }
 
-.trip-form input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-  outline: none;
+.form-step h3 { /* For step titles like "Trip Description" */
+  font-size: 1.3rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
-/* Form lists (inclusions & exclusions) */
-.form-list {
-  margin-top: 15px;
+.form-step label { /* For individual input labels */
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-color-muted);
+}
+.form-step input, .form-step textarea, .form-step select {
+  margin-bottom: 1rem; /* Space below each input in a step */
+}
+
+/* List item styling (inclusions, exclusions, tags) */
+.list-item-group { /* Wrapper for a list of items (e.g., all inclusions) */
+  margin-bottom: 1.5rem;
+}
+.list-item-group h4 { /* For "Inclusions", "Exclusions" titles */
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
 }
 
 .list-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .list-item input {
   flex-grow: 1;
+  margin-bottom: 0; /* Override default margin for inputs in a list item */
 }
 
-.list-item button {
-  background: #ff4d4d;
+.list-item .btn-remove-item, /* Specific class for remove buttons in lists */
+.itinerary-item .btn-remove-item {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  background-color: var(--error-color);
   color: white;
   border: none;
-  padding: 8px;
+  border-radius: var(--border-radius);
   cursor: pointer;
-  border-radius: 5px;
+  line-height: 1.2; /* Adjust line height for smaller buttons */
+}
+.list-item .btn-remove-item:hover,
+.itinerary-item .btn-remove-item:hover {
+  background-color: #c82333; /* Darker red on hover */
 }
 
-.list-item button:hover {
-  background: #cc0000;
+.btn-add-item { /* For "+ Add Inclusion", "+ Add Tag" buttons */
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  background-color: var(--secondary-color);
+  border: none;
+  margin-top: 0.5rem; /* Space above add button */
 }
+.btn-add-item:hover {
+  background-color: #4791e8; /* Darker shade of secondary */
+}
+
 
 /* Itinerary styling */
 .itinerary-item {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background: #f9f9f9;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  background: #f8f9fa; /* Light background for each itinerary item */
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1.5rem;
+  border: 1px solid #e9ecef;
+}
+.itinerary-item input, .itinerary-item textarea, .itinerary-item select {
+  margin-bottom: 0.75rem; /* Smaller margin within itinerary item */
+}
+.itinerary-item .btn-remove-item { /* Position remove button for itinerary item */
+  margin-top: 0.5rem;
+  align-self: flex-start; /* If parent is flex */
 }
 
-.itinerary-item button {
-  align-self: flex-start;
-  background: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.itinerary-item button:hover {
-  background: #cc0000;
-}
 
 /* Navigation Buttons */
 .form-navigation {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 2.5rem; /* More space before navigation */
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
 }
-
-.form-navigation button {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.3s;
-}
-
-.form-navigation button:hover {
-  background: #0056b3;
-}
-
-.form-navigation button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
+/* .form-navigation button will use .btn styles */
 
 /* Progress Bar */
 .progress-container {
   width: 100%;
-  background: #e0e0e0;
-  border-radius: 8px;
-  margin-top: 20px;
-  height: 8px;
-  position: relative;
+  background: #e9ecef; /* Lighter background for progress bar track */
+  border-radius: 50px; /* Fully rounded track */
+  margin-top: 1.5rem;
+  height: 10px;
+  overflow: hidden; /* Ensure progress bar stays within rounded track */
 }
 
 .progress-bar {
   height: 100%;
-  background: #007bff;
-  border-radius: 8px;
+  background: var(--primary-color);
+  border-radius: 50px; /* Match track rounding */
   transition: width 0.4s ease-in-out;
 }
 
-/* Progress Text */
-.progress-text {
+/* AI Suggestion Link */
+.ai-suggestion-link {
+  margin-top: 2rem;
   text-align: center;
-  font-size: 14px;
-  margin-top: 5px;
-  color: #666;
+}
+.ai-suggestion-link p {
+  margin-bottom: 0.5rem;
+  color: var(--text-color-muted);
+}
+.ai-suggestion-button { /* Style like .btn .btn-outline-primary */
+  color: var(--primary-color);
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+}
+.ai-suggestion-button:hover {
+  color: var(--surface-color);
+  background-color: var(--primary-color);
 }

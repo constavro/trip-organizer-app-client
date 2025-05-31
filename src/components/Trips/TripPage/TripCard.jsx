@@ -1,8 +1,8 @@
 import './TripCard.css'
 
 const TripCard = ({ trip, onClick }) => (
-    <div
-      className="trip-card"
+  <div className="trip-card-wrapper">
+    <div className="card trip-card"
       onClick={() => onClick(trip._id)}
       role="button"
       tabIndex="0"
@@ -15,6 +15,7 @@ const TripCard = ({ trip, onClick }) => (
       <p><strong>Start Date:</strong> {new Date(trip.startDate).toLocaleDateString()}</p>
       <p><strong>End Date:</strong> {new Date(trip.endDate).toLocaleDateString()}</p>
       {trip.organizer && <p><strong>Organizer:</strong> {trip.organizer.firstName} {trip.organizer.lastName}</p>}
+    </div>
     </div>
   );
 

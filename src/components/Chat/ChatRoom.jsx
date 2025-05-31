@@ -1,54 +1,82 @@
 import React, { useEffect, useState, useRef } from 'react';
 import socket from './socket';
+// No direct CSS import needed, Chat.css covers it
 
-const ChatRoom = ({ tripId, user }) => {
+const ChatRoom = ({ tripId, currentUserId }) => { // Changed prop name
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const messagesEndRef = useRef(null);
 
-  // Fetch the existing messages from the backend
   useEffect(() => {
     const fetchMessages = async () => {
+      setLoading(true);
+      setError('');
       try {
+        // Ensure API endpoint matches backend and includes auth if necessary
         const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/chat/user/${tripId}`);
+        if (!res.ok) {
+            const errData = await res.json();
+            throw new Error(errData.message || 'Failed to fetch messages');
+        }
         const data = await res.json();
-        setMessages(data.messages); // Assuming the response contains an array of messages
+        // Assuming data is the array of messages, or data.messages
+        setMessages(data.messages);
       } catch (err) {
+        setError(err.message || 'Error fetching messages');
         console.error('Error fetching messages:', err);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchMessages();
-  }, [tripId]); // Fetch messages when tripId changes
+    if (tripId) {
+      fetchMessages();
+    }
+  }, [tripId]);
 
-  // Set up socket connection to join the chat room and listen for new messages
   useEffect(() => {
-    socket.emit('joinRoom', tripId); // Join the room for the specific trip
+    if (!tripId) return;
 
-    // Listen for new messages from the socket server
-    socket.on('newMessage', (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]); // Add new message to state
-    });
+    socket.emit('joinRoom', tripId);
 
-    // Cleanup when the component unmounts or tripId changes
+    const handleNewMessage = (message) => {
+      // Ensure message has a unique key if possible, otherwise use index or a generated ID
+      // Also check if the message belongs to the current tripId if socket broadcasts globally
+      if (message.tripId === tripId || !message.tripId) { // Add check if message contains tripId
+         setMessages((prevMessages) => [...prevMessages, { ...message, _id: message._id || Date.now() + Math.random() }]);
+      }
+    };
+    socket.on('newMessage', handleNewMessage);
+
     return () => {
-      socket.emit('leaveRoom', tripId); // Leave the room when the component unmounts
-      socket.off('newMessage'); // Remove the listener
+      socket.emit('leaveRoom', tripId);
+      socket.off('newMessage', handleNewMessage);
     };
   }, [tripId]);
 
-  // Scroll to the latest message
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  if (loading) return <p className="loading-message">Loading messages...</p>;
+  if (error) return <p className="error-message">{error}</p>; // Display error within chat area
+
   return (
-    <div style={{ maxHeight: 400, overflowY: 'auto', border: '1px solid gray', padding: 10 }}>
-      {messages.map((msg, idx) => (
-        <div key={idx}>
-          <strong>{msg.sender?.firstName || 'Unknown'}:</strong> {msg.content}
+    <div className="chat-room" role="log" aria-live="polite">
+      {messages.length === 0 && !loading && <p className="empty-state-message">No messages yet. Be the first to say hello!</p>}
+      {messages.map((msg) => (
+        <div
+          key={msg._id || msg.tempId || msg.timestamp} // Prefer _id from DB, use tempId or timestamp as fallback
+          className={`message ${msg.sender._id === currentUserId ? 'current-user-message' : 'other-user-message'}`}
+        >
+          <span className="message-sender">
+            {msg.sender?.firstName || msg.senderName || 'User'} {/* Adapt based on sender info structure */}
+          </span>
+          <div className="message-content">{msg.content || msg.text}</div> {/* Adapt based on content field */}
         </div>
       ))}
-      <div ref={messagesEndRef} /> {/* Scroll to the end of messages */}
+      <div ref={messagesEndRef} />
     </div>
   );
 };

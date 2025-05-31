@@ -1,26 +1,23 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+// No direct CSS import needed if Auth.css covers it
 
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const [error, setError] = useState(''); // For displaying login errors
-  const [loading, setLoading] = useState(false); // To manage button state
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Handle form inputs dynamically
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
-    setLoading(true); // Set loading state
+    setError('');
+    setLoading(true);
 
     try {
-      console.log(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`)
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
@@ -29,26 +26,26 @@ function Login() {
         body: JSON.stringify(formData),
       });
 
+      const data = await res.json(); // Parse JSON regardless of res.ok
       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || 'Something went wrong');
+        throw new Error(data.message || 'Something went wrong');
       }
 
-      const data = await res.json();
-      localStorage.setItem('token', data.token); // Store JWT token in localStorage
-      localStorage.setItem('userId', data.user.id); // Store userId in localStorage
-      navigate('/trips'); // Redirect to trips page
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('userId', data.user.id);
+      navigate('/trips');
     } catch (error) {
-      setError(error.message); // Display error message to the user
+      setError(error.message);
       console.error('Login failed:', error);
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
   return (
-    <div className="login-container">
+    <div className="login-container card"> {/* Added card class for consistency */}
       <h1>Login</h1>
+      {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email</label>
@@ -74,8 +71,7 @@ function Login() {
             placeholder="Enter your password"
           />
         </div>
-        {error && <p className="error-message">{error}</p>}
-        <button type="submit" disabled={loading}>
+        <button type="submit" className="btn" disabled={loading}> {/* Applied btn class */}
           {loading ? 'Logging in...' : 'Login'}
         </button>
       </form>

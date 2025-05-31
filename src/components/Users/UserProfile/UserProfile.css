@@ -1,159 +1,70 @@
-.user-profile-container {
+/* === components/Users/UserProfile/UserProfile.css === */
+.user-profile-page-container { /* Renamed from .user-profile-container for clarity */
   max-width: 900px;
   margin: 2rem auto;
-  padding: 2rem;
-  background-color: #f9fafb;
-  border-radius: 1rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0; /* Padding will be on inner .card */
+  background-color: transparent; /* Page background is already light gray */
+  border-radius: var(--border-radius);
+  /* box-shadow: var(--box-shadow-lg); Removed, card will have shadow */
 }
 
-.profile-header {
+.user-profile-card { /* New: Wrap all content in a card */
+    background-color: var(--surface-color);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-lg);
+}
+
+.profile-actions-header { /* Renamed from .profile-header for clarity */
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap; /* Allow buttons to wrap */
+  justify-content: center; /* Center buttons */
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  gap: 1rem;
 }
 
-.profile-header h2 {
+/* .profile-actions-header h2 {
   font-size: 2rem;
-  color: #1f2937;
-}
-
-
-  /* Buttons */
-  .profile-actions {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    padding: 1.5rem 0;
-  }
-  
-  .profile-actions button {
-    padding: 0.5rem 1.2rem;
-    border: 1px solid #2563eb;
-    background-color: white;
-    color: #2563eb;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 0.95rem;
-    transition: background 0.2s ease-in-out;
-  }
-  
-  .profile-actions button:hover {
-    background-color: #2563eb;
-    color: white;
-  }
-
-  
-  /* padding: 0.6rem 1.5rem;
-  border-radius: 25px;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #374151;
-  background-color: transparent;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
+  color: var(--text-color);
+  margin-bottom: 0;
 } */
+/* H2 can be outside this div or styled separately */
 
-/* .btn {
-  padding: 0.5rem 1.2rem;
-  font-size: 0.95rem;
-  background-color: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.btn.secondary {
-  background-color: #4b5563;
-}
-
-.btn:hover {
-  background-color: #1d4ed8;
-}
-
-.btn.secondary:hover {
-  background-color: #374151;
-}
-
-.btn.danger {
-  background-color: #dc2626;
-}
-
-.btn.danger:hover {
-  background-color: #b91c1c;
-} */
-
+/* .profile-actions button will use .btn styles */
+/* Example: .btn, .btn-secondary, .btn-danger */
 
 .profile-content {
-  margin-top: 2rem;
+  margin-top: 1rem; /* Reduced as actions header has bottom margin */
 }
 
-.error-message {
-  color: #dc2626;
-  text-align: center;
-  margin-top: 1rem;
-}
+/* Error/Status messages use global styles */
 
-.status-message {
-  text-align: center;
-  font-size: 1.1rem;
-  color: #6b7280;
-  margin-top: 2rem;
-}
-
-
-.change-password-form {
+/* ChangePasswordForm styling (if not in its own file) */
+.change-password-form-section { /* Wrapper for the form */
   max-width: 500px;
-  margin: 2rem auto;
+  margin: 2rem auto; /* Center the form */
   padding: 2rem;
-  background: white;
-  border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--surface-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--border-color); /* Softer than full shadow */
 }
 
-.change-password-form h3 {
+.change-password-form-section h3 {
   font-size: 1.5rem;
-  color: #1f2937;
-  margin-bottom: 1rem;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
   text-align: center;
 }
 
-.form-group {
+.change-password-form-section .form-group { /* From global styles */
   margin-bottom: 1.5rem;
 }
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #374151;
-  font-weight: 500;
+.change-password-form-section .form-group label {
+  font-weight: 600;
 }
-
-.form-group input {
-  width: 100%;
-  padding: 0.6rem 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border 0.3s ease;
-}
-
-.form-group input:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-}
-
-.success-message {
-  color: #16a34a;
-  margin-bottom: 1rem;
-  text-align: center;
-  font-weight: 500;
-}
+/* Inputs inherit global styles */
+/* Button inherits .btn */

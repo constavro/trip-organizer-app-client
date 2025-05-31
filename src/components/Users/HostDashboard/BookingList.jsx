@@ -20,20 +20,20 @@ const BookingList = ({ bookings, onAction }) => {
       {bookings.length === 0 ? (
         <p>No pending bookings</p>
       ) : (
-        <ul>
+        <ul className="bookings-list">
           {bookings.map(booking => (
-            <li key={booking._id}>
-              <p onClick={() => handleUserClick(booking.user._id)}><strong>User:</strong> {booking.user.firstName} {booking.user.lastName}</p>
-              <p onClick={() => handleTripClick(booking.trip._id)}><strong>Trip:</strong> {booking.trip.title}</p>
+            <li className="booking-item-card" key={booking._id}>
+              <p className="clickable" onClick={() => handleUserClick(booking.user._id)}><strong>User:</strong> {booking.user.firstName} {booking.user.lastName}</p>
+              <p className="clickable" onClick={() => handleTripClick(booking.trip._id)}><strong>Trip:</strong> {booking.trip.title}</p>
               <div className="booking-buttons">
   <button
-    className="bookings-button accept"
+    className="btn bookings-button accept"
     onClick={() => onAction(booking._id, 'accepted')}
   >
     Accept
   </button>
   <button
-    className="bookings-button decline"
+    className="btn bookings-button decline"
     onClick={() => onAction(booking._id, 'declined')}
   >
     Decline

@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import {useNavigate} from "react-router-dom";
-import "./LandingPage.css";
+import "./Shared.css";
 
 const LandingPage = () => {
   const navigate = useNavigate();

@@ -17,12 +17,12 @@ const ProfilePhotos = ({ photos }) => {
             onMouseEnter={() => setHovered(photo)}
             onMouseLeave={() => setHovered(null)}
           >
-            <img src={`${process.env.REACT_APP_BACKEND_URL}${photo}`} alt="User upload" />
+            <img src={`${photo}`} alt="User upload" />
           </div>
         ))}
         {hovered && (
           <div className="photo-preview">
-            <img src={`${process.env.REACT_APP_BACKEND_URL}${hovered}`} alt="Preview" />
+            <img src={`${hovered}`} alt="Preview" />
           </div>
         )}
       </div>

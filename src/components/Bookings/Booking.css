@@ -1,45 +1,43 @@
-.booking-form-container {
-  margin-top: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  flex-direction: column;
+/* === src/components/Bookings/BookingForm.css === */
+.booking-form-container { /* This is now the card */
+  max-width: 600px;
+  margin: var(--spacing-5) auto;
+  /* padding, background, border-radius, shadow inherited from .card */
 }
 
 .booking-form-container h2 {
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
-  color: #333;
+  /* font-size: 1.75rem; */ /* Inherited from global h2 */
+  margin-bottom: var(--spacing-4);
+  color: var(--text-color);
+  text-align: center;
 }
 
-.booking-form-container p {
-  margin-bottom: 0.75rem;
+.booking-form-details p { /* Specific class for details paragraph */
+  margin-bottom: var(--spacing-3);
+  line-height: 1.7;
+  color: var(--text-color-muted);
 }
 
-.booking-form-container button {
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  background-color: #0077cc;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s ease;
+.booking-form-details p strong {
+  color: var(--text-color);
 }
 
-.booking-form-container button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
+.booking-form-container form {
+  margin-top: var(--spacing-5);
+  text-align: center;
 }
 
-.booking-form-container button:hover:not(:disabled) {
-  background-color: #005fa3;
+/* Button uses .btn from index.css */
+
+.booking-form-container .success-message, /* Uses global styles */
+.booking-form-container .error-message {
+  margin-top: var(--spacing-4);
+  text-align: center;
+  font-weight: 500;
 }
 
-.success {
-  color: green;
-  margin-top: 1rem;
-}
-
-.error {
-  color: red;
-  margin-top: 1rem;
+.loading-message { /* For the "Loading trip details..." */
+    text-align: center;
+    padding: var(--spacing-5);
+    color: var(--text-color-muted);
 }

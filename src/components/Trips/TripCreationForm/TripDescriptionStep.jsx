@@ -65,17 +65,19 @@ const TripDescriptionStep = ({ formData, setFormData }) => {
       {['inclusions', 'exclusions'].map((type) => (
         <div key={type}>
           <h4>{type.charAt(0).toUpperCase() + type.slice(1)}</h4>
+          <div className="list-item-group">
           {formData.description[type].map((item, idx) => (
-            <div key={idx}>
+            <div className="list-item" key={idx}>
               <input
                 value={item}
                 onChange={(e) => handleListChange(type, idx, e.target.value)}
                 placeholder={`${type.slice(0, -1)} ${idx + 1}`}
               />
-              <button type="button" onClick={() => removeListItem(type, idx)}>X</button>
+              <button className="btn btn-remove-item" type="button" onClick={() => removeListItem(type, idx)}>X</button>
             </div>
           ))}
-          <button type="button" onClick={() => addListItem(type)}>
+          </div>
+          <button className="btn btn-add-item" type="button" onClick={() => addListItem(type)}>
             + Add {type.slice(0, -1)}
           </button>
         </div>

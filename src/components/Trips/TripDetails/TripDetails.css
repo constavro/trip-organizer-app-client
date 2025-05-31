@@ -1,0 +1,191 @@
+/* === components/Trips/TripDetails/TripDetails.css === */
+.trip-details-container { /* Changed from .trip-details */
+    max-width: 900px;
+    margin: 2rem auto;
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-lg);
+    overflow: hidden; /* To contain child elements */
+  }
+  
+  .trip-details-header { /* For TripHeader.jsx */
+    padding: 2rem;
+    background-color: var(--primary-color); /* Example: Header with primary color */
+    color: var(--surface-color);
+    text-align: center;
+  }
+  .trip-details-header h1 {
+    margin: 0;
+    font-size: 2.25rem;
+  }
+  
+  .trip-details-content {
+    padding: 2rem;
+  }
+  
+  .trip-info-section p, /* For TripInfo.jsx */
+  .trip-host-section p { /* For TripHost.jsx */
+    margin-bottom: 0.75rem;
+    line-height: 1.7;
+    color: var(--text-color-muted);
+  }
+  .trip-info-section strong,
+  .trip-host-section strong {
+    color: var(--text-color);
+  }
+  .trip-host-section .host-link { /* Class for the clickable host name */
+    color: var(--primary-color);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  /* TripItinerary.jsx Styling (Replaces Tailwind-like classes) */
+  .trip-itinerary-layout {
+    display: flex;
+    flex-direction: column; /* Default for mobile */
+    gap: 1.5rem; /* Replaces gap-6 */
+    padding: 1rem 0; /* Replaces p-4 (applied on parent) */
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  .itinerary-map-container {
+    width: 100%; /* Replaces w-full */
+    min-height: 300px; /* Ensure map has height */
+    max-height: 500px; /* Replaces h-[500px] */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+  }
+  .itinerary-map-container .composable-map { /* Target react-simple-maps specific class if needed */
+      width: 100%;
+      height: 100%;
+  }
+  
+  
+  .itinerary-timeline-container {
+    width: 100%; /* Replaces w-full */
+  }
+  
+  .itinerary-timeline {
+    position: relative;
+    border-left: 2px solid var(--border-color); /* Replaces border-gray-300 */
+    padding-left: 1.5rem; /* Replaces pl-4 */
+  }
+  .itinerary-timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem; /* Replaces space-y-6 indirectly */
+  }
+  .itinerary-timeline-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .timeline-marker {
+    position: absolute;
+    left: -21px; /* Adjust to center on the line: -(marker_width/2 + border_width) */
+    top: 4px;    /* Adjust for vertical alignment */
+    width: 16px;   /* Replaces w-4 */
+    height: 16px;  /* Replaces h-4 */
+    background-color: var(--primary-color); /* Replaces bg-blue-500 */
+    border-radius: 50%; /* Replaces rounded-full */
+    border: 2px solid var(--surface-color); /* Replaces border-white */
+  }
+  
+  .timeline-item-content h4 {
+    font-weight: 600; /* Replaces font-semibold */
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-color);
+  }
+  .timeline-item-content .dates,
+  .timeline-item-content .notes {
+    font-size: 0.9rem; /* Replaces text-sm */
+    color: var(--text-color-muted); /* Replaces text-gray-600/500 */
+    margin-bottom: 0.25rem;
+  }
+  .timeline-item-content .notes {
+    margin-top: 0.25rem; /* Replaces mt-1 */
+  }
+  
+  
+  @media (min-width: 768px) { /* Replaces md: prefix */
+    .trip-itinerary-layout {
+      flex-direction: row;
+    }
+    .itinerary-map-container {
+      width: 66.666667%; /* Replaces md:w-2/3 */
+    }
+    .itinerary-timeline-container {
+      width: 33.333333%; /* Replaces md:w-1/3 */
+    }
+  }
+  
+  /* TripParticipants.jsx Styling */
+  .trip-participants-section {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+  .trip-participants-section strong {
+    display: block;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+  }
+  .participants-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .participant-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    transition: background-color 0.2s ease;
+  }
+  .participant-item:hover {
+    background-color: #f1f3f5;
+  }
+  .participant-item img {
+    width: 40px; /* Increased size */
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+  }
+  .participant-item span {
+    color: var(--primary-color);
+    font-size: 0.95rem;
+    text-decoration: underline;
+  }
+  
+  /* TripActions.jsx Styling */
+  .trip-actions-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center; /* Center buttons */
+  }
+  /* .trip-actions-section .btn will use global .btn styles */
+  .trip-actions-section .btn-edit { /* Example specific button */
+    /* Add if needed */
+  }
+  .trip-actions-section .btn-delete { /* Inherits from .btn .btn-danger */
+    /* Add if needed */
+  }
+  
+  /* TripReviews.jsx - if used */
+  .reviews-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+  .reviews-section h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }

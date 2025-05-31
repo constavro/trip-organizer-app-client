@@ -83,9 +83,10 @@ const UserProfile = () => {
   const user = profileData.user.user;
 
   return (
-    <div className="user-profile-container">
+    <div className="user-profile-page-container">
+      <div className="user-profile-card">
         {loggedInUserId === userId && (
-          <div className="profile-actions">
+          <div className="profile-actions-header">
             <button className="btn" onClick={() => setIsEditing(!isEditing)}>
               {isEditing ? 'Cancel' : 'Edit Profile'}
             </button>
@@ -110,6 +111,7 @@ const UserProfile = () => {
         ) : (
           <ProfileDetails user={user} createdTrips={profileData.createdTrips} />
         )}
+      </div>
       </div>
     </div>
   );

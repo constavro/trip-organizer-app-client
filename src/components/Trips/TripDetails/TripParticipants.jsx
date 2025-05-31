@@ -8,14 +8,14 @@ const TripParticipants = ({ participants }) => {
   if (!participants || participants.length === 0) return null;
 
   return (
-    <div style={{ marginTop: '1rem' }}>
+    <div className="trip-participants-section">
       <strong>Participants:</strong>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginTop: '0.5rem' }}>
+      <div className="participants-list">
         {participants.map((user) => (
           <div
+            className="participant-item"
             key={user._id}
             onClick={() => navigate(`/profile/${user._id}`)}
-            style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
           >
             <img
               src={user.profilePicture || '/default-avatar.png'}

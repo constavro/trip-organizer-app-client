@@ -1,86 +1,37 @@
-.trip-list-section {
-  margin-top: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  display: flex;
-  flex-direction: column;
-}
+/* === components/Users/HostDashboard/HostTripsList.css === */
+/* .trip-list-section reuses .dashboard-section from BookingList.css */
 
-.trip-list-section h2 {
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
-  color: #333;
-}
-
-.trip-list-section ul {
+.host-trips-grid { /* Changed from ul */
   list-style: none;
-  padding-left: 0;
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 1rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
 }
 
-.trip-list-section ul::-webkit-scrollbar {
-  height: 6px;
-}
-
-.trip-list-section ul::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 10px;
-}
-
-.trip-item {
-  background-color: #f9f9f9;
-  padding: 1rem 1.25rem;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+.host-trip-item-card { /* Changed from .trip-item */
+  padding: 1.25rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: #fdfdfd;
   cursor: pointer;
-  transition: all 0.2s ease;
-
-  min-width: 250px;
-  max-width: 300px;
-  flex: 0 0 auto;
-  scroll-snap-align: start;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   text-align: center;
 }
 
-.trip-item:hover {
-  background-color: #eef5ff;
-  border-color: #b3d4fc;
-  transform: translateY(-2px);
+.host-trip-item-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--box-shadow);
 }
 
-.trip-item h4 {
-  margin: 0 0 0.5rem;
-  font-size: 1.1rem;
-  color: #2563eb;
+.host-trip-item-card h4 {
+  margin: 0 0 0.75rem;
+  font-size: 1.2rem;
+  color: var(--primary-color);
 }
 
-.trip-item p {
+.host-trip-item-card p {
   margin: 0.25rem 0;
-  font-size: 0.95rem;
-  color: #444;
-}
-
-/* On larger screens, wrap into rows instead of scrolling */
-@media (min-width: 768px) {
-  .trip-list-section ul {
-    flex-wrap: wrap;
-    overflow-x: visible;
-    justify-content: flex-start;
-  }
-
-  .trip-item {
-    flex: 1 1 30%;
-    max-width: none;
-  }
+  font-size: 0.9rem;
+  color: var(--text-color-muted);
 }

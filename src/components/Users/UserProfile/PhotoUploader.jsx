@@ -2,7 +2,7 @@
 import React, { useRef } from 'react';
 import './ProfilePhotoUploader.css';
 
-const PhotoUploader = ({ onUpload }) => {
+const PhotoUploader = ({ onUpload, endpoint = '/api/users/upload-photo' }) => { // Added endpoint prop for flexibility
   const fileInputRef = useRef();
 
   const handleFileChange = async (e) => {
@@ -14,24 +14,31 @@ const PhotoUploader = ({ onUpload }) => {
 
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/upload-photo`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}${endpoint}`, { // Use endpoint prop
         method: 'POST',
         headers: {
-          Authorization: token,
+          Authorization: token, // Assuming token is 'Bearer <your_token>' format if backend expects it
         },
         body: formData,
       });
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || 'Upload failed');
-      }
+      const responseData = await res.json(); // Always parse JSON first
 
-      const { path } = await res.json();
-      onUpload(path);
+      if (!res.ok) {
+        throw new Error(responseData.message || responseData.error || 'Upload failed');
+      }
+      
+      // The backend now returns the full Azure URL in 'path'
+      onUpload(responseData.path); 
 
     } catch (err) {
-      alert(err.message);
+      console.error('Upload error:', err);
+      alert(err.message || 'An error occurred during upload.');
+    } finally {
+      // Clear the file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 

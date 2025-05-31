@@ -7,7 +7,7 @@ const CreateTripButton = () => {
 
   return (
     <div className="create-trip-button-container">
-      <button className="create-trip-button" onClick={() => navigate('/createtrip')}>
+      <button className="btn create-trip-button" onClick={() => navigate('/createtrip')}>
         Create New Trip
       </button>
     </div>

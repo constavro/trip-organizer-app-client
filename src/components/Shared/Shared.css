@@ -1,0 +1,252 @@
+/* === src/components/Shared/Shared.css === */
+/* --- Header Styles (from previous Header.css section) --- */
+.app-header { /* Changed from .header to avoid global conflicts */
+    background: linear-gradient(to right, #ebf8ff, var(--surface-color));
+    padding: var(--spacing-3) var(--spacing-4);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .brand-title a {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+  
+  .navbar-tabs {
+    display: flex;
+    gap: var(--spacing-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .navbar-tabs .tab.btn { /* Tabs use .btn .btn-outline-primary style */
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: var(--border-radius-pill);
+    /* color, background, border inherited from .btn-outline-primary */
+  }
+  
+  .navbar-tabs .tab.btn.active {
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    border-color: var(--primary-color);
+  }
+  
+  .profile-menu {
+    position: relative;
+  }
+  
+  .profile-icon-button { /* Changed from .profile-icon for clarity */
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-color-muted);
+    padding: var(--spacing-2);
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .profile-icon-button:hover, .profile-icon-button:focus {
+    background-color: #e9ecef;
+    color: var(--primary-color);
+    outline: none;
+  }
+  
+  .profile-dropdown {
+    position: absolute;
+    top: calc(100% + var(--spacing-2));
+    right: 0;
+    background: var(--surface-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-lg);
+    padding: var(--spacing-2) 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px; /* Wider dropdown */
+    z-index: 1010;
+    border: 1px solid var(--border-color);
+  }
+  
+  .profile-dropdown-item { /* Class for links/buttons in dropdown */
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 0.95rem;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    padding: 0.6rem 1.2rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    width: 100%; /* Make items take full width */
+    display: block; /* Ensure block behavior */
+  }
+  
+  .profile-dropdown-item:hover {
+    background-color: #f1f3f5;
+    color: var(--primary-color);
+  }
+  
+  @media (max-width: 768px) {
+    .header-content {
+      flex-direction: column;
+      align-items: stretch; /* Stretch items */
+      gap: var(--spacing-3);
+    }
+    .brand-title {
+      text-align: center; /* Center brand on mobile */
+    }
+    .navbar-tabs {
+      order: 1;
+      width: 100%;
+      justify-content: space-around;
+      margin-bottom: var(--spacing-2);
+    }
+    .profile-menu {
+      position: static; /* Static position on mobile for simplicity */
+      align-self: center; /* Center profile menu on mobile */
+    }
+    .profile-dropdown {
+      right: auto; /* Allow dropdown to position naturally */
+      left: 50%;
+      transform: translateX(-50%); /* Center dropdown */
+      width: 90%;
+      max-width: 250px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .navbar-tabs .tab.btn {
+      padding: 0.5rem 0.8rem;
+      font-size: 0.85rem;
+    }
+  }
+  
+  /* --- LandingPage Styles (from previous LandingPage.css section) --- */
+  .landing-container {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #ebf8ff, var(--surface-color));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  
+  .landing-header {
+    width: 100%;
+    max-width: 1200px; /* Consistent with Header.css */
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-between; /* This was missing, assuming you want space between title and button */
+    align-items: center;
+    margin-bottom: 3rem; /* Space below header */
+  }
+  
+  .landing-header .brand-title { /* Scoped brand-title */
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+  /* .landing-page-header .btn uses global .btn */
+  
+  .landing-main {
+    text-align: center;
+    margin-top: 2rem; /* Adjusted margin */
+    max-width: 800px; /* Slightly wider for impact */
+  }
+  
+  .main-title {
+    font-size: 3.5rem; /* Larger title */
+    font-weight: 700; /* Bolder */
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+  }
+  
+  .main-description {
+    font-size: 1.25rem; /* Larger description */
+    color: var(--text-color-muted);
+    margin-bottom: 2.5rem;
+    max-width: 600px; /* Constrain line length */
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .main-btn { /* Specific styling for main CTA if needed */
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+    border-radius: 50px;
+  }
+  
+  .features-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-5);
+    margin-top: var(--spacing-7);
+    max-width: 1100px;
+    width: 100%;
+  }
+  
+  @media (min-width: 768px) {
+    .features-section {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* auto-fit for responsiveness */
+    }
+  }
+  
+  .feature-card {
+    background: var(--surface-color);
+    padding: 2rem; /* Increased padding */
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow-lg);
+  }
+  
+  .feature-icon {
+    font-size: 3rem; /* Example if you add icons to features */
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-3);
+  }
+  
+  .feature-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-2);
+  }
+  
+  .feature-description {
+    font-size: 1rem;
+    color: var(--text-color-muted);
+    line-height: 1.7;
+  }
+  
+
+  @media (max-width: 768px) {
+    .landing-main-title {
+      font-size: 2.5rem;
+    }
+    .landing-main-description {
+      font-size: 1.1rem;
+    }
+  }

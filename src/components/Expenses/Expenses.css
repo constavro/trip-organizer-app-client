@@ -1,0 +1,139 @@
+/* === src/components/Expenses/Expenses.css === */
+.expenses-page-container {
+    max-width: 900px;
+    margin: var(--spacing-5) auto;
+    padding: var(--spacing-3); /* Overall page padding */
+  }
+  
+  .expenses-page-container h2 { /* Page title */
+    text-align: center;
+    margin-bottom: var(--spacing-5);
+    color: var(--text-color);
+  }
+  
+  /* --- AllExpensesPage --- */
+  .balances-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .balances-list-item a { /* Style for the link within the list item */
+    display: block;
+    padding: var(--spacing-3) var(--spacing-4);
+    margin-bottom: var(--spacing-3);
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    color: var(--text-color);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--box-shadow-sm);
+  }
+  
+  .balances-list-item a:hover {
+    background-color: #f1f3f5; /* Slightly lighter hover */
+    color: var(--primary-color);
+    box-shadow: var(--box-shadow);
+  }
+  .balances-list-item .balance-amount { /* Class for the balance part */
+      font-weight: 600;
+      color: var(--primary-color);
+  }
+  
+  /* --- TripExpensesPage --- */
+  .trip-expenses-content-grid { /* Changed from .trip-expenses-content for clarity */
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-5);
+  }
+  
+  @media (min-width: 992px) { /* Changed breakpoint for two columns */
+    .trip-expenses-content-grid {
+      grid-template-columns: 2fr 1.5fr; /* Expenses list (wider) and form */
+    }
+  }
+  
+  .expenses-list-section,
+  .add-expense-form-section {
+    /* Both are cards */
+  }
+  
+  .expenses-list-section h3, /* Card titles */
+  .add-expense-form-section h3 {
+    margin-top: 0;
+    margin-bottom: var(--spacing-4);
+    font-size: 1.5rem;
+    color: var(--text-color);
+  }
+  
+  .expenses-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .expense-item { /* Class for each li */
+    padding: var(--spacing-3) 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping for small screens */
+    gap: var(--spacing-2);
+  }
+  .expense-item:last-child {
+    border-bottom: none;
+  }
+  .expense-details {
+      flex-grow: 1;
+  }
+  .expense-payer {
+      font-weight: 600;
+  }
+  .expense-amount {
+      font-weight: 600;
+      color: var(--success-color); /* Or another color for amounts */
+      min-width: 80px; /* Ensure amount has space */
+      text-align: right;
+  }
+  .expense-category {
+      font-size: 0.85rem;
+      color: var(--text-color-muted);
+      background-color: #f1f3f5;
+      padding: var(--spacing-1) var(--spacing-2);
+      border-radius: var(--border-radius-pill);
+      margin-left: var(--spacing-2);
+  }
+  
+  /* add-expense-form uses global .form-group and input styles */
+  .add-expense-form .form-group {
+    margin-bottom: var(--spacing-4);
+  }
+  
+  .split-between-options {
+    margin-top: var(--spacing-3);
+    margin-bottom: var(--spacing-4);
+  }
+  
+  .split-between-options .split-label { /* Label for "Split Between:" */
+    font-weight: 600;
+    margin-bottom: var(--spacing-3);
+    display: block;
+  }
+  
+  .participant-checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-3);
+  }
+  .participant-checkbox-group .form-check-label { /* from index.css */
+    display: inline-flex;
+    align-items: center;
+    margin-right: 0; /* Remove default margin */
+    margin-bottom: var(--spacing-2); /* Space between rows of checkboxes */
+  }
+  
+  /* .add-expense-form .btn (button) uses global styles */
+  .add-expense-form .btn {
+      margin-top: var(--spacing-3);
+  }

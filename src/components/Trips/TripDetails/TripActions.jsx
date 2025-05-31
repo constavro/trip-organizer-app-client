@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-const TripActions = ({ isHost, tripId }) => {
+const TripActions = ({ isParticipant, isHost, tripId }) => {
   const navigate = useNavigate();
 
   const handleDelete = async () => {
@@ -23,15 +23,14 @@ const TripActions = ({ isHost, tripId }) => {
   };
 
   return (
-    <div className="trip-actions">
-      <button onClick={() => navigate(`/trips/${tripId}/book`)}>Book Now</button>
+    <div className="trip-actions-section">
+      {!isHost && isParticipant && <button className="btn" onClick={() => navigate(`/trips/${tripId}/book`)}>Book Now</button>}
       {isHost && (
         <>
-          <button onClick={() => navigate(`/trips/edit/${tripId}`)}>Edit</button>
-          <button onClick={handleDelete}>Delete</button>
+          <button className="btn" onClick={() => navigate(`/trips/edit/${tripId}`)}>Edit</button>
+          <button className="btn btn-danger"onClick={handleDelete}>Delete</button>
         </>
       )}
-      <button onClick={() => navigate(`/chat/${tripId}`)}>Chat</button>
     </div>
   );
 };

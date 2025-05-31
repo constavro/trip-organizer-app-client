@@ -1,28 +1,60 @@
+/* === components/Trips/TripPage/TripPage.css === */
 .trips-page {
-    max-width: 1000px;
-    margin: auto;
-    padding: 2rem 1rem;
-  }
-  
+  max-width: 1200px; /* Consistent max-width */
+  margin: 0 auto;
+  padding: 2rem 1.5rem; /* Standard padding */
+}
+
+.trips-page-header {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem; /* Increased margin */
+  gap: 1rem; /* Gap for wrapped items */
+}
+
+.trips-page-header h1 {
+  margin-bottom: 0; /* Remove default h1 margin as it's in a flex container */
+  font-size: 2rem; /* Slightly smaller than landing page main title */
+}
+
+.trip-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.trip-filters input[type="text"],
+.trip-filters select {
+  /* Inputs and selects will inherit global styles */
+  /* If specific sizing is needed: */
+  flex-grow: 1; /* Allow them to grow */
+  min-width: 180px; /* Minimum width before wrapping */
+}
+
+@media (max-width: 768px) {
   .trips-page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to start */
   }
-  
+  .trips-page-header .create-trip-button-container { /* Assuming CreateTripButton is wrapped */
+    width: 100%;
+    margin-top: 1rem;
+  }
+  .trips-page-header .create-trip-button-container .btn {
+    width: 100%; /* Full width button on mobile */
+  }
   .trip-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    flex-direction: column;
   }
-  
-  .trip-filters input,
+  .trip-filters input[type="text"],
   .trip-filters select {
-    padding: 0.5rem;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    width: 100%; /* Full width on small screens */
   }
-  
+}
