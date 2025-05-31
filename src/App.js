@@ -15,6 +15,8 @@ import AllExpensesPage from './components/Expenses/AllExpensesPage';
 import TripExpensesPage from './components/Expenses/TripExpensePage';
 import AuthPage from './components/Auth/AuthPage';
 import TripAISuggestion from './components/Trips/TripCreationForm/TripAISuggestion';
+import ConfirmEmail from './components/Auth/EmailConfirmation';
+import ResetPassword from './components/Auth/ResetPassword';
 
 function App() {
 
@@ -25,6 +27,8 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/profile/:userId" element={<ProtectedRoute><Header /><UserProfile /></ProtectedRoute>} />
+          <Route path="/confirm/:token" element={<ConfirmEmail />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           <Route path="/trips" element={<ProtectedRoute><Header /><TripPage /></ProtectedRoute>} />
           <Route path="/host/dashboard" element={<ProtectedRoute><Header /><HostDashboard /></ProtectedRoute>} />
@@ -36,7 +40,7 @@ function App() {
          {/* <Route path="/messages" element={<Messages />} /> */}
          {/* <Route path="/reviews" element={<Reviews />} /> */}       
          <Route path="/allexpenses" element={<ProtectedRoute><Header /><AllExpensesPage /></ProtectedRoute>}/>
-<Route path="/expenses/:tripId" element={<ProtectedRoute><Header /><TripExpensesPage /></ProtectedRoute>} />
+         <Route path="/expenses/:tripId" element={<ProtectedRoute><Header /><TripExpensesPage /></ProtectedRoute>} />
 
          <Route path="/chats" element={<ProtectedRoute><Header /><AllChatsPage /></ProtectedRoute>} />   
          <Route path="/chat/:id" element={<ProtectedRoute><Header /><ChatPage /></ProtectedRoute>} />
