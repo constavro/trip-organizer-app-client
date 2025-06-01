@@ -1,0 +1,22 @@
+{
+    "navigationFallback": {
+      "rewrite": "/index.html",
+      "exclude": ["/assets/*", "/images/*", "/favicon.ico", "/manifest.json"]
+    },
+    "routes": [
+      {
+        "route": "/api/*",
+        "allowedRoles": ["authenticated"]
+      }
+    ],
+    "mimeTypes": {
+      ".json": "application/json",
+      ".ico": "image/x-icon"
+    },
+    "responseOverrides": {
+      "404": {
+        "rewrite": "/index.html"
+      }
+    }
+  }
+  
