@@ -27,10 +27,6 @@
     display: block;
   }
   
-  .chat-list-card { /* Inherits from .card */
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  }
-  
   .chat-list-card:hover {
     transform: translateY(-3px);
     box-shadow: var(--box-shadow-lg);
@@ -42,6 +38,7 @@
     color: var(--primary-color);
     display: block;
     margin-bottom: var(--spacing-2);
+    text-align: center;
   }
   
   .chat-list-card .last-message { /* Specific class for last message */
@@ -51,6 +48,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: center;
   }
   
   .chat-list-card .message-time { /* Specific class for time */
@@ -58,6 +56,7 @@
     color: #999;
     display: block;
     margin-top: var(--spacing-2);
+    text-align: center;
   }
   
   /* --- ChatPage (ChatRoom & MessageInput) --- */
@@ -161,3 +160,106 @@
       max-width: 90%;
     }
   }
+
+  /* === src/components/Chat/Chat.css === */
+/* ... (existing AllChatsPage styles) ... */
+
+.chat-list-card { /* Inherits from .card */
+  /* ... existing styles ... */
+  display: flex; /* For unread badge positioning */
+  align-items: center;
+  position: relative; /* For absolute positioning of badge */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.chat-list-card .chat-trip-cover { /* Optional cover photo in list */
+  width: 50px;
+  height: 50px;
+  border-radius: var(--border-radius-md);
+  margin-right: var(--spacing-3);
+  object-fit: cover;
+}
+
+.chat-list-card .chat-info {
+  flex-grow: 1;
+  overflow: hidden; /* Ensure text overflow works */
+}
+
+.last-message.unread strong {
+  font-weight: bold; /* Make sender bold for unread messages */
+  color: var(--text-color);
+}
+.last-message.unread {
+  color: var(--text-color); /* Make unread message text less muted */
+  font-weight: 500;
+}
+
+
+.unread-badge {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  padding: 0.2em 0.5em;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-left: auto; /* Pushes to the right */
+  min-width: 20px; /* Ensure circle for single digit */
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* position: absolute; */ /* Alternative positioning */
+  /* top: 10px; */
+  /* right: 10px; */
+}
+
+
+/* --- ChatPage (ChatRoom & MessageInput) --- */
+/* ... (existing styles) ... */
+
+.chat-room {
+  /* ... existing styles ... */
+  display: flex; /* Added to allow messages to align-self */
+  flex-direction: column;
+}
+
+.loading-more {
+  text-align: center;
+  padding: var(--spacing-3);
+  color: var(--text-color-muted);
+  font-style: italic;
+}
+
+.message-sender-link {
+    text-decoration: none;
+    color: inherit; /* Or a specific color */
+}
+.message-sender-link:hover {
+    text-decoration: underline;
+}
+
+.sender-avatar-small {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: var(--spacing-2);
+    vertical-align: middle;
+}
+.read-receipts {
+    font-size: 0.75rem;
+    color: var(--text-color-muted);
+    margin-top: var(--spacing-1);
+    text-align: right; /* If current-user message */
+}
+/* Message content for images/files */
+.message-content img {
+  max-width: 100%;
+  max-height: 250px; /* Limit image preview size */
+  border-radius: var(--border-radius-sm);
+  display: block; /* Remove extra space below image */
+}
+
+.message-content a { /* For file links */
+  color: var(--primary-color); /* Or link color from global styles */
+  text-decoration: underline;
+}
