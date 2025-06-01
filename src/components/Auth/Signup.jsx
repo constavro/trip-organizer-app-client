@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// No direct CSS import needed
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -15,6 +14,7 @@ function Signup() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError(''); // Clear error on input change
   };
 
   const handleSubmit = async (e) => {
@@ -31,32 +31,36 @@ function Signup() {
         body: JSON.stringify(formData),
       });
       
-      const data = await res.json(); // Parse JSON regardless of res.ok
+      const data = await res.json();
       if (!res.ok) {
         throw new Error(data.message || 'Signup failed');
       }
-      // UX: Navigate to login or show success message before redirecting to landing
-      alert("Signup successful! Please log in."); // Simple alert, could be a styled message
-      navigate('/auth'); // Navigate to auth page so user can login
-    } catch (error) {
-      setError(error.message);
-      console.error('Signup failed:', error);
+      
+      // Navigate to auth page (login) with an info message
+      navigate('/auth', { 
+        state: { 
+          infoMessage: '🎉 Signup successful! Please check your email to confirm your account. After confirmation, you can log in.' 
+        } 
+      });
+    } catch (err) { // Renamed to avoid conflict with outer error state
+      setError(err.message);
+      console.error('Signup failed:', err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="signup-container card"> {/* Added card class */}
+    <div className="auth-form-card"> {/* Use common card style */}
       <h1>Signup</h1>
-      {error && <p className="error-message">{error}</p>}
+      {error && <p className="message error-message">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="firstName">First Name</label>
+          <label htmlFor="signup-firstName">First Name</label> {/* Unique ID for label */}
           <input
             type="text"
             name="firstName"
-            id="firstName"
+            id="signup-firstName"
             value={formData.firstName}
             onChange={handleChange}
             required
@@ -64,11 +68,11 @@ function Signup() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="lastName">Last Name</label>
+          <label htmlFor="signup-lastName">Last Name</label> {/* Unique ID for label */}
           <input
             type="text"
             name="lastName"
-            id="lastName"
+            id="signup-lastName"
             value={formData.lastName}
             onChange={handleChange}
             required
@@ -76,11 +80,11 @@ function Signup() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="signup-email">Email</label> {/* Unique ID for label */}
           <input
             type="email"
             name="email"
-            id="email"
+            id="signup-email"
             value={formData.email}
             onChange={handleChange}
             required
@@ -88,18 +92,19 @@ function Signup() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="signup-password">Password</label> {/* Unique ID for label */}
           <input
             type="password"
             name="password"
-            id="password"
+            id="signup-password"
             value={formData.password}
             onChange={handleChange}
             required
-            placeholder="Create a password"
+            placeholder="Create a password (min. 6 characters)"
+            minLength="6" // Basic client-side validation
           />
         </div>
-        <button type="submit" className="btn" disabled={loading}> {/* Applied btn class */}
+        <button type="submit" className="btn btn-primary" disabled={loading}> {/* Added .btn-primary */}
           {loading ? 'Signing up...' : 'Signup'}
         </button>
       </form>

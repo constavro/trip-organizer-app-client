@@ -1,0 +1,137 @@
+/* === components/Trips/TripAISuggestion/TripAISuggestion.css === */
+.trip-ai-suggestion-page-container { /* Wraps the whole AI suggestion page */
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: var(--spacing-5);
+    background-color: var(--surface-color-light, #f8f9fa); /* Slightly different background */
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow-md);
+  }
+  
+  .trip-ai-suggestion-page-container h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-5);
+    font-size: 1.8rem;
+  }
+  
+  .trip-ai-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid for inputs */
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-5);
+  }
+  
+  .trip-ai-form .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .trip-ai-form label {
+    font-weight: 500;
+    margin-bottom: var(--spacing-2);
+    color: var(--text-color-muted);
+  }
+  
+  .trip-ai-form input[type="text"],
+  .trip-ai-form input[type="date"],
+  .trip-ai-form input[type="number"] {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color, #ced4da);
+    border-radius: var(--border-radius-md);
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .trip-ai-form input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem var(--primary-color-light);
+  }
+  
+  .trip-ai-suggestion-page-container .btn-generate {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-4);
+    /* Uses global .btn styles, ensure .btn-primary or similar is available */
+  }
+  
+  .trip-ai-suggestion-page-container .error-message,
+  .trip-ai-suggestion-page-container .info-message {
+    padding: var(--spacing-3);
+    margin-bottom: var(--spacing-4);
+    border-radius: var(--border-radius-md);
+    text-align: center;
+    border: 1px solid transparent;
+  }
+  
+  .trip-ai-suggestion-page-container .error-message {
+    background-color: var(--danger-bg-subtle, #f8d7da);
+    color: var(--danger-text, #721c24);
+    border-color: var(--danger-border-subtle, #f5c6cb);
+  }
+  
+  .ai-suggestion-output {
+    background-color: var(--surface-color, #fff);
+    padding: var(--spacing-5);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow-sm);
+    margin-top: var(--spacing-5);
+  }
+  
+  .ai-suggestion-output h3 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-3);
+    text-align: center;
+    font-size: 1.5rem;
+  }
+  
+  .ai-suggestion-output h4 {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-top: var(--spacing-4);
+    margin-bottom: var(--spacing-2);
+    padding-bottom: var(--spacing-1);
+    border-bottom: 1px solid var(--border-color-subtle, #eee);
+  }
+  
+  .ai-suggestion-output p,
+  .ai-suggestion-output li {
+    margin-bottom: var(--spacing-2);
+    line-height: 1.6;
+    color: var(--text-color-muted);
+  }
+  
+  .ai-suggestion-output p strong,
+  .ai-suggestion-output li strong {
+    color: var(--text-color);
+    font-weight: 600;
+  }
+  
+  .ai-suggestion-output ul {
+    list-style: disc;
+    padding-left: var(--spacing-5);
+  }
+  
+  .ai-suggestion-output .btn-save {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1.1rem;
+    margin-top: var(--spacing-4);
+  }
+  
+  .back-link-container {
+    text-align: center;
+    margin-top: var(--spacing-4);
+  }
+  
+  .back-link-container a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .back-link-container a:hover {
+    text-decoration: underline;
+  }

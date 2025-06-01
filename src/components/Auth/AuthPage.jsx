@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Signup from './Signup';
 import Login from './Login';
-import './Auth.css'; // Changed import
+import './Auth.css';
 
 const AuthPage = () => {
   const [showLogin, setShowLogin] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation(); // To get state passed from navigation
+
+  // Check for messages passed via navigation state (e.g., after signup)
+  const infoMessageFromRedirect = location.state?.infoMessage;
 
   const verifyToken = useCallback(async () => {
     const token = localStorage.getItem('token');
@@ -25,7 +29,7 @@ const AuthPage = () => {
         navigate('/trips');
       } else {
         localStorage.removeItem('token');
-        localStorage.removeItem('userId'); // Also remove userId if token is invalid
+        localStorage.removeItem('userId');
       }
     } catch (error) {
       console.error('Error verifying token:', error);
@@ -38,28 +42,36 @@ const AuthPage = () => {
     verifyToken();
   }, [verifyToken]);
 
+  // If coming from a redirect with a message, ensure Login tab is active if relevant
+  useEffect(() => {
+    if (infoMessageFromRedirect) {
+      setShowLogin(true);
+    }
+  }, [infoMessageFromRedirect]);
+
+
   return (
     <div className="auth-container">
-      <header className="auth-brand-header"> {/* Changed class */}
+      <header className="auth-brand-header">
         <h1>waylo</h1>
       </header>
       <div className="auth-options">
         <button
-          className={`btn btn-outline-primary ${showLogin ? 'active' : ''}`} // Applied btn classes
+          className={`btn btn-outline-primary ${showLogin ? 'active' : ''}`}
           onClick={() => setShowLogin(true)}
         >
           Login
         </button>
         <button
-          className={`btn btn-outline-primary ${!showLogin ? 'active' : ''}`} // Applied btn classes
+          className={`btn btn-outline-primary ${!showLogin ? 'active' : ''}`}
           onClick={() => setShowLogin(false)}
         >
           Sign Up
         </button>
       </div>
 
-      <div className="auth-form-wrapper"> {/* Added wrapper */}
-        {showLogin ? <Login /> : <Signup />}
+      <div className="auth-form-wrapper">
+        {showLogin ? <Login infoMessage={infoMessageFromRedirect} /> : <Signup />}
       </div>
     </div>
   );

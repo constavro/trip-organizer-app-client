@@ -7,7 +7,13 @@ import TripPricingStep from './TripPricingStep';
 import TripTagsStep from './TripTagsStep';
 import './TripCreationForm.css';
 
-const steps = [TripBasicInfoStep, TripDescriptionStep, TripItineraryStep, TripPricingStep, TripTagsStep];
+const steps = [
+    { component: TripBasicInfoStep, name: "Basic Information" },
+    { component: TripDescriptionStep, name: "Trip Details" },
+    { component: TripItineraryStep, name: "Itinerary Plan" },
+    { component: TripPricingStep, name: "Participants & Pricing" },
+    { component: TripTagsStep, name: "Categorization Tags" }
+];
 
 const TripCreationForm = () => {
   const [step, setStep] = useState(0);
@@ -21,7 +27,7 @@ const TripCreationForm = () => {
       exclusions: [''],
     },
     itinerary: [{
-      order: 1, location: '', startDate: '', endDate: '',
+      location: '', startDate: '', endDate: '', // order is auto-managed
       photos: [], notes: '', transportation: [],
       accommodation: '', geoLocation: { lat: '', lng: '' },
       activities: [], costEstimate: ''
@@ -29,30 +35,51 @@ const TripCreationForm = () => {
     minParticipants: '',
     maxParticipants: '',
     price: '',
-    tags: [],
+    tags: [''], // Start with one empty tag field
   });
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const StepComponent = steps[step];
+  const CurrentStepComponent = steps[step].component;
 
   const validateStep = () => {
+    setError(''); // Clear previous errors
     const { title, startDate, endDate, description, itinerary, minParticipants, maxParticipants, price, tags } = formData;
 
     switch (step) {
       case 0: // Basic Info
-        return title.trim() && startDate && endDate;
+        if (!title.trim()) { setError("Trip title is required."); return false; }
+        if (!startDate) { setError("Start date is required."); return false; }
+        if (!endDate) { setError("End date is required."); return false; }
+        if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+          setError("End date cannot be before start date."); return false;
+        }
+        return true;
       case 1: // Description
-        return description.overview.trim();
+        if (!description.overview.trim()) { setError("Trip overview is required."); return false; }
+        // Optional: validate inclusions/exclusions if needed (e.g., at least one)
+        return true;
       case 2: // Itinerary
-        return itinerary.length > 0 && itinerary.every(item =>
-          item.location.trim() && item.startDate && item.endDate
-        );
+        if (itinerary.length === 0) { setError("At least one itinerary stop is required."); return false;}
+        for (let i = 0; i < itinerary.length; i++) {
+          const item = itinerary[i];
+          if (!item.location.trim()) { setError(`Location for itinerary item #${i + 1} is required.`); return false; }
+          if (!item.startDate) { setError(`Start date for itinerary item #${i + 1} is required.`); return false; }
+          if (!item.endDate) { setError(`End date for itinerary item #${i + 1} is required.`); return false; }
+          if (item.startDate && item.endDate && new Date(item.startDate) > new Date(item.endDate)) {
+            setError(`End date cannot be before start date for itinerary item #${i + 1}.`); return false;
+          }
+        }
+        return true;
       case 3: // Pricing
-        return minParticipants && maxParticipants && price;
+        if (minParticipants === '' || Number(minParticipants) < 1) { setError("Minimum participants must be at least 1."); return false; }
+        if (maxParticipants === '' || Number(maxParticipants) < Number(minParticipants)) { setError("Maximum participants must be equal to or greater than minimum participants."); return false; }
+        if (price === '' || Number(price) < 0) { setError("Price cannot be negative."); return false; }
+        return true;
       case 4: // Tags
-        return tags.length > 0;
+        if (tags.filter(tag => tag.trim() !== "").length === 0) { setError("At least one tag is recommended."); return true; } // Making tags optional but recommended
+        return true;
       default:
         return true;
     }
@@ -60,32 +87,48 @@ const TripCreationForm = () => {
 
   const handleNext = () => {
     if (!validateStep()) {
-      setError('Please fill in all required fields before continuing.');
       return;
     }
     setError('');
-    setStep(step + 1);
+    setStep(prevStep => Math.min(prevStep + 1, steps.length - 1));
+  };
+
+  const handlePrevious = () => {
+    setError('');
+    setStep(prevStep => Math.max(prevStep - 1, 0));
   };
 
 
   const handleSubmit = async () => {
+    if (!validateStep()) { // Final validation before submit
+        setError("Please review the form. Some fields might be missing or invalid in the current step.");
+        return;
+    }
+    // Additional check for all steps if needed, or rely on step-by-step validation.
+    setError('');
     setLoading(true);
     const token = localStorage.getItem('token');
-    if (!token) return setError('Not logged in');
+    if (!token) {
+        setError('Authentication error. Please log in again.');
+        setLoading(false);
+        return;
+    }
 
     const payload = {
       ...formData,
-      minParticipants: Number(formData.minParticipants),
-      maxParticipants: Number(formData.maxParticipants),
-      price: Number(formData.price),
-      itinerary: formData.itinerary.map(item => ({
+      minParticipants: Number(formData.minParticipants) || 0,
+      maxParticipants: Number(formData.maxParticipants) || 0,
+      price: Number(formData.price) || 0,
+      itinerary: formData.itinerary.map((item, index) => ({
         ...item,
-        costEstimate: Number(item.costEstimate),
+        order: index + 1, // Ensure order is set correctly
+        costEstimate: Number(item.costEstimate) || 0,
         geoLocation: {
-          lat: Number(item.geoLocation.lat),
-          lng: Number(item.geoLocation.lng),
+          lat: Number(item.geoLocation.lat) || 0,
+          lng: Number(item.geoLocation.lng) || 0,
         }
       })),
+      tags: formData.tags.filter(tag => tag.trim() !== ""), // Filter out empty tags
     };
 
     try {
@@ -97,11 +140,12 @@ const TripCreationForm = () => {
         },
         body: JSON.stringify(payload),
       });
-
-      if (!res.ok) throw new Error((await res.json()).message);
-      navigate('/trips');
+      
+      const responseData = await res.json();
+      if (!res.ok) throw new Error(responseData.message || 'Failed to create trip.');
+      navigate('/trips'); // Or to the newly created trip's page
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'An unexpected error occurred.');
     } finally {
       setLoading(false);
     }
@@ -110,33 +154,36 @@ const TripCreationForm = () => {
   return (
     <div className="trip-form-container">
       <h2>Create a New Trip</h2>
-      {error && <p className="error">{error}</p>}
+      {error && <p className="error-message">{error}</p>}
 
-      <StepComponent formData={formData} setFormData={setFormData} />
+      <CurrentStepComponent formData={formData} setFormData={setFormData} error={error} setError={setError} />
+
+      <div className='progress-container'>
+        <div className="progress-bar" style={{ width: `${((step + 1) / steps.length) * 100}%` }} />
+      </div>
+      <div style={{textAlign: 'center', marginTop: '0.5rem', fontSize: '0.9em', color: 'var(--text-color-muted)'}}>
+          Step {step + 1} of {steps.length}: {steps[step].name}
+      </div>
+
 
       <div className="form-navigation">
-        {step > 0 && <button className="btn" onClick={() => setStep(step - 1)}>Previous</button>}
+        {step > 0 && <button className="btn btn-secondary" onClick={handlePrevious}>Previous</button>}
         {step < steps.length - 1 ? (
-          <button className="btn" onClick={handleNext}>Next</button>
+          <button className="btn btn-primary" onClick={handleNext}>Next</button>
         ) : (
-          <button className="btn" onClick={handleSubmit} disabled={loading}>
-            {loading ? 'Saving...' : 'Submit'}
+          <button className="btn btn-success" onClick={handleSubmit} disabled={loading}>
+            {loading ? 'Saving Trip...' : 'Create Trip'}
           </button>
         )}
       </div>
-      <div className='progress-container'>
-      <div className="progress-bar" style={{ width: `${(step / (steps.length - 1)) * 100}%` }} />
+
+      <div className="ai-suggestion-link-container">
+        <p>Need inspiration or a quick plan?</p>
+        <Link to="/trip-ai-suggestion">
+          <button className="btn btn-outline-primary ai-suggestion-button">Get AI Trip Suggestion</button>
+        </Link>
       </div>
-
-      <div className="ai-suggestion-link">
-  <p>Need help planning?</p>
-  <Link to="/trip-ai-suggestion">
-    <button className="btn ai-suggestion-button">Get AI Trip Suggestion</button>
-  </Link>
-</div>
-
-      </div>
-
+    </div>
   );
 };
 

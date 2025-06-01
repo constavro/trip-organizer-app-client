@@ -1,19 +1,38 @@
 /* === src/components/Auth/Auth.css === */
 .auth-container {
   min-height: 100vh;
-  background: linear-gradient(to bottom right, #ebf8ff, var(--surface-color));
+  background: linear-gradient(to bottom right, #ebf8ff, var(--surface-color, #ffffff)); /* Added fallback for --surface-color */
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: var(--spacing-5);
+  box-sizing: border-box;
 }
 
-.auth-brand-header { /* Changed from .auth-header to avoid conflict with Header.css */
+.auth-brand-header {
   font-size: 2.5rem;
   font-weight: bold;
   color: var(--primary-color);
   margin-bottom: var(--spacing-5);
   text-align: center;
+}
+
+/* Common card style for Login, Signup, Reset Password, Email Confirmation */
+.auth-form-card {
+  background-color: var(--surface-color, #ffffff); /* Added fallback */
+  color: var(--text-color);
+  padding: var(--spacing-6);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow-lg);
+  width: 100%; /* Will be constrained by auth-form-wrapper */
+}
+
+.auth-form-card h1, /* For Login/Signup titles */
+.auth-form-card h2 { /* For ResetPassword/EmailConfirmation titles */
+  text-align: center;
+  margin-bottom: var(--spacing-5);
+  font-size: 2rem;
+  color: var(--primary-color);
 }
 
 .auth-options {
@@ -23,7 +42,7 @@
   margin-bottom: var(--spacing-6);
 }
 
-.auth-options .btn { /* Buttons now use .btn and .btn-outline-primary */
+.auth-options .btn {
   padding: 0.75rem 2rem;
   font-weight: 500;
   border-radius: var(--border-radius-pill);
@@ -36,46 +55,99 @@
 
 .auth-form-wrapper {
   width: 100%;
-  max-width: 450px;
+  max-width: 450px; /* Consistent max-width for form containers */
 }
 
-.login-container,
-.signup-container {
-  background-color: var(--surface-color);
-  color: var(--text-color);
-  padding: var(--spacing-6);
-  border-radius: var(--border-radius-lg); /* Larger radius for auth forms */
-  box-shadow: var(--box-shadow-lg);
-}
-
-.login-container h1,
-.signup-container h1 {
+/* Message Styling */
+.message {
+  padding: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+  border-radius: var(--border-radius-md);
   text-align: center;
-  margin-bottom: var(--spacing-5);
-  font-size: 2rem;
-  color: var(--primary-color);
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+}
+
+.info-message {
+  background-color: var(--info-bg-subtle, #d1ecf1);
+  color: var(--info-text, #0c5460);
+  border-color: var(--info-border-subtle, #bee5eb);
+  /* Inherits .message styles */
+}
+
+.success-message {
+  background-color: var(--success-bg-subtle, #d4edda);
+  color: var(--success-text, #155724);
+  border-color: var(--success-border-subtle, #c3e6cb);
+  /* Inherits .message styles */
 }
 
 /* .form-group and inputs use global styles from index.css */
-
-.auth-container .error-message { /* Specificity for auth page error */
-  /* Uses global .error-message style but can be overridden */
+/* Ensure global styles for inputs and labels are sufficient, or add them here scoped to .auth-form-card */
+.auth-form-card .form-group {
   margin-bottom: var(--spacing-4);
+  text-align: left; /* Ensure labels are left-aligned if not globally set */
 }
 
-.auth-container button[type="submit"].btn { /* Specificity for auth page submit */
+.auth-form-card .form-group label {
+  display: block;
+  margin-bottom: var(--spacing-2);
+  font-weight: 500;
+}
+
+.auth-form-card input[type="text"],
+.auth-form-card input[type="email"],
+.auth-form-card input[type="password"] {
+  width: 100%;
+  padding: 0.75rem; /* Consistent padding */
+  border: 1px solid var(--border-color, #ced4da);
+  border-radius: var(--border-radius-md);
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+.auth-container button[type="submit"].btn, /* Covers forms in Login, Signup, ResetPassword */
+.auth-form-card button.btn { /* Covers general buttons like "Go to Login" */
   width: 100%;
   padding: 0.8rem 1.5rem;
   font-size: 1.1rem;
   border-radius: var(--border-radius-pill);
+  margin-top: var(--spacing-2); /* Add a bit of top margin for standalone buttons */
 }
+.auth-form-card button.btn:first-of-type { /* For submit buttons that are the first button */
+   margin-top: var(--spacing-4); /* More margin if it's a primary action button */
+}
+
+
+/* Login.jsx specific: Reset password section */
+.reset-password-section {
+  margin-top: var(--spacing-5);
+  text-align: center;
+}
+
+.reset-password-section .reset-link {
+  color: var(--primary-color);
+  cursor: pointer;
+  text-decoration: underline;
+  margin-bottom: var(--spacing-3);
+  display: inline-block;
+}
+
+.reset-password-section .reset-link:hover {
+  color: var(--primary-color-dark, var(--primary-color)); /* Add fallback */
+}
+
+.reset-password-section .btn { /* For "Send Reset Email" button */
+  width: 100%; /* Already covered by .auth-form-card button.btn */
+  margin-top: var(--spacing-2); /* Add specific margin if needed, or rely on general */
+}
+
 
 @media (max-width: 480px) {
   .auth-container {
     padding: var(--spacing-3);
   }
-  .login-container,
-  .signup-container {
+  .auth-form-card { /* Updated from .login-container, .signup-container */
     padding: var(--spacing-4);
   }
   .auth-brand-header {

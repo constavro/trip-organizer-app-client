@@ -1,16 +1,16 @@
 import React from 'react';
 
-const TripDescriptionStep = ({ formData, setFormData }) => {
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    const key = name.split('.')[1];
+const TripDescriptionStep = ({ formData, setFormData, setError }) => {
+  const handleOverviewChange = (e) => {
+    const { value } = e.target;
     setFormData((prev) => ({
       ...prev,
       description: {
         ...prev.description,
-        [key]: value,
+        overview: value,
       },
     }));
+    if (setError) setError('');
   };
 
   const handleListChange = (type, index, value) => {
@@ -23,6 +23,7 @@ const TripDescriptionStep = ({ formData, setFormData }) => {
         [type]: updatedList,
       },
     }));
+    if (setError) setError('');
   };
 
   const addListItem = (type) => {
@@ -33,9 +34,20 @@ const TripDescriptionStep = ({ formData, setFormData }) => {
         [type]: [...prev.description[type], ''],
       },
     }));
+    if (setError) setError('');
   };
 
   const removeListItem = (type, index) => {
+    if (formData.description[type].length <= 1 && (type === "inclusions" || type === "exclusions")) {
+      // Keep at least one item for inclusions/exclusions, but allow clearing its content
+      const updatedList = [...formData.description[type]];
+      updatedList[index] = ''; // Clear the content instead of removing the item
+       setFormData((prev) => ({
+        ...prev,
+        description: { ...prev.description, [type]: updatedList },
+      }));
+      return;
+    }
     const updatedList = [...formData.description[type]];
     updatedList.splice(index, 1);
     setFormData((prev) => ({
@@ -45,39 +57,43 @@ const TripDescriptionStep = ({ formData, setFormData }) => {
         [type]: updatedList,
       },
     }));
+    if (setError) setError('');
   };
 
   return (
     <div className="form-step">
-      <h3>Trip Description</h3>
-
-      <label>
-        Overview:
-        <input
-          name="description.overview"
-          placeholder="Overview"
+      <div className="form-group">
+        <label htmlFor="overview">Trip Overview</label>
+        <textarea
+          id="overview"
+          name="description.overview" // Keep name for potential direct form submission
+          placeholder="Provide a captivating overview of the trip..."
           value={formData.description.overview}
-          onChange={handleChange}
+          onChange={handleOverviewChange}
           required
         />
-      </label>
+      </div>
 
       {['inclusions', 'exclusions'].map((type) => (
-        <div key={type}>
+        <div className="list-item-group" key={type}>
           <h4>{type.charAt(0).toUpperCase() + type.slice(1)}</h4>
-          <div className="list-item-group">
           {formData.description[type].map((item, idx) => (
-            <div className="list-item" key={idx}>
+            <div className="list-item" key={`${type}-${idx}`}>
               <input
+                type="text"
+                id={`${type}-${idx}`}
                 value={item}
                 onChange={(e) => handleListChange(type, idx, e.target.value)}
-                placeholder={`${type.slice(0, -1)} ${idx + 1}`}
+                placeholder={`e.g., Guided tours, All meals (${type.slice(0, -1)})`}
               />
-              <button className="btn btn-remove-item" type="button" onClick={() => removeListItem(type, idx)}>X</button>
+              {formData.description[type].length > 1 && ( // Show remove button only if more than one item
+                <button className="btn-remove-item" type="button" onClick={() => removeListItem(type, idx)}>
+                  Remove
+                </button>
+              )}
             </div>
           ))}
-          </div>
-          <button className="btn btn-add-item" type="button" onClick={() => addListItem(type)}>
+          <button className="btn btn-add-item btn-secondary" type="button" onClick={() => addListItem(type)}>
             + Add {type.slice(0, -1)}
           </button>
         </div>

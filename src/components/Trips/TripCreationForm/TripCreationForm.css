@@ -1,110 +1,171 @@
 /* === components/Trips/TripCreationForm/TripCreationForm.css === */
 .trip-form-container {
-  max-width: 700px; /* Increased max-width for better layout */
-  margin: 2rem auto; /* Centered with margin */
-  padding: 2.5rem; /* Increased padding */
-  background: var(--surface-color);
-  border-radius: var(--border-radius);
+  max-width: 750px; /* Slightly increased max-width for better layout */
+  margin: 2rem auto;
+  padding: 2rem; /* Adjusted padding */
+  background: var(--surface-color, #fff);
+  border-radius: var(--border-radius-lg); /* Larger radius */
   box-shadow: var(--box-shadow-lg);
 }
 
 .trip-form-container h2 {
   text-align: center;
-  margin-bottom: 2rem;
-  font-size: 1.75rem;
-  color: var(--text-color);
+  margin-bottom: var(--spacing-5); /* Increased margin */
+  font-size: 2rem; /* Larger title */
+  color: var(--primary-color);
 }
 
-.trip-form-container .error { /* Uses global error-message style */
-  margin-bottom: 1.5rem;
+/* Global error message for the form */
+.trip-form-container > .error-message { /* Direct child error message */
+  padding: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+  border-radius: var(--border-radius-md);
+  text-align: center;
+  background-color: var(--danger-bg-subtle, #f8d7da);
+  color: var(--danger-text, #721c24);
+  border: 1px solid var(--danger-border-subtle, #f5c6cb);
 }
+
 
 .form-step {
-  margin-bottom: 2rem; /* Space between step content and navigation */
+  margin-bottom: var(--spacing-5); /* Space between step content and navigation */
 }
 
-.form-step h3 { /* For step titles like "Trip Description" */
-  font-size: 1.3rem;
+.form-step > h3 { /* For step titles like "Trip Description" */
+  font-size: 1.5rem; /* Larger step title */
   color: var(--primary-color);
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border-color);
+  margin-bottom: var(--spacing-4);
+  padding-bottom: var(--spacing-2);
+  border-bottom: 2px solid var(--primary-color-light, #aed6f1);
 }
 
-.form-step label { /* For individual input labels */
+/* Standard form group styling */
+.form-group {
+  margin-bottom: var(--spacing-4);
+}
+
+.form-group label {
   display: block;
   font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: var(--text-color-muted);
-}
-.form-step input, .form-step textarea, .form-step select {
-  margin-bottom: 1rem; /* Space below each input in a step */
+  margin-bottom: var(--spacing-2);
+  color: var(--text-color-muted, #6c757d);
 }
 
-/* List item styling (inclusions, exclusions, tags) */
-.list-item-group { /* Wrapper for a list of items (e.g., all inclusions) */
-  margin-bottom: 1.5rem;
+/* Consistent input styling within form steps */
+.form-step input[type="text"],
+.form-step input[type="date"],
+.form-step input[type="number"],
+.form-step input[type="email"], /* If any email fields are added */
+.form-step input[type="password"], /* If any password fields are added */
+.form-step textarea,
+.form-step select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text-color, #495057);
+  background-color: var(--input-bg, #fff);
+  background-clip: padding-box;
+  border: 1px solid var(--border-color, #ced4da);
+  border-radius: var(--border-radius-md);
+  box-sizing: border-box;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-.list-item-group h4 { /* For "Inclusions", "Exclusions" titles */
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
+
+.form-step input:focus,
+.form-step textarea:focus,
+.form-step select:focus {
+  border-color: var(--primary-color);
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem var(--primary-color-light, rgba(0, 123, 255, 0.25));
+}
+
+.form-step textarea {
+  min-height: 100px; /* Default height for textareas */
+  resize: vertical;
+}
+
+
+/* List item styling (inclusions, exclusions, tags) */
+.list-item-group {
+  margin-bottom: var(--spacing-4);
+}
+.list-item-group h4 { /* For "Inclusions", "Exclusions" titles within a step */
+    font-size: 1.15rem; /* Slightly smaller than step subtitle */
+    margin-top: var(--spacing-4);
+    margin-bottom: var(--spacing-3);
     color: var(--text-color);
 }
 
 .list-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
 }
 
-.list-item input {
+.list-item input { /* Input within a list item takes remaining space */
   flex-grow: 1;
   margin-bottom: 0; /* Override default margin for inputs in a list item */
 }
 
-.list-item .btn-remove-item, /* Specific class for remove buttons in lists */
-.itinerary-item .btn-remove-item {
-  padding: 0.4rem 0.8rem;
+.btn-remove-item { /* General remove button for list items and itinerary items */
+  padding: 0.5rem 0.9rem; /* Slightly adjusted padding */
   font-size: 0.9rem;
-  background-color: var(--error-color);
+  background-color: var(--danger-color, #dc3545);
   color: white;
   border: none;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-md);
   cursor: pointer;
-  line-height: 1.2; /* Adjust line height for smaller buttons */
+  line-height: 1.2;
+  flex-shrink: 0; /* Prevent button from shrinking */
 }
-.list-item .btn-remove-item:hover,
-.itinerary-item .btn-remove-item:hover {
-  background-color: #c82333; /* Darker red on hover */
+.btn-remove-item:hover {
+  background-color: var(--danger-color-dark, #c82333);
 }
 
-.btn-add-item { /* For "+ Add Inclusion", "+ Add Tag" buttons */
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-  background-color: var(--secondary-color);
+.btn-add-item {
+  padding: 0.6rem 1.2rem; /* Adjusted padding */
+  font-size: 0.95rem;
+  color: var(--text-color-light, #fff);
+  background-color: var(--secondary-color, #6c757d); /* Default to secondary color */
   border: none;
-  margin-top: 0.5rem; /* Space above add button */
+  border-radius: var(--border-radius-md);
+  margin-top: var(--spacing-2); /* Space above add button */
 }
 .btn-add-item:hover {
-  background-color: #4791e8; /* Darker shade of secondary */
+  background-color: var(--secondary-color-dark, #5a6268);
 }
 
 
 /* Itinerary styling */
 .itinerary-item {
-  background: #f8f9fa; /* Light background for each itinerary item */
-  padding: 1.5rem;
-  border-radius: var(--border-radius);
-  margin-bottom: 1.5rem;
-  border: 1px solid #e9ecef;
+  background: var(--surface-color-light, #f8f9fa);
+  padding: var(--spacing-4);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-4);
+  border: 1px solid var(--border-color-subtle, #e9ecef);
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  gap: var(--spacing-3); /* Gap between form groups within an itinerary item */
 }
-.itinerary-item input, .itinerary-item textarea, .itinerary-item select {
-  margin-bottom: 0.75rem; /* Smaller margin within itinerary item */
+
+.itinerary-item .form-group { /* form-group within itinerary item */
+  margin-bottom: 0; /* Remove default bottom margin if direct child */
 }
+
+.itinerary-item .location-geo-group {
+  display: flex;
+  gap: var(--spacing-3);
+}
+.itinerary-item .location-geo-group .form-group {
+  flex: 1; /* Distribute space equally */
+}
+
+
 .itinerary-item .btn-remove-item { /* Position remove button for itinerary item */
-  margin-top: 0.5rem;
-  align-self: flex-start; /* If parent is flex */
+  align-self: flex-end; /* Align to the right if items are stacked */
+  margin-top: var(--spacing-2); /* Add some top margin if needed */
 }
 
 
@@ -112,44 +173,50 @@
 .form-navigation {
   display: flex;
   justify-content: space-between;
-  margin-top: 2.5rem; /* More space before navigation */
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border-color);
+  margin-top: var(--spacing-6); /* More space before navigation */
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--border-color, #ced4da);
 }
-/* .form-navigation button will use .btn styles */
+.form-navigation .btn { /* Buttons use global .btn styles */
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+.form-navigation .btn:only-child { /* If only one button (e.g., only Next or only Submit) */
+    margin-left: auto; /* Push to the right */
+}
+
 
 /* Progress Bar */
 .progress-container {
   width: 100%;
-  background: #e9ecef; /* Lighter background for progress bar track */
-  border-radius: 50px; /* Fully rounded track */
-  margin-top: 1.5rem;
-  height: 10px;
-  overflow: hidden; /* Ensure progress bar stays within rounded track */
+  background: var(--surface-color-lighter, #e9ecef);
+  border-radius: var(--border-radius-pill);
+  margin-top: var(--spacing-4);
+  height: 12px; /* Slightly thicker */
+  overflow: hidden;
 }
 
 .progress-bar {
   height: 100%;
   background: var(--primary-color);
-  border-radius: 50px; /* Match track rounding */
+  border-radius: var(--border-radius-pill);
   transition: width 0.4s ease-in-out;
 }
 
 /* AI Suggestion Link */
-.ai-suggestion-link {
-  margin-top: 2rem;
+.ai-suggestion-link-container { /* Renamed for clarity */
+  margin-top: var(--spacing-5);
+  padding-top: var(--spacing-4);
+  border-top: 1px dashed var(--border-color, #ced4da);
   text-align: center;
 }
-.ai-suggestion-link p {
-  margin-bottom: 0.5rem;
-  color: var(--text-color-muted);
+.ai-suggestion-link-container p {
+  margin-bottom: var(--spacing-2);
+  color: var(--text-color-muted, #6c757d);
+  font-size: 0.95rem;
 }
-.ai-suggestion-button { /* Style like .btn .btn-outline-primary */
-  color: var(--primary-color);
-  background-color: transparent;
-  border: 1px solid var(--primary-color);
-}
-.ai-suggestion-button:hover {
-  color: var(--surface-color);
-  background-color: var(--primary-color);
+.ai-suggestion-button { /* Style for the button itself */
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  /* Uses global .btn and .btn-outline-primary or similar from index.css */
 }
