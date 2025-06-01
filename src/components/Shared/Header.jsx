@@ -48,13 +48,13 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/chats" className={`btn btn-outline-primary tab ${isActive("/chats") ? "active" : ""}`}>
-                  Chat
+                <Link to="/allexpenses" className={`btn btn-outline-primary tab ${isActive("/allexpenses") ? "active" : ""}`}>
+                  Expenses
                 </Link>
               </li>
               <li>
-                <Link to="/allexpenses" className={`btn btn-outline-primary tab ${isActive("/allexpenses") ? "active" : ""}`}>
-                  Expenses
+                <Link to="/chats" className={`btn btn-outline-primary tab ${isActive("/chats") ? "active" : ""}`}>
+                  Chat
                 </Link>
               </li>
             </ul>
