@@ -1,70 +1,530 @@
-/* === components/Users/UserProfile/UserProfile.css === */
-.user-profile-page-container { /* Renamed from .user-profile-container for clarity */
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 0; /* Padding will be on inner .card */
-  background-color: transparent; /* Page background is already light gray */
-  border-radius: var(--border-radius);
-  /* box-shadow: var(--box-shadow-lg); Removed, card will have shadow */
+/* === src/components/Users/UserProfile/UserProfile.css === */
+
+/* --- UserProfile Page Container --- */
+.user-profile-page { /* Renamed from .user-profile-page-container for brevity */
+  max-width: 960px; /* Standard container width */
+  margin: var(--spacing-5) auto;
+  padding: 0; /* Padding will be on inner cards/sections */
 }
 
-.user-profile-card { /* New: Wrap all content in a card */
-    background-color: var(--surface-color);
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow-lg);
+/* --- Profile Card (Main wrapper for view/edit content) --- */
+.profile-card { /* Replaces .user-profile-card */
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius-lg); /* Larger radius for main profile card */
+  box-shadow: var(--box-shadow-lg);
+  overflow: hidden; /* Contain elements like images */
 }
 
-.profile-actions-header { /* Renamed from .profile-header for clarity */
-  display: flex;
-  flex-wrap: wrap; /* Allow buttons to wrap */
-  justify-content: center; /* Center buttons */
-  align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
+/* --- Profile Actions Header (Edit, Change Password, Delete buttons) --- */
+.profile-actions-bar { /* Renamed from .profile-actions-header */
+  padding: var(--spacing-4);
+  background-color: #f8f9fa; /* Light background for action bar */
   border-bottom: 1px solid var(--border-color);
-  gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+/* .profile-actions-bar .btn uses global styles */
+
+/* --- Profile Content Area (Switches between View and Edit) --- */
+.profile-content-area {
+  padding: var(--spacing-5);
 }
 
-/* .profile-actions-header h2 {
+/* --- ProfileDetails View Mode --- */
+.profile-view-header { /* For the top section with photo, name, bio */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+  text-align: center;
+  padding-bottom: var(--spacing-5);
+  margin-bottom: var(--spacing-5);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.profile-view-photo {
+  width: 150px; /* Larger profile photo */
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid var(--surface-color); /* Lift effect */
+  box-shadow: var(--box-shadow);
+}
+
+.profile-view-info h1 { /* User's name */
+  margin-top: 0;
+  margin-bottom: var(--spacing-2);
   font-size: 2rem;
   color: var(--text-color);
+}
+.profile-view-info .profile-bio { /* Bio paragraph */
+  font-size: 1.05rem;
+  color: var(--text-color-muted);
+  max-width: 600px;
+  line-height: 1.7;
   margin-bottom: 0;
-} */
-/* H2 can be outside this div or styled separately */
-
-/* .profile-actions button will use .btn styles */
-/* Example: .btn, .btn-secondary, .btn-danger */
-
-.profile-content {
-  margin-top: 1rem; /* Reduced as actions header has bottom margin */
 }
 
-/* Error/Status messages use global styles */
-
-/* ChangePasswordForm styling (if not in its own file) */
-.change-password-form-section { /* Wrapper for the form */
-  max-width: 500px;
-  margin: 2rem auto; /* Center the form */
-  padding: 2rem;
-  background: var(--surface-color);
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  border: 1px solid var(--border-color); /* Softer than full shadow */
+.profile-view-section {
+  margin-bottom: var(--spacing-6);
+}
+.profile-view-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
-.change-password-form-section h3 {
-  font-size: 1.5rem;
+.profile-view-section-title { /* h3 for "About", "Languages" etc. */
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-4);
+  padding-bottom: var(--spacing-2);
+  border-bottom: 1px dashed var(--border-color); /* Dashed for visual separation */
+}
+
+.profile-view-section p,
+.profile-view-section ul li {
+  font-size: 1rem;
   color: var(--text-color);
-  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+.profile-view-section ul {
+  list-style: none;
+  padding-left: 0;
+}
+.profile-view-section .about-text {
+    white-space: pre-wrap; /* Respect newlines in about text */
+}
+
+
+/* SpokenLanguages Display */
+.spoken-languages-grid { /* Renamed from .spoken-languages-list */
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+}
+.language-display-item { /* Renamed from .language-item */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+  background-color: #f8f9fa;
+  padding: var(--spacing-3);
+  border-radius: var(--border-radius);
+  font-size: 0.95rem;
+  text-align: center;
+  min-width: 120px;
+  border: 1px solid var(--border-color);
+}
+.language-flag-icon { /* Renamed from .flag-image */
+  width: 60px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid #ccc; /* Subtle border on flags */
+}
+.language-name-display { /* Renamed from .language-name */
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+/* CountriesVisited (Map Display) */
+.countries-visited-map-container {
+  padding: var(--spacing-3) 0; /* Remove top padding if title handles it */
   text-align: center;
 }
+.countries-visited-map-container svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  background-color: #f0f4f8; /* Light blue background for map area */
+}
 
-.change-password-form-section .form-group { /* From global styles */
-  margin-bottom: 1.5rem;
+/* ProfilePhotos Display (Gallery) */
+.profile-photos-gallery { /* Renamed from .photo-gallery-grid */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--spacing-3);
 }
-.change-password-form-section .form-group label {
+.gallery-photo-item { /* Renamed from .photo-gallery-item-wrapper */
+  position: relative;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--box-shadow-sm);
+  aspect-ratio: 1 / 1;
+  cursor: zoom-in; /* Indicate it can be clicked/hovered for larger view */
+}
+.gallery-photo-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+.gallery-photo-item:hover img {
+    transform: scale(1.05);
+}
+/* Preview on hover/click needs JS. Basic hover preview: */
+.gallery-photo-preview-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  max-width: 500px;
+  height: auto;
+  max-height: 80vh;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-lg);
+  pointer-events: none; /* Let clicks pass through if not interactive */
+  z-index: 1050;
+  overflow: hidden;
+  background-color: var(--surface-color);
+}
+.gallery-photo-preview-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Use contain to see whole image */
+}
+
+/* SocialLinks Display */
+.social-links-display { /* Renamed from .social-links-list */
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-4); /* More space between social icons */
+  align-items: center;
+}
+.social-links-display li a {
+  display: inline-flex; /* For icon alignment */
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--text-color-muted);
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+  padding: var(--spacing-1); /* Small clickable area */
+}
+.social-links-display li a:hover {
+  color: var(--primary-color);
+}
+.social-link-icon { /* Renamed from .social-icon */
+  width: 28px; /* Larger social icons */
+  height: 28px;
+  object-fit: contain;
+}
+
+/* User's Created Trips List (Profile View) */
+.profile-trips-list-container { /* Renamed from .user-profile-trips-scroll */
+  list-style: none;
+  padding: var(--spacing-2) 0 var(--spacing-4) 0;
+  display: flex;
+  gap: var(--spacing-4);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.profile-trips-list-container::-webkit-scrollbar {
+  height: 8px;
+}
+.profile-trips-list-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: var(--border-radius-pill);
+}
+.profile-trips-list-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: var(--border-radius-pill);
+}
+.profile-trips-list-container::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}
+
+.profile-trip-card { /* Renamed from .user-profile-trip-item-card */
+  /* Basic card styles inherited from .card if applied, or define here */
+  background-color: var(--surface-color);
+  padding: var(--spacing-3);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--box-shadow-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 240px; /* Consistent width for scrollable items */
+  max-width: 300px;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  text-align: left; /* Align text left in trip cards */
+}
+.profile-trip-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--box-shadow);
+}
+.profile-trip-card .trip-card-title { /* Renamed from h4 */
+  margin: 0 0 var(--spacing-2);
+  font-size: 1.15rem;
   font-weight: 600;
+  color: var(--primary-color);
 }
-/* Inputs inherit global styles */
-/* Button inherits .btn */
+.profile-trip-card .trip-card-dates { /* Renamed from p */
+  margin: var(--spacing-1) 0;
+  font-size: 0.9rem;
+  color: var(--text-color-muted);
+}
+
+/* --- EditProfileForm Mode --- */
+.edit-profile-form-container { /* Renamed from .edit-profile-form */
+  /* No specific container styles, it's placed inside .profile-content-area */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5); /* Space between form sections */
+}
+.edit-profile-form-section { /* Wrapper for each logical part of the form */
+    padding: var(--spacing-4);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: #fdfdfd; /* Slightly different bg for edit sections */
+}
+.edit-profile-form-section-title { /* h3 for "Profile Photo", "About You" */
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: var(--spacing-4);
+}
+/* .form-group and inputs use global styles */
+
+.edit-profile-form-container .btn-save-profile { /* Save button */
+  align-self: flex-start;
+  margin-top: var(--spacing-4);
+}
+
+/* ProfilePhotoUploader & PhotoUploader (Generic file input) */
+.photo-upload-area { /* Renamed from .photo-uploader-group */
+  /* margin-bottom: var(--spacing-4); */ /* Handled by .edit-profile-form-section */
+}
+.photo-upload-area > label { /* "Upload Photo" or "Change Profile Photo" */
+  display: block;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: var(--spacing-2);
+  /* Inherited from .edit-profile-form-section-title if used as such */
+}
+.file-input-styled-button { /* Renamed from .file-input-wrapper */
+  /* margin-left: 2rem; */
+  position: relative;
+  display: inline-block;
+  /* Uses .btn .btn-outline-primary style */
+  color: var(--primary-color);
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.file-input-styled-button:hover {
+  color: var(--text-color-light);
+  background-color: var(--primary-color);
+}
+.file-input-styled-button input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+}
+
+/* ProfilePhotosDelete (Gallery of photos with delete buttons) */
+.photos-management-gallery { /* Renamed from .photo-gallery-grid */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Smaller for management */
+  gap: var(--spacing-3);
+}
+.photo-management-item { /* Renamed from .photo-gallery-item-wrapper or .photo-item */
+  position: relative;
+  border-radius: var(--border-radius-sm);
+  overflow: hidden;
+  box-shadow: var(--box-shadow-sm);
+  aspect-ratio: 1 / 1;
+}
+.photo-management-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.btn-delete-gallery-photo { /* Renamed from .btn-delete-photo */
+  position: absolute;
+  top: var(--spacing-1);
+  right: var(--spacing-1);
+  /* Use .btn .btn-sm .btn-danger and an icon font/svg for 'X' */
+  background-color: rgba(220, 53, 69, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px; /* Fixed size for 'X' button */
+  height: 28px;
+  font-size: 0.9rem;
+  line-height: 28px; /* Center 'X' */
+  text-align: center;
+  padding:0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  z-index: 1;
+}
+.btn-delete-gallery-photo:hover {
+  background-color: var(--error-color);
+}
+
+/* LanguageSelector & CountriesVisitedSelector (Multi-select input) */
+.multi-select-input-container { /* Renamed from .select-multi-container */
+  /* margin-bottom: var(--spacing-4); */ /* Handled by .edit-profile-form-section */
+}
+.multi-select-input-container > label { /* "Languages Spoken" */
+ /* Handled by .edit-profile-form-section-title */
+}
+.multi-select-controls { /* Renamed from .select-multi-input-group */
+  display: flex;
+  gap: var(--spacing-3);
+  align-items: center;
+  margin-bottom: var(--spacing-3);
+}
+.multi-select-input-container .custom-select-input { /* Renamed from .custom-select */
+  flex-grow: 1;
+  border-radius: var(--border-radius); /* Match other inputs */
+}
+.multi-select-input-container .btn-add-to-list { /* Renamed from .btn-add-item */
+  /* Use .btn .btn-sm */
+}
+.selected-items-pill-list { /* Renamed from .selected-items-list */
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+.selected-item-pill { /* Renamed from .selected-item */
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  background-color: #e9ecef;
+  padding: var(--spacing-1) var(--spacing-3); /* More horizontal padding */
+  border-radius: var(--border-radius-pill);
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+.btn-remove-from-list { /* Renamed from .btn-remove-selected */
+  /* Use .btn-link or a small icon button */
+  background: none;
+  border: none;
+  color: var(--text-color-muted);
+  cursor: pointer;
+  font-size: 1.1rem; /* Larger 'x' */
+  line-height: 1;
+  padding: 0 var(--spacing-1);
+}
+.btn-remove-from-list:hover {
+  color: var(--error-color);
+}
+
+/* SocialLinksEditor */
+.social-links-editor-group .form-group { /* For Facebook/Instagram inputs */
+    margin-bottom: var(--spacing-3);
+}
+.social-links-editor-group .form-group:last-child {
+    margin-bottom: 0;
+}
+
+/* ChangePasswordForm (if rendered within UserProfile) */
+.change-password-form-modal-or-section { /* Wrapper */
+  max-width: 500px;
+  margin: var(--spacing-5) auto;
+  padding: var(--spacing-5);
+  background: var(--surface-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow-lg);
+  border: 1px solid var(--border-color);
+}
+.change-password-form-modal-or-section .form-title { /* h3 */
+  font-size: 1.6rem;
+  color: var(--text-color);
+  margin-bottom: var(--spacing-5);
+  text-align: center;
+}
+/* .form-group, inputs, .btn use global styles */
+.change-password-form-modal-or-section .btn-update-password {
+    margin-top: var(--spacing-3);
+}
+
+/* DeleteUser confirmation */
+.delete-account-confirmation {
+    margin-top: var(--spacing-4);
+    padding: var(--spacing-4);
+    background-color: #fff3cd; /* Warning background */
+    border: 1px solid #ffeeba;
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+.delete-account-confirmation p {
+    color: #856404; /* Warning text color */
+    margin-bottom: var(--spacing-3);
+}
+.delete-account-confirmation .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-3);
+}
+/* Buttons use .btn .btn-danger and .btn .btn-secondary */
+
+
+/* Responsive adjustments for profile */
+@media (max-width: 768px) {
+  .profile-view-header {
+    gap: var(--spacing-3);
+  }
+  .profile-view-photo {
+    width: 120px;
+    height: 120px;
+  }
+  .profile-view-info h1 {
+    font-size: 1.75rem;
+  }
+  .spoken-languages-grid {
+    justify-content: center; /* Center items on smaller screens */
+  }
+  .profile-photos-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 576px) {
+  .profile-card {
+    border-radius: 0; /* Full width on very small screens */
+  }
+  .profile-content-area {
+    padding: var(--spacing-4);
+  }
+  .profile-view-photo {
+    width: 100px;
+    height: 100px;
+  }
+  .profile-view-info h1 {
+    font-size: 1.5rem;
+  }
+  .profile-view-section-title {
+    font-size: 1.25rem;
+  }
+  .social-links-display {
+    justify-content: center;
+  }
+  .photos-management-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+}

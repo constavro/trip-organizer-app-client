@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './CountriesVisitedSelector.css'
 
 // You can replace this list with a full country list or import from a separate file
 const COUNTRY_LIST = [
@@ -202,47 +201,73 @@ const COUNTRY_LIST = [
 
 
 const CountriesVisitedSelector = ({ selectedCountries, onChange }) => {
-  const [input, setInput] = useState('');
+  const [inputValue, setInputValue] = useState('');
 
-  const handleAdd = () => {
-    const trimmed = input.trim();
+  const handleAddCountry = () => {
+    const trimmedInput = inputValue.trim();
     if (
-      trimmed &&
-      COUNTRY_LIST.includes(trimmed) &&
-      !selectedCountries.includes(trimmed)
+      trimmedInput &&
+      COUNTRY_LIST.includes(trimmedInput) && // Ensure it's a valid country
+      !selectedCountries.includes(trimmedInput)
     ) {
-      onChange([...selectedCountries, trimmed]);
-      setInput('');
+      onChange([...selectedCountries, trimmedInput]);
+      setInputValue(''); // Clear input after adding
+    } else if (selectedCountries.includes(trimmedInput)) {
+        alert(`${trimmedInput} is already added.`); // UX: feedback
+    } else if (trimmedInput && !COUNTRY_LIST.includes(trimmedInput)) {
+        alert(`"${trimmedInput}" is not a recognized country in our list.`); // UX: feedback
     }
   };
 
-  const handleRemove = (countryToRemove) => {
-    onChange(selectedCountries.filter((country) => country !== countryToRemove));
+  const handleRemoveCountry = (countryToRemove) => {
+    onChange(selectedCountries.filter((cntr) => cntr !== countryToRemove));
   };
 
+
   return (
-    <div className="select-wrapper">
-      <label>Countries Visited</label>
-      <div>
-        <select className="custom-select" value={input} onChange={(e) => setInput(e.target.value)}>
-          <option value="">Select a country</option>
+    <div className="multi-select-input-container">
+      <label htmlFor="country-select">Countries Visited</label> {/* For accessibility */}
+      <div className="multi-select-controls">
+        <select
+          id="country-select"
+          className="custom-select-input" // Use new class
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        >
+          <option value="">-- Select a country to add --</option>
           {COUNTRY_LIST.map((country) => (
-            <option key={country} value={country}>
+            <option key={country} value={country} disabled={selectedCountries.includes(country)}>
               {country}
             </option>
           ))}
         </select>
-        <button className='countries-button' type="button" onClick={handleAdd}>Add</button>
+        <button
+          type="button"
+          className="btn btn-sm btn-add-to-list" // Use new class & btn styles
+          onClick={handleAddCountry}
+          disabled={!inputValue}
+        >
+          Add
+        </button>
       </div>
 
-      <ul className="selected-countries">
-        {selectedCountries.map((country) => (
-          <li key={country}>
-            {country}{' '}
-            <button className='countries-button' type="button" onClick={() => handleRemove(country)}>×</button>
-          </li>
-        ))}
-      </ul>
+      {selectedCountries.length > 0 && (
+        <ul className="selected-items-pill-list">
+          {selectedCountries.map((cntr) => (
+            <li key={cntr} className="selected-item-pill">
+              {cntr}
+              <button
+                type="button"
+                className="btn-remove-from-list" // Use new class
+                onClick={() => handleRemoveCountry(cntr)}
+                aria-label={`Remove ${cntr}`}
+              >
+                × {/* HTML entity for 'x' */ }
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

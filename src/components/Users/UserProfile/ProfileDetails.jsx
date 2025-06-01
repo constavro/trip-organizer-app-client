@@ -1,50 +1,84 @@
-// components/UserProfile/ProfileDetails.jsx
-import React from 'react';
+import React, { useState } from 'react'; // Added useState for photo preview
 import SocialLinks from './SocialLinks';
 import ProfilePhotos from './ProfilePhotos';
 import TripsList from './TripsList';
 import CountriesVisited from './CountriesVisited';
 import SpokenLanguages from './SpokenLanguages';
-import './ProfileDetails.css'
+// CSS is imported by UserProfile.jsx
 
-const ProfileDetails = ({ user, createdTrips }) => {
-  if (!user) return null;
+const ProfileDetails = ({ userData, createdTripsData }) => {
+  const [previewImage, setPreviewImage] = useState(null); // For photo preview
 
-  console.log(`${process.env.REACT_APP_BACKEND_URL}${user.profilePhoto}`)
+  if (!userData) return <p className="status-message">Loading user details...</p>;
+
+  const profilePhotoUrl = userData.profilePhoto
+    ? (userData.profilePhoto.startsWith('http') ? userData.profilePhoto : `${process.env.REACT_APP_BACKEND_URL}${userData.profilePhoto}`)
+    : '/default-avatar.png';
+
 
   return (
     <>
-
-    <div className="profile-details-header-display">
-      <img
-        className="profile-photo-display"
-        src={`${process.env.REACT_APP_BACKEND_URL}${user.profilePhoto}` || '/default_avatar.png'}
-        alt={`${user.firstName}'s profile`}
-      />
-              <div className="profile-info-display">
-    <h2>{user.firstName} {user.lastName}</h2>
-    <p>{user.bio || 'No bio provided'}</p>
-  </div>
+      <div className="profile-view-header">
+        <img
+          className="profile-view-photo"
+          src={profilePhotoUrl}
+          alt={`${userData.firstName || 'User'}'s profile`}
+          onError={(e) => { e.target.onerror = null; e.target.src='/default-avatar.png'; }} // Fallback for broken images
+        />
+        <div className="profile-view-info">
+          <h1>{userData.firstName || ''} {userData.lastName || ''}</h1>
+          <p className="profile-bio">{userData.bio || 'No bio provided. This user is a mystery!'}</p>
         </div>
-      <div className="profile-section-display">
-        <h3>About</h3>
-        <p>{user.about || 'No details provided.'}</p>
       </div>
 
-      <div className="profile-section-display">
-        <h3>Spoken Languages</h3>
-        <SpokenLanguages languages={user.spokenLanguages} />
-      </div>
+      {userData.about && (
+        <section className="profile-view-section">
+          <h3 className="profile-view-section-title">About Me</h3>
+          <p className="about-text">{userData.about}</p>
+        </section>
+      )}
 
-      <div className="countries-map-display">
-         <h3>Countries Visited</h3>
-        <CountriesVisited visitedCountries={user.countriesVisited || []} />
+      {userData.spokenLanguages && (
+        <section className="profile-view-section">
+          <h3 className="profile-view-section-title">Languages Spoken</h3>
+          <SpokenLanguages languages={userData.spokenLanguages} />
+        </section>
+      )}
+      
+      {userData.countriesVisited && (
+        <section className="profile-view-section">
+          <h3 className="profile-view-section-title">Countries Visited</h3>
+          <CountriesVisited visitedCountries={userData.countriesVisited} />
+        </section>
+      )}
+
+      {createdTripsData && (
+        <section className="profile-view-section">
+          <h3 className="profile-view-section-title">Trips Created</h3>
+          <TripsList trips={createdTripsData} />
+        </section>
+      )}
+      
+      {userData.photos && (
+        <section className="profile-view-section">
+          <h3 className="profile-view-section-title">My Photo Gallery</h3>
+          <ProfilePhotos photos={userData.photos} onPhotoClick={setPreviewImage} />
+        </section>
+      )}
+
+      {(userData.socialLinks?.facebook || userData.socialLinks?.instagram) && (
+         <section className="profile-view-section">
+            <h3 className="profile-view-section-title">Connect With Me</h3>
+            <SocialLinks links={userData.socialLinks} />
+        </section>
+      )}
+
+      {/* Photo Preview Modal/Overlay */}
+      {previewImage && (
+        <div className="gallery-photo-preview-container" onClick={() => setPreviewImage(null)} style={{cursor: 'zoom-out'}}>
+          <img src={previewImage.startsWith('http') ? previewImage : `${process.env.REACT_APP_BACKEND_URL}${previewImage}`} alt="Preview" />
         </div>
-        <TripsList trips={createdTrips} />
-        <ProfilePhotos photos={user.photos} />
-
-      <SocialLinks links={user.socialLinks} />
-
+      )}
     </>
   );
 };

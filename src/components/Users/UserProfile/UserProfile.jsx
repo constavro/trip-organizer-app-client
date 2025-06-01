@@ -1,14 +1,15 @@
-// UserProfile.jsx
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from 'react'; // Added useCallback
+import { useParams, useNavigate } from 'react-router-dom'; // Added useNavigate
 import ProfileDetails from './ProfileDetails';
 import EditProfileForm from './EditProfileForm';
 import DeleteUser from './DeleteUser';
 import ChangePasswordForm from './ChangePasswordForm';
-import './UserProfile.css';
+import './UserProfile.css'; // Consolidated CSS
 
 const UserProfile = () => {
-  const { userId } = useParams();
+  const { userId: viewedUserId } = useParams(); // Renamed for clarity
+  const navigate = useNavigate(); // For navigation after delete
+
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -16,102 +17,130 @@ const UserProfile = () => {
   const [showPasswordForm, setShowPasswordForm] = useState(false);
 
   const loggedInUserId = localStorage.getItem('userId');
+  const token = localStorage.getItem('token'); // Get token once
+  const isOwnProfile = loggedInUserId === viewedUserId;
+
+  const fetchUserProfile = useCallback(async () => {
+    if (!token) {
+      setError('Authentication required to view profiles.');
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${viewedUserId}`, {
+        headers: { Authorization: token },
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({ message: 'Error fetching user profile' }));
+        throw new Error(errorData.message);
+      }
+      const data = await res.json();
+      setProfileData(data); // data should contain { user: { user: userData, createdTrips: [] } }
+    } catch (err) {
+      setError(err.message || 'Could not load profile.');
+      console.error("Fetch profile error:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, [viewedUserId, token]);
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setError('You must be logged in to view profiles.');
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}`, {
-          headers: { Authorization: token },
-        });
-
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData.message || 'Error fetching user profile');
-        }
-
-        const data = await res.json();
-        setProfileData(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchUserProfile();
-  }, [userId]);
+  }, [fetchUserProfile]);
 
-  const handleEditProfile = async (updatedProfile) => {
-    const token = localStorage.getItem('token');
+  const handleSaveProfile = async (updatedProfileData) => {
+    if (!token || !isOwnProfile) return;
+    setError(''); // Clear previous errors
     try {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${loggedInUserId}`, { // Use loggedInUserId for update
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: token,
         },
-        body: JSON.stringify(updatedProfile),
+        body: JSON.stringify(updatedProfileData),
       });
 
       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || 'Error updating profile');
+        const errorData = await res.json().catch(() => ({ message: 'Error updating profile' }));
+        throw new Error(errorData.message);
       }
-
-      const updatedData = await res.json();
-      setProfileData((prevData) => ({
+      const updatedDataFromServer = await res.json(); // This should be the updated user object
+      
+      // Update profileData state correctly
+      setProfileData(prevData => ({
         ...prevData,
-        user: updatedData,
+        user: { // Assuming backend returns the updated user object directly or nested
+            ...prevData.user, // keep other parts like createdTrips
+            user: updatedDataFromServer.user || updatedDataFromServer // Adjust based on your API response
+        }
       }));
       setIsEditing(false);
+      setShowPasswordForm(false); // Close password form on successful profile save too
+      alert("Profile updated successfully!"); // UX: Success feedback
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Failed to update profile.');
+      console.error("Update profile error:", err);
     }
   };
 
-  if (loading) return <p className="status-message">Loading profile...</p>;
-  if (error) return <p className="error-message">{error}</p>;
-  if (!profileData) return <p className="status-message">No profile found.</p>;
+  const handlePasswordChanged = () => {
+    setShowPasswordForm(false);
+    alert("Password changed successfully!"); // UX: Success feedback
+  }
 
-  const user = profileData.user.user;
+  const handleDeleteSuccess = () => {
+    alert('Your account has been successfully deleted.');
+    navigate('/'); // Redirect to landing page
+  };
+
+  if (loading) return <p className="loading-message container">Loading profile...</p>;
+  if (error && !profileData) return <p className="error-message container">{error}</p>; // Show full page error if profileData is null
+  if (!profileData || !profileData.user || !profileData.user.user) return <p className="empty-state-message container">User profile not found.</p>;
+
+  const { user } = profileData.user; // Destructure after ensuring profileData.user.user exists
+  const { createdTrips } = profileData;
 
   return (
-    <div className="user-profile-page-container">
-      <div className="user-profile-card">
-        {loggedInUserId === userId && (
-          <div className="profile-actions-header">
-            <button className="btn" onClick={() => setIsEditing(!isEditing)}>
-              {isEditing ? 'Cancel' : 'Edit Profile'}
+    <div className="user-profile-page container">
+      <div className="profile-card">
+        {isOwnProfile && (
+          <div className="profile-actions-bar">
+            <button
+              className={`btn ${isEditing ? 'btn-secondary' : 'btn-outline-primary'}`}
+              onClick={() => { setIsEditing(!isEditing); if (showPasswordForm) setShowPasswordForm(false); }}
+              aria-pressed={isEditing}
+            >
+              {isEditing ? 'Cancel Edit' : 'Edit Profile'}
             </button>
-            <button className="btn secondary" onClick={() => setShowPasswordForm(!showPasswordForm)}>
-              {showPasswordForm ? 'Cancel Password Change' : 'Change Password'}
+            <button
+              className={`btn ${showPasswordForm ? 'btn-secondary' : 'btn-outline-primary'}`}
+              onClick={() => { setShowPasswordForm(!showPasswordForm); if (isEditing) setIsEditing(false); }}
+              aria-pressed={showPasswordForm}
+            >
+              {showPasswordForm ? 'Hide Password Form' : 'Change Password'}
             </button>
             <DeleteUser
-              userId={userId}
-              onDeleteSuccess={() => {
-                alert('Your account has been deleted.');
-                window.location.href = '/';
-              }}
+              userId={loggedInUserId}
+              onDeleteSuccess={handleDeleteSuccess}
             />
           </div>
         )}
 
-      {showPasswordForm && <ChangePasswordForm userId={userId} />}
-
-      <div className="profile-content">
-        {isEditing ? (
-          <EditProfileForm user={user} onSave={handleEditProfile} />
-        ) : (
-          <ProfileDetails user={user} createdTrips={profileData.createdTrips} />
-        )}
-      </div>
+        <div className="profile-content-area">
+          {error && <p className="error-message">{error}</p>} {/* Display error related to updates here */}
+          
+          {isEditing && isOwnProfile ? (
+            <EditProfileForm currentUserData={user} onSave={handleSaveProfile} />
+          ) : showPasswordForm && isOwnProfile ? (
+            <ChangePasswordForm userId={loggedInUserId} onSuccess={handlePasswordChanged} />
+          ) : (
+            <ProfileDetails userData={user} createdTripsData={createdTrips} />
+          )}
+        </div>
       </div>
     </div>
   );
