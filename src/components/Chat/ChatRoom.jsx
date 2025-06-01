@@ -71,7 +71,13 @@ const ChatRoom = ({ tripId, currentUserId }) => { // Changed prop name
           className={`message ${msg.sender._id === currentUserId ? 'current-user-message' : 'other-user-message'}`}
         >
           <span className="message-sender">
-            {msg.sender?.firstName || msg.senderName || 'User'} {/* Adapt based on sender info structure */}
+          {msg.sender?._id ? (
+    <a href={`/profile/${msg.sender._id}`} className="message-sender-link">
+      {msg.sender.firstName || 'User'}
+    </a>
+  ) : (
+    msg.senderName || 'User'
+  )}
           </span>
           <div className="message-content">{msg.content || msg.text}</div> {/* Adapt based on content field */}
         </div>
