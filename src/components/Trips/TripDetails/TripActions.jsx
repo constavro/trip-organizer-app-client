@@ -24,7 +24,7 @@ const TripActions = ({ isParticipant, isHost, tripId }) => {
 
   return (
     <div className="trip-actions-section">
-      {!isHost && isParticipant && <button className="btn" onClick={() => navigate(`/trips/${tripId}/book`)}>Book Now</button>}
+      {!isHost && !isParticipant && <button className="btn" onClick={() => navigate(`/trips/${tripId}/book`)}>Book Now</button>}
       {isHost && (
         <>
           <button className="btn" onClick={() => navigate(`/trips/edit/${tripId}`)}>Edit</button>

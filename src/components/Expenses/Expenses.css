@@ -239,12 +239,6 @@ margin-bottom: var(--spacing-3);
 display: block;
 }
 
-.participant-checkbox-group {
-/* display: flex;
-flex-wrap: wrap;
-gap: var(--spacing-3); */
-/* Using column for better layout with inputs */
-}
 .participant-split-item {
   display: flex;
   align-items: center;
@@ -352,4 +346,14 @@ margin-top: var(--spacing-3);
 
 .add-expense-form-section h3.editing-mode {
   color: var(--text-color); /* Or your preferred styling */
+}
+
+/* Expenses.css */
+.settlement-expense-item {
+  background-color: var(--success-bg-subtle, #e6fffa); /* A light green or blue */
+  border-left: 4px solid var(--success-color, green);
+}
+.settlement-badge {
+  background-color: var(--success-color, green) !important;
+  color: white !important;
 }

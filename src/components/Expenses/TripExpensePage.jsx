@@ -18,6 +18,7 @@ const TripExpensesPage = () => {
   const [expenses, setExpenses] = useState([]);
   const [tripParticipants, setTripParticipants] = useState([]);
   const [tripOrganizerId, setTripOrganizerId] = useState(null);
+  const [isSettling, setIsSettling] = useState(false);
 
   const getInitialFormState = (participants = [], currentCurrency = DEFAULT_CURRENCY) => ({
     _id: null,
@@ -100,7 +101,7 @@ const TripExpensesPage = () => {
               const { type, participants: splitParticipants } = exp.splitDetails;
               const numSplitParticipants = splitParticipants.length;
 
-              if (numSplitParticipants === 0) return; // Avoid division by zero
+              if (numSplitParticipants === 0 && type !== 'SETTLEMENT_PAYOUT') return; // Avoid division by zero
 
               splitParticipants.forEach(sp => {
                   const participantUserId = sp.user._id;
@@ -108,68 +109,60 @@ const TripExpensesPage = () => {
                   
                   let share = 0;
                   if (type === 'equally') {
-                      share = amount / numSplitParticipants;
-                  } else if (type === 'unequally_by_amount') {
-                      share = sp.amountOwed || 0;
-                  }
+                    share = numSplitParticipants > 0 ? amount / numSplitParticipants : 0;
+                } else if (type === 'unequally_by_amount') {
+                    share = sp.amountOwed || 0;
+                } else if (type === 'SETTLEMENT_PAYOUT' && participantUserId !== currentUserId) {
+                  userBalances[participantUserId] += (sp.amountOwed || 0);
+                  return;
+                } else if (type === 'SETTLEMENT_PAYOUT' && participantUserId === currentUserId) {
+                  userBalances[participantUserId] -= (sp.amountOwed || 0);
+                  return;
+                }
+
                   userBalances[participantUserId] -= share;
               });
           }
       });
       
-      const currentUserBalance = userBalances[currentUserId] || 0;
+      const currentUserNetBalance = userBalances[currentUserId] || 0;
       
       // Create breakdown: who owes current user, or whom current user owes
       const breakdown = [];
-      Object.entries(userBalances).forEach(([userId, balance]) => {
-        if (userId === currentUserId) return; // Don't compare current user to themselves
+      Object.entries(userBalances)
+      .filter(([userId]) => userId !== currentUserId)
+      .forEach(([otherUserId, otherUserBalance]) => {
+        const otherUser = tripParticipants.find(p => p._id.toString() === otherUserId);
+        if (!otherUser) return; // Don't compare current user to themselves
+        let message = "";
 
-        const otherUser = tripParticipants.find(p => p._id === userId);
-        if (!otherUser) return; // Should not happen if data is consistent
-
-        // If current user owes otherUser, otherUser's balance will be positive
-        // If otherUser owes current user, otherUser's balance will be negative
-        // We want to display this from the current user's perspective.
-        // Example:
-        // My balance: -50 (I owe 50 overall)
-        // UserA balance: +30 (UserA is owed 30 by the group, could be from me)
-        // UserB balance: +20 (UserB is owed 20 by the group, could be from me)
-
-        // Simpler approach: If my balance is positive, others might owe me.
-        // If my balance is negative, I might owe others.
-        // The individual balances in userBalances are net for each person *within the group*
-        // For "who owes whom" specifically related to the current user:
-        // If userBalances[otherUserId] is positive, they are owed money by the group. Some of this might be "from me".
-        // If userBalances[otherUserId] is negative, they owe money to the group. Some of this might be "to me".
-        
-        // This calculation is complex for a simple "who owes whom direct pairs".
-        // The current `tripBalances.overall` correctly shows what the current user owes or is owed in total.
-        // The `breakdown` here is showing each *other* person's net balance within the trip.
-        // This might be confusing. A true "who owes whom" might require a settlement algorithm.
-        // For now, let's adjust the display text for clarity based on `currentUserBalance`.
-
-        if (currentUserBalance > 0 && balance < 0) { // I am owed overall, and this person owes the group
-            breakdown.push({
-                userId,
-                name: `${otherUser.firstName} ${otherUser.lastName || ''}`.trim(),
-                // This is tricky: how much of what they owe goes to me?
-                // For simplicity, let's show their net debt to the group if I am owed.
-                message: `${otherUser.firstName} owes ${Math.abs(balance).toFixed(2)} ${form.currency}`,
-                profilePhoto: otherUser.profilePhoto
-            });
-        } else if (currentUserBalance < 0 && balance > 0) { // I owe overall, and this person is owed by the group
-             breakdown.push({
-                userId,
-                name: `${otherUser.firstName} ${otherUser.lastName || ''}`.trim(),
-                message: `You might owe ${otherUser.firstName} (they are owed ${balance.toFixed(2)} ${form.currency} by the group)`,
-                profilePhoto: otherUser.profilePhoto
-            });
+        if (currentUserNetBalance > 0) {
+          if (otherUserBalance < 0) { // And this other person owes the group
+              // How much of what they owe is to me? This is hard to pinpoint without simplification.
+              // Simplest: "X owes Y to the group. You are owed Z overall."
+               message = `${otherUser.firstName} owes ${Math.abs(otherUserBalance).toFixed(2)} ${form.currency}.`;
+          }
+      } 
+      else if (currentUserNetBalance < 0) {
+        if (otherUserBalance > 0) { // And this other person is owed by the group
+            // How much of what I owe goes to them?
+             message = `${otherUser.firstName} is owed ${otherUserBalance.toFixed(2)} ${form.currency}.`;
         }
-        // Other cases are more complex (e.g. we both owe, or we both are owed)
-      });
-  
-      return { overall: parseFloat(currentUserBalance.toFixed(2)), breakdown };
-    }, [expenses, currentUserId, tripParticipants, form.currency]); // Added form.currency
+    }
+    if (message) {
+      breakdown.push({
+         userId: otherUserId,
+         name: `${otherUser.firstName} ${otherUser.lastName || ''}`.trim(),
+         message: message,
+         profilePhoto: otherUser.profilePhoto,
+         balance: parseFloat(otherUserBalance.toFixed(2)) // Store their actual balance for potential display
+     });
+
+ }
+});
+return { overall: parseFloat(currentUserNetBalance.toFixed(2)), breakdown };
+}, [expenses, currentUserId, tripParticipants, form.currency]); 
+
 
   const handleFormChange = (e) => { setForm(prev => ({ ...prev, [e.target.name]: e.target.value })); setFormError('');};
   
@@ -272,13 +265,13 @@ const TripExpensesPage = () => {
         category: expenseToEdit.category,
         expenseDate: new Date(expenseToEdit.expenseDate).toISOString().split('T')[0],
         splitType: expenseToEdit.splitDetails.type,
-        splitBetween: expenseToEdit.splitDetails.participants.map(p_split => {
+        splitBetween: expenseToEdit.splitDetails.participants.map(p => {
             // p_split.user is populated by backend: { _id, firstName, profilePhoto }
             return {
-                user: p_split.user._id,
-                name: p_split.user.firstName,
-                profilePhoto: p_split.user.profilePhoto,
-                amountOwed: p_split.amountOwed !== undefined ? p_split.amountOwed.toString() : '',
+                user: p.user._id,
+                name: p.user.firstName,
+                profilePhoto: p.user.profilePhoto,
+                amountOwed: p.amountOwed !== undefined ? p.amountOwed.toString() : '',
             };
         }),
         notes: expenseToEdit.notes || "",
@@ -320,19 +313,69 @@ const TripExpensesPage = () => {
     return currentUserId === expensePayerId || currentUserId === tripOrganizerId;
   };
 
+
+  const handleSettleUp = async () => {
+    if (tripBalances.overall >= 0) {
+        alert("You have no outstanding debts to settle for this trip.");
+        return;
+    }
+    if (!window.confirm(`You are about to settle your debt of ${Math.abs(tripBalances.overall).toFixed(2)} ${form.currency}. Proceed?`)) {
+        return;
+    }
+
+    setIsSettling(true);
+    setFormError(''); // Clear previous form errors
+    try {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/expenses/trip/${tripId}/settle`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token,
+            },
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            throw new Error(data.message || "Failed to settle debts.");
+        }
+        
+        alert(data.message || "Debts settled successfully!");
+        fetchTripData(); // Refetch all trip data to update expenses list and balances
+
+    } catch (err) {
+        console.error("Settle up error:", err);
+        // Display error to user, e.g., in a dedicated error spot for settlement
+        setError(`Settlement failed: ${err.message}`); // Use general error state or a new one
+    } finally {
+        setIsSettling(false);
+    }
+  };
+
+
   if (loading) return <p className="loading-message container">Loading trip expenses...</p>;
-  if (error) return <p className="error-message container">{error}</p>;
+  if (error && !isSettling) return <p className="error-message container">{error}</p>;
 
   return (
     <div className="expenses-page-container container">
       <div className="page-header">
         <h2>Expenses for: {tripTitle}</h2>
+        {error && isSettling && <p className="error-message container">{error}</p>}
         <div className="trip-balance-overview card">
             <h3>Your Balance Summary for this Trip</h3>
             {tripBalances.overall === 0 && <p className="balance-settled">You are all settled up for this trip!</p>}
             {tripBalances.overall > 0 && <p className="balance-positive">You are owed: {tripBalances.overall.toFixed(2)} {form.currency}</p>}
             {tripBalances.overall < 0 && <p className="balance-negative">You owe: {Math.abs(tripBalances.overall).toFixed(2)} {form.currency}</p>}
-            
+            {tripBalances.overall < -0.001 && ( // Show settle button if user owes
+                <button 
+                    onClick={handleSettleUp} 
+                    className="btn btn-success" // Or your preferred styling
+                    disabled={isSettling || submitting} // Disable while settling or submitting form
+                    style={{marginTop: '15px', marginBottom: '10px'}}
+                >
+                    {isSettling ? 'Settling...' : `Settle Your Debt (${Math.abs(tripBalances.overall).toFixed(2)} ${form.currency})`}
+                </button>
+            )}
             {tripBalances.breakdown.length > 0 && (
                 <details className="balance-breakdown-details">
                     <summary>Show Balance Details</summary>
@@ -355,11 +398,11 @@ const TripExpensesPage = () => {
           {expenses.length === 0 ? ( <p className="empty-state-message">No expenses recorded yet.</p> ) : (
             <ul className="expenses-list">
               {expenses.map((exp) => (
-                <li key={exp._id} className="expense-item">
+                <li key={exp._id} className={`expense-item ${exp.category === 'SETTLEMENT' ? 'settlement-expense-item' : ''}`}>
                   <div className="expense-main-info">
                     <span className="expense-date">{new Date(exp.expenseDate).toLocaleDateString()}</span>
                     <strong className="expense-description">{exp.description}</strong>
-                    <span className="expense-category-badge">{exp.category}</span>
+                    <span className={`expense-category-badge ${exp.category === 'SETTLEMENT' ? 'settlement-badge' : ''}`}>{exp.category}</span>
                   </div>
                   <div className="expense-financials">
                     Paid by: 
@@ -369,7 +412,8 @@ const TripExpensesPage = () => {
                   </div>
                   {exp.splitDetails?.participants && exp.splitDetails.participants.length > 0 && (
                     <div className="expense-split-info">
-                        Split {exp.splitDetails.type.replace('_by_amount', '')}:
+                      {exp.splitDetails.type === 'SETTLEMENT_PAYOUT' ? 'Distributed to:' : `Split ${exp.splitDetails.type.replace('_by_amount', '')}:`}
+                        {/* Split {exp.splitDetails.type.replace('_by_amount', '')}: */}
                         <ul className="split-participant-list">
                         {exp.splitDetails.participants.map(p => (
                             <li key={p.user._id}>
@@ -377,12 +421,13 @@ const TripExpensesPage = () => {
                             <Link to={`/profile/${p.user._id}`}>{p.user.firstName || 'User'}</Link>:
                             {exp.splitDetails.type === 'equally' && exp.splitDetails.participants.length > 0 && ` (${(exp.amount / exp.splitDetails.participants.length).toFixed(2)} ${exp.currency})`}
                             {exp.splitDetails.type === 'unequally_by_amount' && ` (${(p.amountOwed || 0).toFixed(2)} ${exp.currency})`}
+                            {exp.splitDetails.type === 'SETTLEMENT_PAYOUT' && ` (Received: ${(p.amountOwed || 0).toFixed(2)} ${exp.currency})`}
                             </li>
                         ))}
                         </ul>
                     </div>
                   )}
-                  {canModifyExpense(exp.payer._id) && (
+                  {exp.category !== 'SETTLEMENT' && canModifyExpense(exp.payer._id) && (
                     <div className="expense-actions">
                         <button onClick={() => handleEdit(exp)} className="btn btn-sm btn-outline-primary" disabled={submitting}>Edit</button>
                         <button onClick={() => handleDelete(exp._id)} className="btn btn-sm btn-outline-danger" disabled={submitting}>Delete</button>
@@ -392,6 +437,7 @@ const TripExpensesPage = () => {
               ))}
             </ul>
           )}
+
         </section>
 
         <section className="add-expense-form-section card">
@@ -471,7 +517,7 @@ const TripExpensesPage = () => {
               </div>
             )}
              <div className="form-group">
-                <label htmlFor="notes">Notes (optional)</label>
+                <label htmlFor="notes">Notes</label>
                 <textarea id="notes" name="notes" value={form.notes} onChange={handleFormChange} rows="3" placeholder="Any extra details..."></textarea>
             </div>
             <button type="submit" className="btn btn-primary" disabled={submitting || (form.splitType === 'unequally_by_amount' && Math.abs(parseFloat(form.amount || 0) - form.splitBetween.reduce((sum, p) => sum + (parseFloat(p.amountOwed) || 0), 0)) > 0.01 && form.splitBetween.length > 0 )}>
