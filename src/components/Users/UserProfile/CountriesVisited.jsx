@@ -29,9 +29,6 @@ const CountriesVisited = ({ visitedCountries = [] }) => {
     };
   };
 
-  if (visitedCountries.length === 0) {
-      return <p className="text-muted">This user hasn't logged any visited countries yet.</p>
-  }
 
   return (
     <div className="countries-visited-map-container">
