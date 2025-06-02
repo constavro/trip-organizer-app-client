@@ -7,6 +7,7 @@ function Signup() {
     lastName: '',
     email: '',
     password: '',
+    confirmPassword: '', // Added confirmPassword
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,13 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    // Passwords must match
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -28,21 +36,25 @@ function Signup() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+        }),
       });
-      
+
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.message || 'Signup failed');
       }
-      
-      // Navigate to auth page (login) with an info message
-      navigate('/auth', { 
-        state: { 
-          infoMessage: '🎉 Signup successful! Please check your email to confirm your account. After confirmation, you can log in.' 
-        } 
+
+      navigate('/auth', {
+        state: {
+          infoMessage: '🎉 Signup successful! Please check your email to confirm your account. After confirmation, you can log in.',
+        },
       });
-    } catch (err) { // Renamed to avoid conflict with outer error state
+    } catch (err) {
       setError(err.message);
       console.error('Signup failed:', err);
     } finally {
@@ -51,12 +63,12 @@ function Signup() {
   };
 
   return (
-    <div className="auth-form-card"> {/* Use common card style */}
+    <div className="auth-form-card">
       <h1>Signup</h1>
       {error && <p className="message error-message">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="signup-firstName">First Name</label> {/* Unique ID for label */}
+          <label htmlFor="signup-firstName">First Name</label>
           <input
             type="text"
             name="firstName"
@@ -68,7 +80,7 @@ function Signup() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="signup-lastName">Last Name</label> {/* Unique ID for label */}
+          <label htmlFor="signup-lastName">Last Name</label>
           <input
             type="text"
             name="lastName"
@@ -80,7 +92,7 @@ function Signup() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="signup-email">Email</label> {/* Unique ID for label */}
+          <label htmlFor="signup-email">Email</label>
           <input
             type="email"
             name="email"
@@ -92,7 +104,7 @@ function Signup() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="signup-password">Password</label> {/* Unique ID for label */}
+          <label htmlFor="signup-password">Password</label>
           <input
             type="password"
             name="password"
@@ -101,10 +113,23 @@ function Signup() {
             onChange={handleChange}
             required
             placeholder="Create a password (min. 6 characters)"
-            minLength="6" // Basic client-side validation
+            minLength="6"
           />
         </div>
-        <button type="submit" className="btn btn-primary" disabled={loading}> {/* Added .btn-primary */}
+        <div className="form-group">
+          <label htmlFor="signup-confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            id="signup-confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+            placeholder="Re-enter your password"
+            minLength="6"
+          />
+        </div>
+        <button type="submit" className="btn btn-primary" disabled={loading}>
           {loading ? 'Signing up...' : 'Signup'}
         </button>
       </form>

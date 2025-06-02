@@ -243,9 +243,9 @@ return { overall: parseFloat(currentUserNetBalance.toFixed(2)), breakdown };
         const resultExpense = await res.json();
 
         if (isEditing) {
-            setExpenses(prev => prev.map(exp => exp._id === resultExpense._id ? resultExpense : exp).sort((a,b) => new Date(b.expenseDate) - new Date(a.expenseDate)));
+            setExpenses(prev => prev.map(exp => exp._id === resultExpense._id ? resultExpense : exp).sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)));
         } else {
-            setExpenses(prev => [resultExpense, ...prev].sort((a,b) => new Date(b.expenseDate) - new Date(a.expenseDate)));
+            setExpenses(prev => [resultExpense, ...prev].sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)));
         }
         
         setForm(getInitialFormState(tripParticipants, form.currency)); // Reset form, keep currency

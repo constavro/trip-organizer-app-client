@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './CreateTripButton.css';
 
 const CreateTripButton = () => {
   const navigate = useNavigate();

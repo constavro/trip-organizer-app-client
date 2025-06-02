@@ -3,12 +3,6 @@
   margin-top: 1rem; /* Reduced from 2rem as filters are above */
 }
 
-.trip-list-section h2 { /* This h2 might be redundant if TripPage has one */
-  /* font-size: 1.75rem;
-  margin-bottom: 1.5rem;
-  color: var(--text-color);
-  text-align: center; */
-}
 
 .trip-list-grid { /* Renamed from .trip-list for clarity */
   display: grid;
