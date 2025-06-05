@@ -16,7 +16,7 @@ const Header = () => {
     navigate("/");
   };
 
-  const isActive = (path) => location.pathname === path || (path === "/trips" && location.pathname.startsWith("/trips/")); // More robust active check
+  const isActive = (path) => location.pathname === path || (path === "/trips" && location.pathname.startsWith("/trips/")) || (path === "/allexpenses" && location.pathname.startsWith("/expenses/")) || (path === "/chats" && location.pathname.startsWith("/chat/")); // More robust active check
 
   // Close dropdown when clicking outside
   useEffect(() => {
