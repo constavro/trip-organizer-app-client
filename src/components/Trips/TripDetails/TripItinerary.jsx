@@ -15,10 +15,13 @@ const TripItinerary = ({ itinerary }) => {
 
   // Extract coordinates (lat, lng) from itinerary
   const points = useMemo(
-    () => itinerary.map((item) => [item.geoLocation.lng, item.geoLocation.lat]),
+    () =>
+      itinerary
+        .filter(item => item.geoLocation && item.geoLocation.lat != null && item.geoLocation.lng != null)
+        .map(item => [item.geoLocation.lng, item.geoLocation.lat]),
     [itinerary]
   );
-
+  
   // Calculate the min/max lat and lng for bounding box
   const mapView = useMemo(() => {
     if (points.length === 0) return { center: [0, 0], zoom: 1 };

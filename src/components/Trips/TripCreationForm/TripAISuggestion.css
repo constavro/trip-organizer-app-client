@@ -1,137 +1,171 @@
 /* === components/Trips/TripAISuggestion/TripAISuggestion.css === */
 .trip-ai-suggestion-page-container { /* Wraps the whole AI suggestion page */
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: var(--spacing-5);
-    background-color: var(--surface-color-light, #f8f9fa); /* Slightly different background */
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--box-shadow-md);
-  }
-  
-  .trip-ai-suggestion-page-container h2 {
-    text-align: center;
-    color: var(--primary-color);
-    margin-bottom: var(--spacing-5);
-    font-size: 1.8rem;
-  }
-  
-  .trip-ai-form {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid for inputs */
-    gap: var(--spacing-4);
-    margin-bottom: var(--spacing-5);
-  }
-  
-  .trip-ai-form .form-group {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .trip-ai-form label {
-    font-weight: 500;
-    margin-bottom: var(--spacing-2);
-    color: var(--text-color-muted);
-  }
-  
-  .trip-ai-form input[type="text"],
-  .trip-ai-form input[type="date"],
-  .trip-ai-form input[type="number"] {
-    padding: 0.75rem;
-    border: 1px solid var(--border-color, #ced4da);
-    border-radius: var(--border-radius-md);
-    font-size: 1rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .trip-ai-form input:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem var(--primary-color-light);
-  }
-  
-  .trip-ai-suggestion-page-container .btn-generate {
-    width: 100%;
-    padding: 0.8rem;
-    font-size: 1.1rem;
-    margin-bottom: var(--spacing-4);
-    /* Uses global .btn styles, ensure .btn-primary or similar is available */
-  }
-  
-  .trip-ai-suggestion-page-container .error-message,
-  .trip-ai-suggestion-page-container .info-message {
-    padding: var(--spacing-3);
-    margin-bottom: var(--spacing-4);
-    border-radius: var(--border-radius-md);
-    text-align: center;
-    border: 1px solid transparent;
-  }
-  
-  .trip-ai-suggestion-page-container .error-message {
-    background-color: var(--danger-bg-subtle, #f8d7da);
-    color: var(--danger-text, #721c24);
-    border-color: var(--danger-border-subtle, #f5c6cb);
-  }
-  
-  .ai-suggestion-output {
-    background-color: var(--surface-color, #fff);
-    padding: var(--spacing-5);
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--box-shadow-sm);
-    margin-top: var(--spacing-5);
-  }
-  
-  .ai-suggestion-output h3 {
-    color: var(--primary-color);
-    margin-bottom: var(--spacing-3);
-    text-align: center;
-    font-size: 1.5rem;
-  }
-  
-  .ai-suggestion-output h4 {
-    font-size: 1.2rem;
-    color: var(--text-color);
-    margin-top: var(--spacing-4);
-    margin-bottom: var(--spacing-2);
-    padding-bottom: var(--spacing-1);
-    border-bottom: 1px solid var(--border-color-subtle, #eee);
-  }
-  
-  .ai-suggestion-output p,
-  .ai-suggestion-output li {
-    margin-bottom: var(--spacing-2);
-    line-height: 1.6;
-    color: var(--text-color-muted);
-  }
-  
-  .ai-suggestion-output p strong,
-  .ai-suggestion-output li strong {
-    color: var(--text-color);
-    font-weight: 600;
-  }
-  
-  .ai-suggestion-output ul {
-    list-style: disc;
-    padding-left: var(--spacing-5);
-  }
-  
-  .ai-suggestion-output .btn-save {
-    width: 100%;
-    padding: 0.8rem;
-    font-size: 1.1rem;
-    margin-top: var(--spacing-4);
-  }
-  
-  .back-link-container {
-    text-align: center;
-    margin-top: var(--spacing-4);
-  }
-  
-  .back-link-container a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .back-link-container a:hover {
-    text-decoration: underline;
-  }
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: var(--spacing-5); /* Added default for var */
+  background-color: var(--surface-color-light); /* Slightly different background */
+  border-radius: var(--border-radius-lg); /* Added default for var */
+  box-shadow: var(--box-shadow); /* Added default for var */
+}
+
+.trip-ai-suggestion-page-container h2 {
+  text-align: center;
+  color: var(--primary-color, #007bff); /* Added default for var */
+  margin-bottom: var(--spacing-5, 2rem); /* Added default for var */
+  font-size: 1.8rem;
+}
+
+.trip-ai-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid for inputs */
+  gap: var(--spacing-4, 1.5rem); /* Added default for var */
+  margin-bottom: var(--spacing-5, 2rem); /* Added default for var */
+}
+
+.trip-ai-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.trip-ai-form label {
+  font-weight: 500;
+  margin-bottom: var(--spacing-2, 0.5rem); /* Added default for var */
+  color: var(--text-color-muted, #6c757d); /* Added default for var */
+}
+
+.trip-ai-form input[type="text"],
+.trip-ai-form input[type="date"],
+.trip-ai-form input[type="number"] {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color, #ced4da); /* Added default for var */
+  border-radius: var(--border-radius-md, 4px); /* Added default for var */
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.trip-ai-form input:focus {
+  outline: none;
+  border-color: var(--primary-color, #007bff); /* Added default for var */
+  box-shadow: 0 0 0 0.2rem var(--primary-color-light, rgba(0,123,255,0.25)); /* Added default for var */
+}
+
+/* --- NEW CSS FOR RADIO GROUPS --- */
+.trip-ai-form .radio-group {
+display: flex;
+gap: var(--spacing-3, 1rem); /* Spacing between radio buttons */
+align-items: center; 
+margin-top: var(--spacing-1, 0.25rem);
+flex-wrap: wrap; /* Allow radios to wrap on smaller screens if necessary */
+}
+
+.trip-ai-form .radio-group label {
+display: flex; 
+align-items: center;
+margin-bottom: 0; 
+font-weight: normal; 
+color: var(--text-color, #212529); /* Added default for var */
+cursor: pointer;
+}
+
+.trip-ai-form .radio-group input[type="radio"] {
+margin-right: var(--spacing-1, 0.25rem); 
+width: auto; /* Override potential 100% width from other inputs */
+/* Modern way to color radio buttons/checkboxes */
+accent-color: var(--primary-color, #007bff); /* Added default for var */
+}
+/* --- END OF NEW CSS FOR RADIO GROUPS --- */
+
+.trip-ai-suggestion-page-container .btn-generate {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1.1rem;
+  margin-bottom: var(--spacing-4, 1.5rem); /* Added default for var */
+}
+
+.trip-ai-suggestion-page-container .error-message,
+.trip-ai-suggestion-page-container .success-message, /* Added for consistency */
+.trip-ai-suggestion-page-container .info-message { /* For generic info */
+  padding: var(--spacing-3, 1rem); /* Added default for var */
+  margin-bottom: var(--spacing-4, 1.5rem); /* Added default for var */
+  border-radius: var(--border-radius-md, 4px); /* Added default for var */
+  text-align: center;
+  border: 1px solid transparent;
+}
+
+.trip-ai-suggestion-page-container .error-message,
+.trip-ai-suggestion-page-container .error { /* For saveMessageType='error' */
+  background-color: var(--danger-bg-subtle, #f8d7da);
+  color: var(--danger-text, #721c24);
+  border-color: var(--danger-border-subtle, #f5c6cb);
+}
+
+.trip-ai-suggestion-page-container .success-message,
+.trip-ai-suggestion-page-container .success { /* For saveMessageType='success' */
+  background-color: var(--success-bg-subtle, #d4edda); /* Example success color */
+  color: var(--success-text, #155724); /* Example success color */
+  border-color: var(--success-border-subtle, #c3e6cb); /* Example success color */
+}
+
+.ai-suggestion-output {
+  background-color: var(--surface-color, #fff);
+  padding: var(--spacing-5, 2rem); /* Added default for var */
+  border-radius: var(--border-radius-lg, 8px); /* Added default for var */
+  box-shadow: var(--box-shadow-sm, 0 2px 4px rgba(0,0,0,0.075)); /* Added default for var */
+  margin-top: var(--spacing-5, 2rem); /* Added default for var */
+}
+
+.ai-suggestion-output h3 {
+  color: var(--primary-color, #007bff); /* Added default for var */
+  margin-bottom: var(--spacing-3, 1rem); /* Added default for var */
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.ai-suggestion-output h4 {
+  font-size: 1.2rem;
+  color: var(--text-color, #212529); /* Added default for var */
+  margin-top: var(--spacing-4, 1.5rem); /* Added default for var */
+  margin-bottom: var(--spacing-2, 0.5rem); /* Added default for var */
+  padding-bottom: var(--spacing-1, 0.25rem); /* Added default for var */
+  border-bottom: 1px solid var(--border-color-subtle, #eee);
+}
+
+.ai-suggestion-output p,
+.ai-suggestion-output li {
+  margin-bottom: var(--spacing-2, 0.5rem); /* Added default for var */
+  line-height: 1.6;
+  color: var(--text-color-muted, #6c757d); /* Added default for var */
+}
+
+.ai-suggestion-output p strong,
+.ai-suggestion-output li strong {
+  color: var(--text-color, #212529); /* Added default for var */
+  font-weight: 600;
+}
+
+.ai-suggestion-output ul {
+  list-style: disc;
+  padding-left: var(--spacing-5, 2rem); /* Added default for var */
+}
+
+.ai-suggestion-output .btn-save {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1.1rem;
+  margin-top: var(--spacing-4, 1.5rem); /* Added default for var */
+}
+
+.back-link-container {
+  text-align: center;
+  margin-top: var(--spacing-4, 1.5rem); /* Added default for var */
+}
+
+.back-link-container a {
+  color: var(--primary-color, #007bff); /* Added default for var */
+  text-decoration: none;
+  font-weight: 500;
+}
+.back-link-container a:hover {
+  text-decoration: underline;
+}

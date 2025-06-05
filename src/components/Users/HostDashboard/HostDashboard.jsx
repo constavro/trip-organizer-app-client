@@ -46,7 +46,7 @@ const HostDashboard = () => {
 
   const handleAction = async (bookingId, action) => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/bookings/${bookingId}`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/bookings/host/${bookingId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

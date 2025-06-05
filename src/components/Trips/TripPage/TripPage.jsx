@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import TripList from './TripList';
 import CreateTripButton from './CreateTripButton';
 import './TripPage.css';
+import MyTripsButton from './MyTrips';
 
 const TripsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -12,7 +13,12 @@ const TripsPage = () => {
     <div className="trips-page">
       <div className="trips-page-header">
         <h1>Explore Trips</h1>
+        <div className="trips-page-buttons">
+        <MyTripsButton />
         <CreateTripButton />
+        </div>
+
+
       </div>
 
       {/* Filter Controls */}

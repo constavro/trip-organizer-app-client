@@ -4,7 +4,7 @@ import Header from './components/Shared/Header';
 import UserProfile from './components/Users/UserProfile/UserProfile';
 import HostDashboard from './components/Users/HostDashboard/HostDashboard';
 import TripCreationForm from './components/Trips/TripCreationForm/TripCreationForm';
-import TripByUser from './components/Trips/TripByUser';
+import TripByUser from './components/Trips/TripByUser/TripByUser';
 import TripDetails from './components/Trips/TripDetails/TripDetails';
 import TripPage from './components/Trips/TripPage/TripPage';
 import BookingForm from './components/Bookings/BookingForm';
@@ -17,6 +17,7 @@ import AuthPage from './components/Auth/AuthPage';
 import TripAISuggestion from './components/Trips/TripCreationForm/TripAISuggestion';
 import ConfirmEmail from './components/Auth/EmailConfirmation';
 import ResetPassword from './components/Auth/ResetPassword';
+import TripEditForm from './components/Trips/TripEditForm/TripEditForm';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="/trips" element={<ProtectedRoute><Header /><TripPage /></ProtectedRoute>} />
           <Route path="/host/dashboard" element={<ProtectedRoute><Header /><HostDashboard /></ProtectedRoute>} />
           <Route path="/trips/:id/book" element={<ProtectedRoute><Header /><BookingForm /></ProtectedRoute>} />
+          <Route path="/trips/edit/:tripId" element={<ProtectedRoute><Header /><TripEditForm /></ProtectedRoute>} />
           
           <Route path="/mytrips" element={<ProtectedRoute><Header /><TripByUser /></ProtectedRoute>} />
          {/* <Route path="/coworking-spaces" element={<CoworkingSpaces />} /> */}

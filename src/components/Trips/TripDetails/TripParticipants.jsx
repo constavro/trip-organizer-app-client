@@ -2,9 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 const TripParticipants = ({ participants }) => {
   const navigate = useNavigate();
-
-  console.log(participants)
-
+  
   if (!participants || participants.length === 0) return null;
 
   return (

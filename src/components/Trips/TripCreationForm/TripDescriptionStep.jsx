@@ -84,7 +84,7 @@ const TripDescriptionStep = ({ formData, setFormData, setError }) => {
                 id={`${type}-${idx}`}
                 value={item}
                 onChange={(e) => handleListChange(type, idx, e.target.value)}
-                placeholder={`e.g., Guided tours, All meals (${type.slice(0, -1)})`}
+                placeholder={`e.g. Guided tours, Meals`}
               />
               {formData.description[type].length > 1 && ( // Show remove button only if more than one item
                 <button className="btn-remove-item" type="button" onClick={() => removeListItem(type, idx)}>
@@ -94,7 +94,7 @@ const TripDescriptionStep = ({ formData, setFormData, setError }) => {
             </div>
           ))}
           <button className="btn btn-add-item btn-secondary" type="button" onClick={() => addListItem(type)}>
-            + Add {type.slice(0, -1)}
+            Add extra {type.slice(0, -1)}
           </button>
         </div>
       ))}

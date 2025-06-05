@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './TripByUser.css';
+
 
 const TripCard = ({ trip, isOrganizer }) => {
   const navigate = useNavigate();
   const handleView = () => navigate(`/trips/${trip._id}`);
 
   return (
-    <div style={{ border: '1px solid #ccc', padding: '12px', marginBottom: '10px' }}>
-      <h3>{trip.title}</h3>
-      <p>
+    <div className="trip-card">
+      <h3 className="trip-card-title">{trip.title}</h3>
+      <p className="trip-card-dates">
         {new Date(trip.startDate).toLocaleDateString()} - {new Date(trip.endDate).toLocaleDateString()}
       </p>
-      {isOrganizer && <p><strong>You are the organizer</strong></p>}
-      <button onClick={handleView}>View Details</button>
+      {isOrganizer && <p className="trip-card-organizer-note"><strong>You are the organizer</strong></p>}
+      <button className="btn trip-card-btn" onClick={handleView}>View Details</button>
     </div>
   );
 };
@@ -58,24 +60,30 @@ const TripByUser = () => {
     fetchTrips();
   }, []);
 
-  if (error) return <p>{error}</p>;
+  if (error) return <p className="error-message container">{error}</p>;
 
   return (
-    <div>
-      <h2>Trips You're Going On</h2>
-      {upcomingTrips.length === 0 ? <p>No upcoming trips.</p> : (
-        upcomingTrips.map(trip => <TripCard key={trip._id} trip={trip} />)
-      )}
+    <div className="trips-by-user-container">
+      <section className="trips-section">
+        <h2>Trips You're Going On</h2>
+        {upcomingTrips.length === 0 ? <p className="empty-message">No upcoming trips.</p> : (
+          upcomingTrips.map(trip => <TripCard key={trip._id} trip={trip} />)
+        )}
+      </section>
 
-      <h2>Trips You Organized</h2>
-      {organizedTrips.length === 0 ? <p>You haven’t organized any trips.</p> : (
-        organizedTrips.map(trip => <TripCard key={trip._id} trip={trip} isOrganizer />)
-      )}
+      <section className="trips-section">
+        <h2>Trips You Organized</h2>
+        {organizedTrips.length === 0 ? <p className="empty-message">You haven’t organized any trips.</p> : (
+          organizedTrips.map(trip => <TripCard key={trip._id} trip={trip} isOrganizer />)
+        )}
+      </section>
 
-      <h2>Past Trips</h2>
-      {pastTrips.length === 0 ? <p>No past trips.</p> : (
-        pastTrips.map(trip => <TripCard key={trip._id} trip={trip} />)
-      )}
+      <section className="trips-section">
+        <h2>Past Trips</h2>
+        {pastTrips.length === 0 ? <p className="empty-message">No past trips.</p> : (
+          pastTrips.map(trip => <TripCard key={trip._id} trip={trip} />)
+        )}
+      </section>
     </div>
   );
 };

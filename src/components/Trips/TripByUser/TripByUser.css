@@ -1,0 +1,64 @@
+/* === components/Trips/TripByUser.css === */
+
+.trips-by-user-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+  
+  .trips-section {
+    margin-bottom: 2rem;
+  }
+  
+  .trips-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+  }
+  
+  .empty-message {
+    color: var(--text-color-muted);
+    font-style: italic;
+    margin-left: 0.25rem;
+  }
+  
+  /* === TripCard Styling === */
+  .trip-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--box-shadow);
+    transition: box-shadow 0.2s ease;
+  }
+  
+  .trip-card:hover {
+    box-shadow: var(--box-shadow-lg);
+  }
+  
+  .trip-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+  }
+  
+  .trip-card-dates {
+    color: var(--text-color-muted);
+    margin-bottom: 0.75rem;
+  }
+  
+  .trip-card-organizer-note {
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+  
+  .trip-card-btn {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.95rem;
+  }
+  

@@ -1,11 +1,11 @@
 /* === components/Trips/TripCreationForm/TripCreationForm.css === */
 .trip-form-container {
-  max-width: 750px; /* Slightly increased max-width for better layout */
+  max-width: 800px; /* Slightly increased max-width for better layout */
   margin: 2rem auto;
-  padding: 2rem; /* Adjusted padding */
-  background: var(--surface-color, #fff);
+  padding: var(--spacing-5); /* Adjusted padding */
+  background: var(--surface-color-light);
   border-radius: var(--border-radius-lg); /* Larger radius */
-  box-shadow: var(--box-shadow-lg);
+  box-shadow: var(--box-shadow);
 }
 
 .trip-form-container h2 {

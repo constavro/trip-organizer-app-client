@@ -1,43 +1,108 @@
-/* === src/components/Bookings/BookingForm.css === */
-.booking-form-container { /* This is now the card */
+/* === components/Booking/Booking.css === */
+
+.booking-form-container {
   max-width: 600px;
-  margin: var(--spacing-5) auto;
-  /* padding, background, border-radius, shadow inherited from .card */
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-lg);
 }
 
 .booking-form-container h2 {
-  /* font-size: 1.75rem; */ /* Inherited from global h2 */
-  margin-bottom: var(--spacing-4);
-  color: var(--text-color);
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
   text-align: center;
+  color: var(--text-color);
 }
 
-.booking-form-details p { /* Specific class for details paragraph */
-  margin-bottom: var(--spacing-3);
-  line-height: 1.7;
+.booking-form-details {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.booking-form-details p {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
   color: var(--text-color-muted);
 }
 
-.booking-form-details p strong {
+.booking-form-details strong {
   color: var(--text-color);
 }
 
 .booking-form-container form {
-  margin-top: var(--spacing-5);
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
-/* Button uses .btn from index.css */
-
-.booking-form-container .success-message, /* Uses global styles */
-.booking-form-container .error-message {
-  margin-top: var(--spacing-4);
-  text-align: center;
-  font-weight: 500;
+.booking-form-container .btn {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
+  color: var(--surface-color);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.loading-message { /* For the "Loading trip details..." */
-    text-align: center;
-    padding: var(--spacing-5);
-    color: var(--text-color-muted);
+.booking-form-container .btn:hover:not(:disabled) {
+  background-color: var(--primary-color-dark);
+}
+
+.booking-form-container .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.success-message,
+.error-message,
+.info-message {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+}
+
+.success-message {
+  background-color: #e6ffed;
+  color: #277d3b;
+  border: 1px solid #b4e2c1;
+}
+
+.error-message {
+  background-color: #ffe6e6;
+  color: #b10000;
+  border: 1px solid #f5b5b5;
+}
+
+.info-message {
+  background-color: #f0f4ff;
+  color: #2c3e94;
+  border: 1px solid #b8ccff;
+}
+
+.loading-message,
+.status-message {
+  text-align: center;
+  font-size: 1rem;
+  padding: 2rem;
+  color: var(--text-color-muted);
+}
+
+@media (max-width: 600px) {
+  .booking-form-container {
+    padding: 1.5rem;
+  }
+
+  .booking-form-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .booking-form-container .btn {
+    width: 100%;
+  }
 }

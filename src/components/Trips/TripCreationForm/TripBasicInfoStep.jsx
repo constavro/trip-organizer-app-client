@@ -47,6 +47,35 @@ const TripBasicInfoStep = ({ formData, setFormData, setError }) => {
           required
         />
       </div>
+      <div className="form-group">
+          <label>Will you be participating?</label>
+          <div className="radio-group">
+            <label>
+              <input type="radio" name="isParticipating" value="yes" checked={formData.isParticipating === 'yes'} onChange={handleChange} /> Yes
+            </label>
+            <label>
+              <input type="radio" name="isParticipating" value="no" checked={formData.isParticipating === 'no'} onChange={handleChange} /> No
+            </label>
+          </div>
+        </div>
+
+        {/* --- NEW SECTION: Trip Privacy --- */}
+        <div className="form-group">
+          <label>Trip Privacy</label>
+          <div className="radio-group">
+            <label>
+              <input type="radio" name="privacy" value="public" checked={formData.privacy === 'public'} onChange={handleChange} /> Public
+            </label>
+            <label>
+              <input type="radio" name="privacy" value="private" checked={formData.privacy === 'private'} onChange={handleChange} /> Private
+            </label>
+            {/* You can add 'unlisted' here if your backend and model support it
+            <label>
+              <input type="radio" name="privacy" value="unlisted" checked={input.privacy === 'unlisted'} onChange={handleChange} /> Unlisted
+            </label>
+            */}
+          </div>
+        </div>
     </div>
   );
 };

@@ -5,12 +5,7 @@ const TripItineraryStep = ({ formData, setFormData, setError }) => {
     const { name, value } = e.target;
     const updatedItinerary = [...formData.itinerary];
 
-    if (name.startsWith("geoLocation.")) {
-      const geoKey = name.split('.')[1]; // 'lat' or 'lng'
-      updatedItinerary[index].geoLocation[geoKey] = value;
-    } else {
-      updatedItinerary[index][name] = value;
-    }
+    updatedItinerary[index][name] = value;
 
     setFormData((prev) => ({ ...prev, itinerary: updatedItinerary, }));
     if (setError) setError('');
@@ -22,7 +17,7 @@ const TripItineraryStep = ({ formData, setFormData, setError }) => {
       itinerary: [
         ...prev.itinerary,
         {
-          location: '', startDate: '', endDate: '', accommodation: '',
+          location: '', days: '', accommodation: '',
           notes: '', costEstimate: '', geoLocation: { lat: '', lng: '' },
           // Default other fields from your model if necessary
           photos: [], transportation: [], activities: [],
@@ -60,30 +55,19 @@ const TripItineraryStep = ({ formData, setFormData, setError }) => {
               required
             />
           </div>
-          
-          <div style={{display: 'flex', gap: 'var(--spacing-3)'}}>
-            <div className="form-group" style={{flex: 1}}>
-              <label htmlFor={`itinerary-startDate-${index}`}>Arrival Date</label>
-              <input
-                type="date"
-                id={`itinerary-startDate-${index}`}
-                name="startDate"
-                value={item.startDate}
-                onChange={(e) => handleChange(e, index)}
-                required
-              />
-            </div>
-            <div className="form-group" style={{flex: 1}}>
-              <label htmlFor={`itinerary-endDate-${index}`}>Departure Date</label>
-              <input
-                type="date"
-                id={`itinerary-endDate-${index}`}
-                name="endDate"
-                value={item.endDate}
-                onChange={(e) => handleChange(e, index)}
-                required
-              />
-            </div>
+
+          <div className="form-group">
+            <label htmlFor={`itinerary-days-${index}`}>Number of days in this stop</label>
+            <input
+              type="number"
+              id={`itinerary-days-${index}`}
+              name="days"
+              placeholder="e.g. 2"
+              value={item.days || ''}
+              min="1"
+              onChange={(e) => handleChange(e, index)}
+              required
+            />
           </div>
 
           <div className="form-group">
@@ -107,17 +91,6 @@ const TripItineraryStep = ({ formData, setFormData, setError }) => {
               value={item.notes}
               onChange={(e) => handleChange(e, index)}
             />
-          </div>
-          
-          <div className="location-geo-group">
-            <div className="form-group">
-                <label htmlFor={`itinerary-geoLat-${index}`}>Latitude</label>
-                <input type="number" step="any" id={`itinerary-geoLat-${index}`} name="geoLocation.lat" placeholder="e.g., 48.8566" value={item.geoLocation.lat} onChange={e => handleChange(e, index)} />
-            </div>
-            <div className="form-group">
-                <label htmlFor={`itinerary-geoLng-${index}`}>Longitude</label>
-                <input type="number" step="any" id={`itinerary-geoLng-${index}`} name="geoLocation.lng" placeholder="e.g., 2.3522" value={item.geoLocation.lng} onChange={e => handleChange(e, index)} />
-            </div>
           </div>
 
           <div className="form-group">

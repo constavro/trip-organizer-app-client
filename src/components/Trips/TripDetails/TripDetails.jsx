@@ -29,7 +29,8 @@ const TripDetails = () => {
         setTrip({
           ...data,
           isHost: data.organizer?._id === userId,
-          isParticipant: data.participants?.some(p => p._id === userId)
+          isParticipant: data.participants?.some(p => p._id === userId),
+          canBook: (data.status === 'open' || data.status === 'confirmed')? null: data.status
         });
       } catch (err) {
         setError(err.message);
@@ -37,6 +38,7 @@ const TripDetails = () => {
         setLoading(false);
       }
     };
+
 
     // const fetchReviews = async () => {
     //   try {
@@ -56,17 +58,15 @@ const TripDetails = () => {
   if (error) return <p>{error}</p>;
   if (!trip) return <p>Trip not found</p>;
 
-  console.log(trip)
-
   return (
     <div className="trip-details-container">
       <TripHeader title={trip.title} />
       <div className="trip-details-content">
-      <TripInfo description={trip.description} price={trip.price} departureDate={trip.startDate} />
+      <TripInfo description={trip.description} price={trip.price} departureDate={trip.startDate} minParticipants={trip.minParticipants} maxParticipants={trip.maxParticipants} />
       <TripItinerary itinerary={trip.itinerary} />
       <TripHost organizer={trip.organizer} />
       <TripParticipants participants={trip.participants} />
-      <TripActions isParticipant={trip.isParticipant} isHost={trip.isHost} tripId={id} />
+      <TripActions isParticipant={trip.isParticipant} isHost={trip.isHost} tripId={id} canBook={trip.canBook} />
       {/* <TripReviews reviews={reviews} tripId={id} /> */}
       </div>
     </div>

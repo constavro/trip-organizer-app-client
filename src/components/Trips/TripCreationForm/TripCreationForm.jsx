@@ -27,7 +27,7 @@ const TripCreationForm = () => {
       exclusions: [''],
     },
     itinerary: [{
-      location: '', startDate: '', endDate: '', // order is auto-managed
+      location: '', days: '', // order is auto-managed
       photos: [], notes: '', transportation: [],
       accommodation: '', geoLocation: { lat: '', lng: '' },
       activities: [], costEstimate: ''
@@ -36,6 +36,8 @@ const TripCreationForm = () => {
     maxParticipants: '',
     price: '',
     tags: [''], // Start with one empty tag field
+    isParticipating: 'yes', // 'yes' or 'no'
+    privacy: 'public',     // 'public' or 'private' (or 'unlisted' if you implement)    
   });
 
   const [error, setError] = useState('');
@@ -46,6 +48,11 @@ const TripCreationForm = () => {
   const validateStep = () => {
     setError(''); // Clear previous errors
     const { title, startDate, endDate, description, itinerary, minParticipants, maxParticipants, price, tags } = formData;
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    const duration = Math.ceil((end - start)  / (1000 * 60 * 60 * 24));
 
     switch (step) {
       case 0: // Basic Info
@@ -65,10 +72,9 @@ const TripCreationForm = () => {
         for (let i = 0; i < itinerary.length; i++) {
           const item = itinerary[i];
           if (!item.location.trim()) { setError(`Location for itinerary item #${i + 1} is required.`); return false; }
-          if (!item.startDate) { setError(`Start date for itinerary item #${i + 1} is required.`); return false; }
-          if (!item.endDate) { setError(`End date for itinerary item #${i + 1} is required.`); return false; }
-          if (item.startDate && item.endDate && new Date(item.startDate) > new Date(item.endDate)) {
-            setError(`End date cannot be before start date for itinerary item #${i + 1}.`); return false;
+          if (!item.days) { setError(`Start date for itinerary item #${i + 1} is required.`); return false; }
+          if (item.days > duration) {
+            setError(`Days cannot exceed trip duration.`); return false;
           }
         }
         return true;
@@ -121,17 +127,18 @@ const TripCreationForm = () => {
       price: Number(formData.price) || 0,
       itinerary: formData.itinerary.map((item, index) => ({
         ...item,
+        days: Number(item.days),
         order: index + 1, // Ensure order is set correctly
         costEstimate: Number(item.costEstimate) || 0,
-        geoLocation: {
-          lat: Number(item.geoLocation.lat) || 0,
-          lng: Number(item.geoLocation.lng) || 0,
-        }
       })),
       tags: formData.tags.filter(tag => tag.trim() !== ""), // Filter out empty tags
     };
 
+    console.log(payload.itinerary.geoLocation)
+
+
     try {
+
       const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/trips`, {
         method: 'POST',
         headers: {
