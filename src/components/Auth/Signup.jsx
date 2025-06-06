@@ -65,7 +65,7 @@ function Signup() {
   return (
     <div className="auth-form-card">
       <h1>Signup</h1>
-      {error && <p className="message error-message">{error}</p>}
+      {error && <p className="log error-message">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="signup-firstName">First Name</label>

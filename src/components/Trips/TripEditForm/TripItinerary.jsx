@@ -4,21 +4,19 @@ import FormSection from './FormSection';
 import TripItineraryStop from './TripItineraryStop';
 
 const TripItinerary = ({
-  itinerary,onItineraryChange,onRemoveStop,onMoveItem,onAddStop,tripStartDate,tripEndDate
+  itinerary, onItineraryChange, onRemoveStop, onAddStop, tripStartDate, tripEndDate
+  // onMoveItem is removed from props here
 }) => {
 
   return (
-    <FormSection title="Itinerary">
+    <FormSection title="Edit Itinerary Details">
       {itinerary.map((item, index) => (
         <TripItineraryStop
-          key={item._id || `itinerary-item-${index}`} // Stable key for list items
+          key={item._id || `itinerary-detail-${index}`} // Use a distinct key prefix
           item={item}
           index={index}
           onItineraryChange={onItineraryChange}
           onRemoveStop={onRemoveStop}
-          onMoveItem={onMoveItem}
-          canMoveUp={index > 0}
-          canMoveDown={index < itinerary.length - 1}
         />
       ))}
       <button
@@ -29,6 +27,7 @@ const TripItinerary = ({
       >
         + Add Itinerary Stop
       </button>
+      {itinerary.length === 0 && <p>No itinerary stops yet. Click "Add Itinerary Stop" above to begin. You can reorder stops in the section below.</p>}
     </FormSection>
   );
 };

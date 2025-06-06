@@ -1,70 +1,149 @@
-/* === components/Trips/TripPage/TripPage.css === */
+/* TripPage.css */
 .trips-page {
-  max-width: 1200px; /* Consistent max-width */
+  padding: 20px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1.5rem; /* Standard padding */
+  font-family: 'Arial', sans-serif;
 }
 
 .trips-page-header {
   display: flex;
-  flex-wrap: wrap; /* Allow wrapping on small screens */
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2.5rem; /* Increased margin */
-  gap: 1rem; /* Gap for wrapped items */
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
 }
 
-
 .trips-page-header h1 {
-  margin-bottom: 0; /* Remove default h1 margin as it's in a flex container */
-  font-size: 2rem; /* Slightly smaller than landing page main title */
+  font-size: 2.5rem;
+  color: #333;
 }
 
 .trips-page-buttons {
   display: flex;
-  flex-wrap: wrap; /* Allow wrapping on small screens */
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2.5rem; /* Increased margin */
-  gap: 1rem; /* Gap for wrapped items */
+  gap: 1rem;
+}
+
+.trip-filters-container {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.trip-filters-container h2 {
+  font-size: 1.6rem;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .trip-filters {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
   gap: 1rem;
-  margin-bottom: 2rem;
-  padding: 1rem;
-  background-color: var(--surface-color);
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
+  align-items: flex-end; /* Keeps inputs aligned to bottom */
 }
 
-.trip-filters input[type="text"],
-.trip-filters select {
-  /* Inputs and selects will inherit global styles */
-  /* If specific sizing is needed: */
-  flex-grow: 1; /* Allow them to grow */
-  min-width: 180px; /* Minimum width before wrapping */
+.filter-input,
+.filter-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  box-sizing: border-box; /* Important for width 100% */
 }
 
-@media (max-width: 768px) {
-  .trips-page-header {
-    flex-direction: column;
-    align-items: flex-start; /* Align items to start */
+.filter-search {
+  grid-column: 1 / -1; /* Make search span full width on smaller screens if it wraps */
+}
+
+
+.filter-group {
+  display: flex;
+  flex-direction: row; /* Stack label on top */
+  gap: 0.5rem; /* Space between label and inputs, or between inputs */
+  text-align: center;
+  width: 100%;
+  align-items: center;
+}
+
+.filter-group label {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.filter-group > div { /* If inputs are wrapped in another div for side-by-side */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-group > div > input {
+  flex-grow: 1; /* Make inputs share space */
+}
+
+.filter-group > input[type="date"] { /* Specific styling for date if needed */
+  /* appearance: none; */ /* For custom styling, but can be tricky */
+}
+
+
+.clear-filters-button {
+  padding: 0.75rem 1rem;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-weight: 500;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.clear-filters-button:hover {
+  background-color: #5a6268;
+}
+
+/* Responsive adjustments for filters */
+@media (min-width: 768px) {
+  .filter-search {
+    grid-column: span 2; /* Example: Search takes 2 columns */
   }
-  .trips-page-header .create-trip-button-container { /* Assuming CreateTripButton is wrapped */
-    width: 100%;
-    margin-top: 1rem;
+   .clear-filters-button {
+    grid-column: -2 / -1; /* Place it nicely at the end */
   }
-  .trips-page-header .create-trip-button-container .btn {
-    width: 100%; /* Full width button on mobile */
-  }
+}
+
+@media (min-width: 992px) {
   .trip-filters {
-    flex-direction: column;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto; /* Example more columns */
   }
-  .trip-filters input[type="text"],
-  .trip-filters select {
-    width: 100%; /* Full width on small screens */
+  .filter-search {
+    grid-column: auto; /* Reset span */
   }
+}
+
+
+/* General page structure */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #007bff;
+}
+
+.error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
 }

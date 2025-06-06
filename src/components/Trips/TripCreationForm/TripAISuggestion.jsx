@@ -245,7 +245,7 @@ const TripAISuggestion = () => {
           {suggestion.price && (
             <>
             <h4>Pricing</h4>
-            <p><strong>Estimated Price per person:</strong> ${suggestion.price.toFixed(2)}</p>
+            <p><strong>Estimated Price per person:</strong> {suggestion.price.toFixed(2)}€</p>
             </>
             )}
 

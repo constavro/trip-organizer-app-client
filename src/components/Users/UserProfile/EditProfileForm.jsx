@@ -119,7 +119,7 @@ const EditProfileForm = ({ currentUserData, onSave }) => {
       </section>
 
       <section className="edit-profile-form-section">
-        <h3 className="edit-profile-form-section-title">Social Media (Optional)</h3>
+        <h3 className="edit-profile-form-section-title">Social Media</h3>
         <SocialLinksEditor
           socialLinks={formState.socialLinks}
           onChange={(updatedLinks) =>

@@ -1,0 +1,53 @@
+/* src/components/Trips/TripEditForm/TripItineraryReorder.css */
+.reorder-list-container {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 0.5rem;
+    background-color: #f9f9f9;
+    margin-top: 1rem; /* Space from the FormSection legend */
+  }
+  
+  .reorder-item {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.5rem;
+    cursor: grab;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    font-size: 0.9em;
+  }
+  
+  .reorder-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .reorder-item.is-dragging-reorder {
+    background-color: #e6f7ff; /* Light blue for dragging state */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  
+  .reorder-item-index {
+    font-weight: bold;
+    margin-right: 0.5em;
+    color: #337ab7; /* Make index stand out */
+  }
+  
+  .reorder-item-location {
+    flex-grow: 1; /* Take up available space */
+    color: #333;
+  }
+  
+  .reorder-item-info {
+    margin-left: 0.75em;
+    font-size: 0.9em;
+    color: #666;
+  }
+  
+  .reorder-drag-icon {
+    margin-left: 0.75em;
+    color: #888;
+    font-size: 1.1em;
+  }

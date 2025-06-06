@@ -46,11 +46,11 @@ const TripByUser = () => {
         }
 
         const data = await res.json();
-        const now = new Date();
 
         setOrganizedTrips(data.organized || []);
-        setUpcomingTrips(data.joined.filter(trip => new Date(trip.endDate) >= now));
-        setPastTrips(data.joined.filter(trip => new Date(trip.endDate) < now));
+        setUpcomingTrips(data.joined.filter(trip => trip.status === 'open' || trip.status === 'confirmed'));
+        setPastTrips(data.joined.filter(trip => trip.status === 'completed'));
+        
       } catch (err) {
         console.error(err);
         setError('Error fetching trips');
@@ -65,21 +65,21 @@ const TripByUser = () => {
   return (
     <div className="trips-by-user-container">
       <section className="trips-section">
-        <h2>Trips You're Going On</h2>
+        <h2>Trips organized by others</h2>
         {upcomingTrips.length === 0 ? <p className="empty-message">No upcoming trips.</p> : (
           upcomingTrips.map(trip => <TripCard key={trip._id} trip={trip} />)
         )}
       </section>
 
       <section className="trips-section">
-        <h2>Trips You Organized</h2>
+        <h2>Trips organized by you</h2>
         {organizedTrips.length === 0 ? <p className="empty-message">You haven’t organized any trips.</p> : (
           organizedTrips.map(trip => <TripCard key={trip._id} trip={trip} isOrganizer />)
         )}
       </section>
 
       <section className="trips-section">
-        <h2>Past Trips</h2>
+        <h2>Past trips</h2>
         {pastTrips.length === 0 ? <p className="empty-message">No past trips.</p> : (
           pastTrips.map(trip => <TripCard key={trip._id} trip={trip} />)
         )}

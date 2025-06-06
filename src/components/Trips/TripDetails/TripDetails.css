@@ -51,8 +51,7 @@
   
   .itinerary-map-container {
     width: 100%; /* Replaces w-full */
-    min-height: 300px; /* Ensure map has height */
-    max-height: 500px; /* Replaces h-[500px] */
+    height: 100%;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     overflow: hidden;
@@ -170,13 +169,6 @@
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: center; /* Center buttons */
-  }
-  /* .trip-actions-section .btn will use global .btn styles */
-  .trip-actions-section .btn-edit { /* Example specific button */
-    /* Add if needed */
-  }
-  .trip-actions-section .btn-delete { /* Inherits from .btn .btn-danger */
-    /* Add if needed */
   }
   
   /* TripReviews.jsx - if used */

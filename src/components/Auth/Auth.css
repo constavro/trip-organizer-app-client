@@ -59,10 +59,10 @@
 }
 
 /* Message Styling */
-.message {
+.log {
   padding: var(--spacing-3);
   margin-bottom: var(--spacing-4);
-  border-radius: var(--border-radius-md);
+  /* border-radius: var(--border-radius-md); */
   text-align: center;
   border: 1px solid transparent;
   font-size: 0.95rem;
@@ -86,7 +86,7 @@
 /* Ensure global styles for inputs and labels are sufficient, or add them here scoped to .auth-form-card */
 .auth-form-card .form-group {
   margin-bottom: var(--spacing-4);
-  text-align: left; /* Ensure labels are left-aligned if not globally set */
+  text-align: center; /* Ensure labels are left-aligned if not globally set */
 }
 
 .auth-form-card .form-group label {

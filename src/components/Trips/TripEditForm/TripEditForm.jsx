@@ -1,4 +1,3 @@
-// src/components/Trips/TripEditForm/TripEditForm.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './TripEditForm.css';
@@ -11,11 +10,11 @@ import {
 // Import sub-components
 import TripBasicInfo from './TripBasicInfo';
 import TripDescription from './TripDescription';
-import TripItinerary from './TripItinerary';
+import TripItinerary from './TripItinerary'; // For detail editing
+import TripItineraryReorder from './TripItineraryReorder'; // For reordering
 import TripParticipantsPricing from './TripParticipantsPricing';
 import TripSettingsPolicy from './TripSettingsPolicy';
 
-// Defined outside component to maintain stable identity
 const initialTripData = {
     title: '',
     startDate: '',
@@ -65,17 +64,20 @@ const TripEditForm = () => {
         const formattedStartDate = formatDateForInput(data.startDate);
         const formattedEndDate = formatDateForInput(data.endDate);
 
+        const sortedItinerary = (data.itinerary || []).sort((a, b) => a.order - b.order);
+
         setFormData({
           ...initialTripData,
           ...data,
           startDate: formattedStartDate,
           endDate: formattedEndDate,
           bookingDeadline: data.bookingDeadline ? formatDateForInput(data.bookingDeadline) : '',
-          description: { // Ensure description and its sub-properties are well-defined
+          description: {
             ...initialTripData.description, 
             ...(data.description || {}) 
           },
           tags: data.tags || [],
+          itinerary: sortedItinerary,
         });
         setError('');
       } catch (err) {
@@ -125,8 +127,8 @@ const TripEditForm = () => {
         let currentLevel = newState;
 
         for (let i = 0; i < path.length - 1; i++) {
-            if (!currentLevel[path[i]]) { // Ensure path segment exists
-                currentLevel[path[i]] = {}; // Or handle error/return prev
+            if (!currentLevel[path[i]]) { 
+                currentLevel[path[i]] = {};
             }
             currentLevel = currentLevel[path[i]];
         }
@@ -169,7 +171,7 @@ const TripEditForm = () => {
         const newState = { ...prev };
         let currentLevel = newState;
         for (let i = 0; i < path.length - 1; i++) {
-            if (!currentLevel[path[i]]) return prev; // Path segment not found
+            if (!currentLevel[path[i]]) return prev; 
             currentLevel = currentLevel[path[i]];
         }
         const listName = path[path.length - 1];
@@ -185,25 +187,20 @@ const TripEditForm = () => {
   const handleItineraryChange = (e, index) => {
     const { name, value } = e.target;
     setFormData(prev => {
-        if (!prev) return null;
+        if (!prev || !prev.itinerary) return null;
         const updatedItinerary = [...prev.itinerary];
-        const item = { ...updatedItinerary[index] };
+        const itemToUpdate = { ...updatedItinerary[index] };
 
         if (name.startsWith("geoLocation.")) {
-            item.geoLocation = {};
+            const geoField = name.split('.')[1];
+            itemToUpdate.geoLocation = { ...(itemToUpdate.geoLocation || {}), [geoField]: value };
         } else if (name === "days") {
-            item[name] = parseInt(value) || 1; // Default to 1 if invalid
+            itemToUpdate[name] = parseInt(value) || 1; 
         } else {
-            item[name] = value;
+            itemToUpdate[name] = value;
         }
-        updatedItinerary[index] = item;
+        updatedItinerary[index] = itemToUpdate;
         
-        if (name === "days") {
-            return {
-                ...prev,
-                itinerary: updatedItinerary
-            };
-        }
         return { ...prev, itinerary: updatedItinerary };
     });
   };
@@ -215,22 +212,26 @@ const TripEditForm = () => {
             _id: `new_${Date.now()}`,
             location: '', days: 1, startDate: '', endDate: '', accommodation: '',
             notes: '', costEstimate: 0, geoLocation: { lat: '', lng: '' },
-            transportation: [], activities: [], order: prev.itinerary.length
+            transportation: [], activities: [], 
+            order: prev.itinerary ? prev.itinerary.length : 0
         };
+        const newItinerary = prev.itinerary ? [...prev.itinerary, newStop] : [newStop];
         return {
             ...prev,
-            itinerary: [...prev.itinerary, newStop]
+            itinerary: newItinerary
         };
     });
   };
 
-  const removeItineraryStop = (index) => {
+  const removeItineraryStop = (indexToRemove) => {
     setFormData(prev => {
         if (!prev || !prev.itinerary) return null;
         if (prev.itinerary.length <= 1 && !window.confirm("Removing the last itinerary stop will clear the itinerary. Are you sure?")) {
             return prev;
         }
-        const updatedItinerary = prev.itinerary.filter((_, i) => i !== index);
+        let updatedItinerary = prev.itinerary.filter((_, i) => i !== indexToRemove);
+        updatedItinerary = updatedItinerary.map((item, i) => ({ ...item, order: i }));
+        
         return {
             ...prev,
             itinerary: updatedItinerary
@@ -238,25 +239,23 @@ const TripEditForm = () => {
     });
   };
 
-  const moveItineraryItem = (order, direction) => {
+  const moveItineraryItem = (sourceIndex, destinationIndex) => {
     setFormData(prev => {
-      if (!prev) return null;
-  
-      // Clone and sort the itinerary by order
-      const sorted = [...prev.itinerary].sort((a, b) => a.order - b.order);
-      const currentIndex = sorted.findIndex(item => item.order === order);
-      const newIndex = currentIndex + direction;
-  
-      if (newIndex < 0 || newIndex >= sorted.length) return prev;
-  
-      // Swap order values
-      const temp = sorted[currentIndex].order;
-      sorted[currentIndex].order = sorted[newIndex].order;
-      sorted[newIndex].order = temp;
-  
+      if (!prev || !prev.itinerary) return null;
+      if (sourceIndex === destinationIndex) return prev;
+
+      const newItinerary = Array.from(prev.itinerary); 
+      const [movedItem] = newItinerary.splice(sourceIndex, 1); 
+      newItinerary.splice(destinationIndex, 0, movedItem); 
+
+      const updatedItineraryWithOrder = newItinerary.map((item, index) => ({
+        ...item,
+        order: index,
+      }));
+
       return {
         ...prev,
-        itinerary: sorted,
+        itinerary: updatedItineraryWithOrder,
       };
     });
   };
@@ -267,13 +266,14 @@ const TripEditForm = () => {
     setError('');
     setSuccessMessage('');
 
-    const durationInMs = new Date(formData.endDate) - new Date(formData.startDate) + 1;
-    const durationInDays = Math.ceil(durationInMs / (1000 * 60 * 60 * 24));
-
     if (!formData) {
         setError("Form data is not available. Cannot submit.");
         return;
     }
+
+    const durationInMs = new Date(formData.endDate) - new Date(formData.startDate) + 1;
+    const durationInDays = Math.ceil(durationInMs / (1000 * 60 * 60 * 24));
+
     if (new Date(formData.endDate) < new Date(formData.startDate)) {
       setError("Trip end date cannot be before the start date.");
       return;
@@ -282,8 +282,9 @@ const TripEditForm = () => {
         setError("Min participants cannot exceed max participants.");
         return;
     }
-    if (durationInDays !== formData.itinerary.reduce((sum, item) => sum + item.days, 0)) {
-        setError("Days cannot be different from trip duration.");
+    const itineraryDays = formData.itinerary ? formData.itinerary.reduce((sum, item) => sum + (parseInt(item.days) || 0), 0) : 0;
+    if (formData.itinerary && formData.itinerary.length > 0 && durationInDays !== itineraryDays) {
+        setError("Total days in itinerary must match the trip duration.");
         return;
     }
     if (formData.bookingDeadline && new Date(formData.bookingDeadline) > new Date(formData.endDate)) {
@@ -291,24 +292,22 @@ const TripEditForm = () => {
         return;
     }
 
-
     const payload = {
       ...formData,
-      description: { // Ensure all description fields are present
+      description: { 
         overview: formData.description?.overview || '',
         inclusions: formData.description?.inclusions || [],
         exclusions: formData.description?.exclusions || [],
       },
-      itinerary: formData.itinerary.map((item, index) => ({
+      itinerary: (formData.itinerary || []).map((item, index) => ({
         ...item,
-        _id: item._id?.startsWith('new_') ? undefined : item._id,
+        _id: item._id?.startsWith('new_') ? undefined : item._id, 
         order: index, 
         days: parseInt(item.days) || 1,
         costEstimate: parseFloat(item.costEstimate) || 0,
-        geoLocation: '',
+        geoLocation: item.geoLocation || { lat: '', lng: '' }, 
       })),
     };
-
 
     setLoading(true);
     try {
@@ -337,79 +336,104 @@ const TripEditForm = () => {
   };
 
   const handleCancel = () => {
-    // Potentially add a confirmation dialog here if there are unsaved changes
     if (window.confirm("Are you sure you want to cancel? Any unsaved changes will be lost.")) {
       navigate(`/trips/${tripId}`);
     }
   };
 
-  if (loading && !formData) return <div className="loading-container"><p>Loading trip details...</p></div>;
-  if (error && !formData) return <div className="error-container"><p>{error}</p><button onClick={() => window.location.reload()}>Try Again</button></div>;
-  if (!formData) return <div className="error-container"><p>No trip data available or failed to load.</p></div>;
+  if (loading && !formData) return (
+    <div className="trip-edit-form-container">
+      <div className="loading-container"><p>Loading trip details...</p></div>
+    </div>
+  );
+  if (error && !formData) return (
+    <div className="trip-edit-form-container">
+      <div className="error-container">
+        <p>{error}</p>
+        <button onClick={() => window.location.reload()}>Try Again</button>
+      </div>
+    </div>
+  );
+  if (!formData) return (
+    <div className="trip-edit-form-container">
+      <div className="error-container"><p>No trip data available or failed to load.</p></div>
+    </div>
+  );
 
   return (
     <div className="trip-edit-form-container">
-      <h2>Edit Trip: {formData.title || 'New Trip'}</h2>
+      <div className="trip-edit-form-header">
+        <h2>Edit Trip: {formData.title || 'New Trip'}</h2>
+      </div>
+      
       {error && <p className="error-message main-error">{error}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <TripBasicInfo
-          title={formData.title}
-          startDate={formData.startDate}
-          endDate={formData.endDate}
-          coverImage={formData.coverImage}
-          handleChange={handleChange}
-        />
+      <div className="trip-edit-form-content">
+        <form onSubmit={handleSubmit}>
+          <TripBasicInfo
+            title={formData.title}
+            startDate={formData.startDate}
+            endDate={formData.endDate}
+            coverImage={formData.coverImage}
+            handleChange={handleChange}
+          />
 
-        <TripDescription
-          description={formData.description}
-          handleChange={handleChange}
-          handleListChange={handleListChange}
-          addListItem={addListItem}
-          removeListItem={removeListItem}
-        />
-        
-        <TripItinerary
-          itinerary={formData.itinerary}
-          tripStartDate={formData.startDate}
-          tripEndDate={formData.endDate}
-          onItineraryChange={handleItineraryChange}
-          onAddStop={addItineraryStop}
-          onRemoveStop={removeItineraryStop}
-          onMoveItem={moveItineraryItem}
-        />
+          <TripDescription
+            description={formData.description}
+            handleChange={handleChange}
+            handleListChange={handleListChange}
+            addListItem={addListItem}
+            removeListItem={removeListItem}
+          />
+          
+          <TripItinerary
+            itinerary={formData.itinerary || []}
+            tripStartDate={formData.startDate}
+            tripEndDate={formData.endDate}
+            onItineraryChange={handleItineraryChange}
+            onAddStop={addItineraryStop}
+            onRemoveStop={removeItineraryStop}
+          />
 
-        <TripParticipantsPricing
-          minParticipants={formData.minParticipants}
-          maxParticipants={formData.maxParticipants}
-          currentParticipants={formData.currentParticipants}
-          price={formData.price}
-          handleChange={handleChange}
-        />
+          <TripItineraryReorder
+            itinerary={formData.itinerary || []}
+            onMoveItem={moveItineraryItem}
+          />
 
-        <TripSettingsPolicy
-          privacy={formData.privacy}
-          bookingDeadline={formData.bookingDeadline}
-          tags={formData.tags}
-          handleChange={handleChange}
-          handleListChange={handleListChange}
-          addListItem={addListItem}
-          removeListItem={removeListItem}
-        />
-        
-        <button type="submit" className="btn btn-primary btn-submit-edit" disabled={loading}>
-          {loading ? 'Saving...' : 'Save Changes'}
-        </button>
-        <button 
-            type="button" 
-            className="btn btn-secondary btn-cancel" // Added a class for styling
-            onClick={handleCancel}
-            disabled={loading || successMessage} // Disable if loading or successfully submitted
-          >
-            Cancel
-          </button>
-      </form>
+          <TripParticipantsPricing
+            minParticipants={formData.minParticipants}
+            maxParticipants={formData.maxParticipants}
+            currentParticipants={formData.currentParticipants || 0}
+            price={formData.price}
+            handleChange={handleChange}
+          />
+
+          <TripSettingsPolicy
+            privacy={formData.privacy}
+            bookingDeadline={formData.bookingDeadline}
+            tags={formData.tags}
+            handleChange={handleChange}
+            handleListChange={handleListChange}
+            addListItem={addListItem}
+            removeListItem={removeListItem}
+          />
+          
+          <div className="trip-edit-actions-section">
+            <button type="submit" className="btn btn-primary" disabled={loading || !!successMessage}>
+              {loading ? 'Saving...' : 'Save Changes'}
+            </button>
+            <button 
+              type="button" 
+              className="btn btn-secondary"
+              onClick={handleCancel}
+              disabled={loading || !!successMessage} 
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

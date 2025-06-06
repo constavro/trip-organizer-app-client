@@ -89,9 +89,9 @@ function Login({ infoMessage: initialInfoMessage }) { // Accept infoMessage prop
   return (
     <div className="auth-form-card"> {/* Use common card style */}
       <h1>Login</h1>
-      {currentInfoMessage && <p className="message info-message">{currentInfoMessage}</p>}
-      {error && <p className="message error-message">{error}</p>}
-      {resetStatus && <p className={`message ${resetStatusType}-message`}>{resetStatus}</p>}
+      {currentInfoMessage && <p className="log info-message">{currentInfoMessage}</p>}
+      {error && <p className="log error-message">{error}</p>}
+      {resetStatus && <p className={`log ${resetStatusType}-message`}>{resetStatus}</p>}
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">
