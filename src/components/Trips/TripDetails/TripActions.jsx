@@ -52,14 +52,14 @@ const TripActions = ({ isParticipant, isHost, tripId, canBook }) => {
         )
       )}
   
-      {isHost && canBook ? (
+      {isHost && (canBook ? (
           <p className="text-muted">This trip is {canBook}.</p>
         ) : (
         <>
           <button className="btn" onClick={() => navigate(`/trips/edit/${tripId}`)}>Edit</button>
           <button className="btn btn-danger" onClick={handleCancelTrip}>Cancel Trip</button>
         </>
-      )}
+      ))}
   
       {!isHost && isParticipant && (
         <button className="btn btn-warning" onClick={handleCancelBooking}>Cancel Booking</button>
