@@ -1,16 +1,21 @@
 /* === components/Trips/TripPage/TripCard.css === */
-.trip-card-wrapper { /* New wrapper for grid/flex item behavior */
-  display: flex; /* Allow card to stretch if needed by grid */
-  height: 100%; /* Make cards in a row same height if using grid */
+
+.trip-card-wrapper {
+  display: flex;
+  height: 100%;
 }
 
-.trip-card { /* This is now the inner content styling, inherits from .card */
+/* Base Card Styling */
+.trip-card {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Pushes content and button apart if any */
+  justify-content: space-between;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: var(--card-bg, #fff);
 }
 
 .trip-card:hover {
@@ -19,7 +24,7 @@
 }
 
 .trip-card h3 {
-  margin-top: 0; /* Remove default h3 margin */
+  margin-top: 0;
   margin-bottom: 0.75rem;
   font-size: 1.3rem;
   color: var(--primary-color);
@@ -31,10 +36,41 @@
   font-size: 0.9rem;
   line-height: 1.5;
 }
+
 .trip-card p:last-of-type {
-  margin-bottom: 1rem; /* More space before a potential button */
+  margin-bottom: 1rem;
 }
 
 .trip-card strong {
   color: var(--text-color);
+}
+
+/* === Responsive Enhancements === */
+
+@media (max-width: 768px) {
+  .trip-card {
+    padding: 0.875rem;
+  }
+
+  .trip-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .trip-card p {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .trip-card {
+    padding: 0.75rem;
+  }
+
+  .trip-card h3 {
+    font-size: 1rem;
+  }
+
+  .trip-card p {
+    font-size: 0.8rem;
+  }
 }

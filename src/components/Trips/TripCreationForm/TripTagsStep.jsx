@@ -29,11 +29,8 @@ const TripTagsStep = ({ formData, setFormData, setError }) => {
 
   return (
     <div className="form-step">
-      <div className="list-item-group">
-        <h4>Tags (comma-separated or add individually)</h4>
-        <p style={{fontSize: '0.9em', color: 'var(--text-color-muted)', marginTop: '-1rem', marginBottom: '1rem'}}>
-            Help travelers find your trip! Examples: Adventure, Relaxing, Budget-friendly, Cultural, Hiking.
-        </p>
+      <div className="form-group">
+        <label>Tags</label>
         {formData.tags.map((tag, index) => (
           <div className="list-item" key={index}>
             <input

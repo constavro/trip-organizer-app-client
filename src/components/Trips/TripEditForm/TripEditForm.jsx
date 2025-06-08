@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './TripEditForm.css';
+import PhotoUploader from '../../Shared/PhotoUploader'; 
+import PhotosDelete from '../../Shared/PhotosDelete';
 
 // Import date utils
 import {
@@ -14,6 +16,7 @@ import TripItinerary from './TripItinerary'; // For detail editing
 import TripItineraryReorder from './TripItineraryReorder'; // For reordering
 import TripParticipantsPricing from './TripParticipantsPricing';
 import TripSettingsPolicy from './TripSettingsPolicy';
+import FormSection from './FormSection';
 
 const initialTripData = {
     title: '',
@@ -400,6 +403,31 @@ const TripEditForm = () => {
             itinerary={formData.itinerary || []}
             onMoveItem={moveItineraryItem}
           />
+
+        <FormSection title="Photos">
+          <PhotosDelete
+          photos={formData.photos}
+          feature= "trips"
+          onPhotoRemoved={(removedPath) =>
+            setFormData((prev) => ({
+              ...prev,
+              photos: prev.photos.filter((photo) => photo !== removedPath),
+            }))
+          }
+          onPhotoDeleteError={(errMsg) => setError(errMsg || "Failed to delete photo.")} // UX: Show error for photo deletion
+        />
+
+        <PhotoUploader
+          feature = "trips"
+          onUpload={(imagePath) =>
+            setFormData((prev) => ({
+              ...prev,
+              photos: [...prev.photos, imagePath],
+            }))
+          }
+          // endpoint="/api/users/upload-gallery-photo" // Example if different endpoint
+        />
+        </FormSection>
 
           <TripParticipantsPricing
             minParticipants={formData.minParticipants}

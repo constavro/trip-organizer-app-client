@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import LanguageSelector from './LanguageSelector';
-import PhotoUploader from './PhotoUploader'; // For gallery photos
+import PhotoUploader from '../../Shared/PhotoUploader'; // For gallery photos
 import SocialLinksEditor from './SocialLinksEditor';
 import CountriesVisitedSelector from './CountriesVisitedSelector';
-import ProfilePhotosDelete from './ProfilePhotosDelete';
+import PhotosDelete from '../../Shared/PhotosDelete';
 import ProfilePhotoUploader from './ProfilePhotoUploader'; // For main profile picture
 // CSS is imported by UserProfile.jsx
 
@@ -97,8 +97,9 @@ const EditProfileForm = ({ currentUserData, onSave }) => {
       <section className="edit-profile-form-section">
         <h3 className="edit-profile-form-section-title">Photo Gallery</h3>
         <p className="text-muted" style={{fontSize: '0.9rem', marginTop: '-1rem', marginBottom: '1rem'}}>Share some of your favorite travel moments!</p>
-        <ProfilePhotosDelete
+        <PhotosDelete
           photos={formState.photos}
+          feature= "users"
           onPhotoRemoved={(removedPath) =>
             setFormState((prev) => ({
               ...prev,
@@ -108,6 +109,7 @@ const EditProfileForm = ({ currentUserData, onSave }) => {
           onPhotoDeleteError={(errMsg) => setFormError(errMsg || "Failed to delete photo.")} // UX: Show error for photo deletion
         />
         <PhotoUploader
+          feature = "users"
           onUpload={(imagePath) =>
             setFormState((prev) => ({
               ...prev,

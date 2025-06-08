@@ -22,7 +22,11 @@
 
 .trips-page-buttons {
   display: flex;
-  gap: 1rem;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem; /* Increased margin */
+  gap: 1rem; /* Gap for wrapped items */
 }
 
 .trip-filters-container {

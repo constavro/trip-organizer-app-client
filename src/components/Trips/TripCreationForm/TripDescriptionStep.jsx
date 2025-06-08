@@ -76,7 +76,7 @@ const TripDescriptionStep = ({ formData, setFormData, setError }) => {
 
       {['inclusions', 'exclusions'].map((type) => (
         <div className="list-item-group" key={type}>
-          <h4>{type.charAt(0).toUpperCase() + type.slice(1)}</h4>
+          <label>{type.charAt(0).toUpperCase() + type.slice(1)}</label>
           {formData.description[type].map((item, idx) => (
             <div className="list-item" key={`${type}-${idx}`}>
               <input

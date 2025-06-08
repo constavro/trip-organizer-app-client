@@ -199,11 +199,8 @@ const TripAISuggestion = () => {
 
       {suggestion && (
         <div className="ai-suggestion-output">
-          <h3>Your AI Trip: {suggestion.title}</h3>
-          <p><strong>Is participanting:</strong>{suggestion.isParticipating}</p>
-          <p><strong>Privacy:</strong> {suggestion.privacy || 'Not set'}</p>
-          <p><strong>Min Participants:</strong> {suggestion.minParticipants}</p>
-          <p><strong>Max Participants:</strong> {suggestion.maxParticipants}</p>
+          <h3>{suggestion.title}</h3>
+          <p><strong>Participants:</strong> {suggestion.minParticipants}</p>
 
           <h4>Overview</h4>
           <p>{suggestion.description?.overview || 'No overview provided.'}</p>
@@ -232,7 +229,7 @@ const TripAISuggestion = () => {
               <ul>
                 {suggestion.itinerary.map((stop, i) => (
                   <li key={i}>
-                    <strong>Day {stop.order || i+1}: {stop.location}</strong> ({new Date(stop.startDate).toLocaleDateString()} to {new Date(stop.endDate).toLocaleDateString()})
+                    <strong>Stop {stop.order || i+1}: {stop.location}</strong> ({new Date(stop.startDate).toLocaleDateString()} to {new Date(stop.endDate).toLocaleDateString()})
                     {stop.accommodation && <><br/>Accommodation: {stop.accommodation}</>}
                     {stop.notes && <><br/>Notes: {stop.notes}</>}
                     {stop.activities?.length > 0 && <><br/>Activities: {stop.activities.join(', ')}</>}

@@ -1,7 +1,7 @@
 import React from 'react';
 // CSS is imported by UserProfile.jsx
 
-const ProfilePhotosDelete = ({ photos, onPhotoRemoved, onPhotoDeleteError }) => {
+const PhotosDelete = ({ photos, onPhotoRemoved, feature, onPhotoDeleteError }) => {
   if (!photos || photos.length === 0) {
     return <p className="text-muted" style={{fontSize: '0.9rem'}}>No photos in your gallery yet. Add some below!</p>;
   }
@@ -12,7 +12,7 @@ const ProfilePhotosDelete = ({ photos, onPhotoRemoved, onPhotoDeleteError }) => 
     }
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/delete-photos`, { // Ensure this endpoint exists
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/${feature}/delete-photos`, { // Ensure this endpoint exists
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -52,11 +52,11 @@ const ProfilePhotosDelete = ({ photos, onPhotoRemoved, onPhotoDeleteError }) => 
             onClick={() => handleRemovePhoto(photoUrl)}
             aria-label={`Delete photo ${index + 1}`}
           >
-            × {/* 'X' icon */}
+            ×
           </button>
         </div>
       ))}
     </div>
   );
 };
-export default ProfilePhotosDelete;
+export default PhotosDelete;

@@ -1,7 +1,7 @@
 // components/UserProfile/PhotoUploader.jsx
 import React, { useRef, useState } from 'react';
 
-const PhotoUploader = ({ onUpload, currentImage }) => { // Added endpoint prop for flexibility
+const PhotoUploader = ({ onUpload, currentImage, feature }) => { // Added endpoint prop for flexibility
   const fileInputRef = useRef();
   const [uploadError, setUploadError] = useState('');
 
@@ -31,7 +31,7 @@ const PhotoUploader = ({ onUpload, currentImage }) => { // Added endpoint prop f
 
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/upload-photo`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/${feature}/upload-photo`, {
         method: 'POST',
         headers: { Authorization: token }, // No Content-Type, FormData sets it
         body: formData,

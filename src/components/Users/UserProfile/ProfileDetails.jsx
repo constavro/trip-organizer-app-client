@@ -1,11 +1,11 @@
 // src/components/Users/UserProfile/ProfileDetails.jsx
 import React, { useState } from 'react';
 import SocialLinks from './SocialLinks';
-import ProfilePhotos from './ProfilePhotos';
+import Photos from '../../Shared/Photos';
 import TripsList from './TripsList';
 import CountriesVisited from './CountriesVisited';
 import SpokenLanguages from './SpokenLanguages';
-import PhotoModal from './PhotoModal'; // Import the new modal component
+import PhotoModal from '../../Shared/PhotoModal'; // Import the new modal component
 // CSS is imported by UserProfile.jsx
 
 const ProfileDetails = ({ userData, createdTripsData }) => {
@@ -59,14 +59,14 @@ const ProfileDetails = ({ userData, createdTripsData }) => {
         </section>
       )}
 
-      {userData.spokenLanguages && userData.spokenLanguages.length > 0 && (
+      {(
         <section className="profile-view-section">
           <h3 className="profile-view-section-title">Languages Spoken</h3>
           <SpokenLanguages languages={userData.spokenLanguages} />
         </section>
       )}
       
-      {userData.countriesVisited && userData.countriesVisited.length > 0 && (
+      {(
         <section className="profile-view-section">
           <h3 className="profile-view-section-title">Countries Visited</h3>
           <CountriesVisited visitedCountries={userData.countriesVisited} />
@@ -80,15 +80,15 @@ const ProfileDetails = ({ userData, createdTripsData }) => {
         </section>
       )}
       
-      {userData.photos && userData.photos.length > 0 && (
+      {(
         <section className="profile-view-section">
           <h3 className="profile-view-section-title">My Photo Gallery</h3>
           {/* Pass the new handler to ProfilePhotos, it now expects an index */}
-          <ProfilePhotos photos={userData.photos} onPhotoClick={handlePhotoClick} />
+          <Photos photos={userData.photos} onPhotoClick={handlePhotoClick} />
         </section>
       )}
 
-      {(userData.socialLinks?.facebook || userData.socialLinks?.instagram || userData.socialLinks?.twitter || userData.socialLinks?.linkedin) && (
+      {(
          <section className="profile-view-section">
             <h3 className="profile-view-section-title">Connect With Me</h3>
             <SocialLinks links={userData.socialLinks} />

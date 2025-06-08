@@ -1,8 +1,6 @@
-// src/components/Users/UserProfile/ProfilePhotos.jsx
 import React from 'react';
-// CSS is imported by UserProfile.jsx or ProfileDetails.jsx
 
-const ProfilePhotos = ({ photos, onPhotoClick }) => { // onPhotoClick now expects the index
+const Photos = ({ photos, onPhotoClick }) => { // onPhotoClick now expects the index
   if (!photos || photos.length === 0) {
     return <p className="text-muted">No photos in the gallery yet.</p>;
   }
@@ -21,7 +19,7 @@ const ProfilePhotos = ({ photos, onPhotoClick }) => { // onPhotoClick now expect
         >
           <img
             src={photoUrl.startsWith('http') ? photoUrl : `${process.env.REACT_APP_BACKEND_URL}${photoUrl}`}
-            alt={`User gallery ${index + 1}`}
+            alt={`Gallery ${index + 1}`}
             loading="lazy"
             onError={(e) => { e.target.style.display='none'; }}
           />
@@ -31,4 +29,4 @@ const ProfilePhotos = ({ photos, onPhotoClick }) => { // onPhotoClick now expect
   );
 };
 
-export default ProfilePhotos;
+export default Photos;

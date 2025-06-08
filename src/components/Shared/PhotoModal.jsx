@@ -47,7 +47,7 @@ const PhotoModal = ({ isOpen, photos, currentIndex, onClose, onNext, onPrev }) =
           </button>
         )}
         
-        <img src={displayUrl} alt={`User gallery ${currentIndex + 1}`} className="photo-modal-image" />
+        <img src={displayUrl} alt={`Gallery ${currentIndex + 1}`} className="photo-modal-image" />
         
         {currentIndex < photos.length - 1 && (
           <button className="photo-modal-next" onClick={onNext} aria-label="Next photo">
