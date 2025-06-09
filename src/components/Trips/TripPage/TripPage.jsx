@@ -111,7 +111,7 @@ const TripsPage = () => {
     setStartDate('');
     setEndDate('');
     setStatus('');
-    setSortOption('createdAtDesc'); // Reset sort to default
+    setSortOption('dateAsc'); // Reset sort to default
     // Any other filter states should be reset here
   };
 
