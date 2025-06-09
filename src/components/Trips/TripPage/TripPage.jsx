@@ -43,7 +43,7 @@ const TripsPage = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [status, setStatus] = useState(''); // e.g., 'open', 'confirmed'
-  const [sortOption, setSortOption] = useState('createdAtDesc'); // Default sort: newest first
+  const [sortOption, setSortOption] = useState('dateAsc'); // Default sort: newest first
 
   // State for special sections
   // const [lastSpotTrips, setLastSpotTrips] = useState({ data: [], loading: true, error: null });
